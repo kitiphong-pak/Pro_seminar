@@ -1,39 +1,50 @@
-/* CoffeeSimulator.css */
+/* ===== SIMULATOR LAYOUT ===== */
 
-/* Container หลักของ Simulator */
 .simulator-container {
   position: relative;
   width: 100%;
-  height: 90vh; /* เนื้อหาหลัก 90vh ส่วน Footer 10vh */
+  height: 90vh;
 }
 
-/* ส่วนเนื้อหาหลัก */
 .sim-content {
   height: 90vh;
   width: 100%;
+  overflow: hidden;
 }
 
-/* Layout สำหรับเดสก์ท็อป: แบ่งเป็น 3 ส่วน (Left, Center, Right) */
 .desktop-layout {
   display: flex;
   height: 100%;
 }
 
+/* ===== 3-COLUMN LAYOUT (Desktop default) ===== */
+
 .left-area {
-  width: 33.33%;
+  width: 30%;
   height: 100%;
   padding: 0.5rem;
+  overflow-y: auto;
+}
+
+.center-area {
+  width: 50%;
+  height: 100%;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
 }
 
 .right-area {
-  width: 16.67%;
+  width: 20%;
   height: 100%;
   padding: 0.5rem;
-
-  display: flex;            /* ใช้ Flex */
-  flex-direction: column;   /* เรียงบนลงล่าง */
-  justify-content: flex-start; /* เริ่มติดบน */
-  align-items: flex-end;    /* ชิดขวา */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
 
 .right-item {
@@ -42,12 +53,11 @@
   border-radius: 0.5rem;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   padding: 0.5rem;
-
-  /* margin: auto 0 เพื่อให้อยู่กึ่งกลางแนวตั้ง (vertical center) */
   margin: auto 0;
 }
 
-/* ส่วนอุปกรณ์ */
+/* ===== EQUIPMENT PANEL ===== */
+
 .equipment-area {
   padding: 0.5rem;
 }
@@ -55,197 +65,247 @@
 .title {
   text-align: center;
   font-weight: bold;
-  font-size: xx-large;
-  margin-top: 1rem;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  margin-top: 0.5rem;
 }
 
 .equipment-grid {
-  margin-top: 2rem;
+  margin-top: 1rem;
   display: grid;
   gap: 0.5rem;
   grid-template-columns: repeat(2, 1fr);
-  /* จำนวนแถว (rows) จะถูกคำนวณและส่งเข้ามาแบบ inline จาก JSX */
 }
 
-/* ส่วนพื้นที่ดำเนินการ */
-.center-area {
-  padding: 0.5rem;
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-}
-
-/* Footer สำหรับ Subtitle */
-.footer-subtitle {
-  height: 10vh;
-  width: 100%;
-  background-color: #5a2d0c; /* สีเข้ม */
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  position: fixed;
-  bottom: 0;
-}
 .equipment-slot {
   width: 100%;
-  height: 160px;  /* ขนาด default บนจอใหญ่ */
+  height: clamp(70px, 11vh, 160px);
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .equipment-slot img {
   width: 80%;
   height: 80%;
   object-fit: contain;
 }
+
+/* ===== WORKSPACE IMAGES ===== */
+
 .workspace-img {
   width: 80%;
   height: auto;
   margin: 0 auto;
-  object-fit: contain; /* ให้ภาพไม่ถูกครอป/บิดเบี้ยว */
-  display: block; /* ป้องกันการเกิด gap ใต้ภาพ */
-}
-.final-img {
-  width: auto !important;  /* หรือ 300px */
-  height: 500px !important;
-  object-fit: contain; /* ถ้าไม่อยากให้รูปถูกครอบ */
+  object-fit: contain;
+  display: block;
 }
 
-/* Media Queries สำหรับหน้าจอโทรศัพท์ */
-@media (max-width: 640px) {
-  .desktop-layout {
-    display: flex;
-    flex-direction: column;
-    height: 90vh; /* ให้เต็มหน้าจอ (ปรับได้ตามต้องการ) */
+/* รูปภาพ action ทั่วไปใน workspace */
+.workspace-action-img {
+  width: auto;
+  height: clamp(180px, 42vh, 400px);
+  object-fit: contain;
+  margin-top: 2vh;
+}
+
+/* รูปเครื่องดริป (QTE) */
+.drip-image {
+  width: min(300px, 80%);
+  height: auto;
+  max-height: clamp(140px, 33vh, 350px);
+  object-fit: contain;
+  margin-top: 2vh;
+  margin-bottom: 0.5rem;
+}
+
+/* progress bar QTE */
+.progress-container {
+  width: min(300px, 80%);
+  height: 7px;
+  position: relative;
+}
+
+/* รูปหน้าเสร็จ */
+.final-img {
+  width: auto;
+  height: clamp(180px, 44vh, 500px);
+  object-fit: contain;
+}
+
+/* รูปเสิร์ฟกาแฟ */
+.serve-image {
+  width: auto;
+  height: clamp(180px, 44vh, 450px);
+  object-fit: contain;
+  cursor: pointer;
+  margin-top: 2vh;
+}
+
+/* ===== FOOTER SUBTITLE ===== */
+
+.footer-subtitle {
+  height: 10vh;
+  width: 100%;
+  background-color: #5a2d0c;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  position: fixed;
+  bottom: 0;
+}
+
+/* ===== TABLET (640px – 1024px) ===== */
+
+@media (min-width: 640px) and (max-width: 1024px) {
+  .left-area {
+    width: 27%;
   }
-  .left-area,
-  .center-area,
+
+  .center-area {
+    width: 46%;
+  }
+
   .right-area {
-    width: 100%;
+    width: 27%;
   }
+
   .title {
-    font-size: 1rem;  /* หรือ 20px */
+    font-size: 0.95rem;
   }
-  .subtitle-text {
-    font-size: 0.875rem; /* หรือ 14px */
+
+  .right-item h3 {
+    font-size: 0.85rem;
   }
-  /* บนมือถือไม่แสดงรายการขั้นตอน (Right Area) */
+
+  .equipment-slot {
+    height: clamp(60px, 9vh, 120px);
+  }
+
+  .workspace-action-img {
+    height: clamp(160px, 36vh, 320px);
+  }
+
+  .drip-image {
+    max-height: clamp(130px, 30vh, 280px);
+  }
+
+  .final-img,
+  .serve-image {
+    height: clamp(160px, 38vh, 350px);
+  }
+}
+
+/* ===== MOBILE (< 640px) ===== */
+
+@media (max-width: 639px) {
+  .simulator-container {
+    height: auto;
+    min-height: 90vh;
+  }
+
+  .sim-content {
+    height: auto;
+    overflow-y: auto;
+    padding-bottom: 10vh;
+  }
+
+  .desktop-layout {
+    flex-direction: column;
+    height: auto;
+  }
+
+  /* Equipment: compact strip at top */
+  .left-area {
+    width: 100%;
+    height: auto;
+    max-height: 26vh;
+    overflow: hidden;
+    padding: 0.25rem;
+  }
+
+  .title {
+    font-size: 0.78rem;
+    margin-top: 0.15rem;
+  }
+
+  .equipment-area {
+    padding: 0.25rem;
+  }
+
+  .equipment-grid {
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 0.25rem;
+    gap: 0.2rem;
+  }
+
+  .equipment-slot {
+    height: clamp(36px, 7vh, 70px);
+  }
+
+  .equipment-slot img {
+    width: 55%;
+    height: auto;
+  }
+
+  /* Workspace */
+  .center-area {
+    width: 100%;
+    height: auto;
+    min-height: 54vh;
+    padding: 0.25rem;
+  }
+
+  /* ซ่อน step panel บน mobile */
   .right-area {
     display: none;
   }
-  /* พื้นที่อุปกรณ์ให้แสดงเต็มความกว้าง */
-  .equipment-area {
-    flex: 0 0 20%;
-    background-color: rgba(255, 255, 255,0.1); /* ตัวอย่างสีพื้นหลังโปร่งแสง */
-    padding: 0.5rem;
-    width: 100%;
-  }
-  .center-area {
-    width: 475px;     /* ความกว้างตรงตาม Figma */
-    height: 400px;    /* ความสูงตรงตาม Figma */
-    margin: 10px auto;   /* จัดกึ่งกลางหน้าจอ */
-    position: relative;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* ถ้าต้องการให้ข้อความอยู่ด้านบนซ้าย */
-    justify-content: flex-start;
+  /* Images */
+  .workspace-action-img {
+    height: clamp(130px, 28vh, 220px);
+    margin-top: 1vh;
   }
-  /* ถ้ารูปหรืออุปกรณ์ข้างในใหญ่เกิน ให้ย่อด้วย max-width/max-height */
-  .center-area img {
-    max-width: 100%;   /* ไม่ให้ความกว้างเกิน 100% ของพื้นที่ */
-    max-height: 100%;
-    margin: 0 auto;
-    width: auto;       /* รักษาอัตราส่วนความกว้าง-สูง */
-    height: auto;
-    object-fit: contain; /* ให้ภาพถูกย่อหรือขยายแต่ไม่ถูกครอป */
-  }
-  .pointer-point{
-    max-height: 400px !important; /* กำหนดความสูงสูงสุดเฉพาะสำหรับ QTE */
-    width: auto;       /* ปรับอัตราส่วนตามที่ต้องการ */
-    object-fit: contain;
-  }
-  .qte-container {
-    position: relative;
-    z-index: 9999; /* สูงกว่าทุกเลเยอร์ */
-  }
-  .equipment-slot {
-    height: 40px !important; /* ย่อเหลือ 80px */
-  }
-  .equipment-slot img {
-    width: 40% !important;   /* หรือกำหนดเป็น px ตายตัว เช่น 40px, 60px */
-    height: auto !important; /* ให้คงอัตราส่วนรูป */
-  }
-  .equipment-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(3, 1fr);
-    gap: 0.5rem; /* หรือปรับเป็นค่าที่ต้องการ */
-    width: 100%;
-    height: 100%;
-  }
-  .workspace-item {
-    /* ลดขนาดลงเมื่อจอเล็ก */
-    max-width: auto; 
-    max-height: 300px;
-  }
+
   .drip-image {
-    height: 200px !important; /* บังคับความสูงเป็น 150px */
-    margin-top: 10px  !important; /* ลบ margin-top */
+    max-height: clamp(110px, 22vh, 180px);
+    margin-top: 1vh;
   }
-  .final-img {
-    width: auto !important;  /* หรือ 300px */
-    height: 200px !important;
-    object-fit: contain; /* ถ้าไม่อยากให้รูปถูกครอบ */
+
+  .progress-container {
+    width: min(260px, 82%);
+    margin-top: 1.5rem;
   }
-  .footer-subtitle{
+
+  .final-img,
+  .serve-image {
+    height: clamp(130px, 28vh, 220px);
+    margin-top: 1vh;
+  }
+
+  .workspace-img {
+    width: 75%;
+  }
+
+  .footer-subtitle {
     text-align: center;
-  }
-  .serve-image{
-    height: 300px !important; /* บังคับความสูงเป็น 150px */
-    margin-top: 10px  !important; /* ลบ margin-top */
-  }
-  .pour-img{
-    height: 300px !important; /* บังคับความสูงเป็น 150px */
-    margin-top: 10px  !important; /* ลบ margin-top */
-  }
-
-  .pouring{
-    height: 300px !important; /* บังคับความสูงเป็น 150px */
-    margin-top: 10px  !important; /* ลบ margin-top */
-  }
-
-  .pour-out{
-    height: 300px !important; /* บังคับความสูงเป็น 150px */
-    margin-top: 10px  !important; /* ลบ margin-top */
+    font-size: 0.8rem;
+    padding: 0.25rem 0.75rem;
   }
 }
 
+/* ===== ANIMATIONS ===== */
+
 @keyframes steam {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(-10px); }
-  }
-  .flex flex-col items-center mt-4 {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    width: 20px;
-    height: 50px;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 50%;
-    animation: steam 2s infinite alternate ease-in-out;
-  }
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(-10px); }
+}
 
 @keyframes blink {
-  50% {
-    opacity: 0;
-  }
+  50% { opacity: 0; }
 }
 
 .animate-blink {

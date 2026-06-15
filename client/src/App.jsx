@@ -1,22 +1,22 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CoffeeBean from "./coffee_bean";
-import CoffeeMenu from "./coffee_menu";
-import WorldCoffee from "./worldCoffee";
-import History from "./history";
-import GeneCoffee from "./geneCoffee";
-import Roasting from "./Roasting";
-import Articles from "./articles";
-import Profile from "./profile";
-import Process from "./process";
-import SignUp from "./SignUp";
-import Login from "./Login";
-import Home from "./Home";
-import Simulator from "./CoffeeSimulator";
-import Extraction from "./extraction";
-import Suggestion from "./suggestion";
-import Quiz from "./quiz";
-import QuizDetail from "./quizDetail";
-import Select from "./simulator/select";
+import NotFound from "./pages/NotFound";
+import CoffeeBean from "./pages/CoffeeBean";
+import CoffeeMenu from "./pages/CoffeeMenu";
+import WorldCoffee from "./pages/WorldCoffee";
+import History from "./pages/History";
+import GeneCoffee from "./pages/GeneCoffee";
+import Roasting from "./pages/Roasting";
+import Articles from "./pages/Articles";
+import Profile from "./pages/Profile";
+import Process from "./pages/Process";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Extraction from "./pages/Extraction";
+import Suggestion from "./pages/Suggestion";
+import Quiz from "./pages/Quiz";
+import QuizDetail from "./pages/QuizDetail";
+import Select from "./simulator/Select";
 import Customcoffee from "./simulator/Espresso";
 import { Helmet } from "react-helmet";
 
@@ -52,8 +52,6 @@ function App() {
 
         <Route path="/coffee_menu" element={<CoffeeMenu />} />
 
-        <Route path="/simulator" element={<Simulator />} />
-
         <Route path="/select" element={<Select/>}/>
 
         <Route path="/customcoffee" element={<Customcoffee/>} />
@@ -62,6 +60,7 @@ function App() {
 
         <Route path="/quiz" element={<Quiz />} />
         <Route path="/quiz/:id" element={<QuizDetail />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
