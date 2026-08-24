@@ -1,7 +1,9 @@
 ﻿import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import menuItems from "../data/menuItems.json";
+import BackToTop from "../components/BackToTop";
+import FetchError from "../components/FetchError";
+import { fetchMenus } from "../api/contentApi";
 
 // ---------- Decision Tree ----------
 const decisionTree = {
@@ -127,11 +129,21 @@ const getTagsFromItem = (item) => {
 };
 
 export default function Suggestion() {
+  const [menuItems, setMenuItems] = useState([]);
+  const [menuError, setMenuError] = useState(null);
+  const [fetchSignal, setFetchSignal] = useState(0);
   const [currentNode, setCurrentNode] = useState(decisionTree);
-  const [path, setPath] = useState([]); // เก็บ node ที่ผ่านมา
-  const [answers, setAnswers] = useState({}); // เก็บคำตอบแบบ key:value
+  const [path, setPath] = useState([]);
+  const [answers, setAnswers] = useState({});
   const [result, setResult] = useState("");
   const [currentSelection, setCurrentSelection] = useState(null);
+
+  useEffect(() => {
+    setMenuError(null);
+    fetchMenus()
+      .then(setMenuItems)
+      .catch(() => setMenuError(true));
+  }, [fetchSignal]);
   const navigate = useNavigate();
 
   const maxSteps = useMemo(() => longestDepth(decisionTree), []);
@@ -196,19 +208,28 @@ export default function Suggestion() {
           toArray(i.type).some((t) => baseTypes.includes(t))
       )
       .slice(0, 3);
-  }, [recommendedItem]);
+  }, [menuItems, recommendedItem]);
 
   const handleViewDetails = (item) => navigate("/coffee_menu", { state: item });
 
   return (
-    <div className="min-h-screen bg-[url('/background.jpg')] bg-cover bg-center bg-white/80 bg-blend-overlay">
+    <div className="min-h-screen bg-[#f3f1ec] flex flex-col">
       <Navbar />
+      <BackToTop />
 
-      {/* Decor */}
-      <div className="pointer-events-none fixed -top-16 -left-16 h-48 w-48 rounded-full bg-[#d4a373]/25 blur-2xl" />
-      <div className="pointer-events-none fixed -bottom-16 -right-16 h-64 w-64 rounded-full bg-[#6f4e37]/15 blur-2xl" />
+      {/* HERO */}
+      <header className="relative isolate overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#4b2f1a] via-[#7b4b29] to-[#d9c4aa]" />
+        <div className="relative mx-auto max-w-5xl px-4 md:px-8 h-[22vh] flex items-center">
+          <div className="text-white">
+            <p className="uppercase tracking-widest text-xs text-white/70 mb-1">Coffee Suggestion</p>
+            <h1 className="text-2xl md:text-4xl font-extrabold">ไม่รู้จะสั่งอะไร ให้เราช่วยเลือก</h1>
+            <p className="mt-1 text-white/80 text-sm">ตอบคำถามสั้น ๆ 3 ข้อ แล้วรับคำแนะนำเมนูทันที</p>
+          </div>
+        </div>
+      </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-10">
+      <main className="mx-auto max-w-5xl px-4 py-10 flex-1 w-full">
         <div className="relative rounded-3xl bg-white/90 backdrop-blur shadow-[0_20px_60px_rgba(0,0,0,0.12)] p-6 md:p-8">
 
           {/* Stepper + Progress */}
@@ -304,7 +325,13 @@ export default function Suggestion() {
             <div className="text-center">
               <h2 className="text-2xl md:text-3xl font-bold text-[#2a1c14]">กาแฟที่แนะนำสำหรับคุณ</h2>
 
-              <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {menuError && (
+                <div className="mt-4">
+                  <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
+                </div>
+              )}
+
+              {!menuError && <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                 {/* รูป */}
                 <figure className="lg:col-span-5">
                   <div className="relative h-72 md:h-80 rounded-2xl overflow-hidden shadow-[0_12px_32px_rgba(0,0,0,0.12)]">
@@ -378,7 +405,7 @@ export default function Suggestion() {
                     </button>
                   </div>
                 </article>
-              </div>
+              </div>}
 
               {/* เมนูใกล้เคียง */}
               {relatedItems.length > 0 && (

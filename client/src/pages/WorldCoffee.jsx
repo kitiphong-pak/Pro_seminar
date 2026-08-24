@@ -3,281 +3,28 @@ import L from "leaflet";
 import "../assets/css/country.css";
 import "leaflet/dist/leaflet.css";
 import Navbar from "../components/Navbar";
+import { fetchCountries } from "../api/contentApi";
 
 function Home() {
   const mapRef = useRef(null); // Use ref to track map instance
   const mapContainerRef = useRef(null); // Ref for the map container (div#map)
+  const coffeeIndexRef = useRef({}); // stores normalized-key lookup, always up to date
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [showSearch, setShowSearch] = useState(true); // state สำหรับควบคุมการแสดง search-container
-  const [coffeeData, setCoffeeData] = useState({
-    // ... (ข้อมูล coffeeData ตามเดิม)
-    Afghanistan: {
-      description:
-        "ไม่ได้เป็นผู้ผลิตกาแฟสำคัญ แต่มีวัฒนธรรมการดื่มชาและเครื่องดื่มที่เกี่ยวข้องมากกว่า",
-      cultivation: "ไม่มีการเพาะปลูกกาแฟในระดับการค้า",
-      specialties: [],
-    },
-    Angola: {
-      description:
-        "เคยเป็นผู้ผลิตกาแฟรายใหญ่ในทวีปแอฟริกา โดยเฉพาะกาแฟโรบัสต้า",
-      cultivation: "ปลูกในภูมิภาคทางเหนือและตอนกลางของประเทศ",
-      specialties: ["Angolan Robusta Coffee"],
-    },
-    Argentina: {
-      description:
-        "ไม่ใช่ประเทศที่ปลูกกาแฟ แต่เป็นผู้บริโภคกาแฟที่สำคัญในภูมิภาค",
-      cultivation: "ไม่มีพื้นที่ปลูกกาแฟในระดับการค้า",
-      specialties: ["Café con leche (กาแฟนม)"],
-    },
-    Australia: {
-      description:
-        "เริ่มมีการเพาะปลูกกาแฟเพิ่มขึ้นในช่วงไม่กี่ปีที่ผ่านมา โดยเฉพาะกาแฟอาราบิก้า",
-      cultivation: "ปลูกในควีนส์แลนด์และนิวเซาท์เวลส์",
-      specialties: ["Australian Arabica Coffee"],
-    },
-    Burundi: {
-      description:
-        "เป็นหนึ่งในผู้ผลิตกาแฟสำคัญของแอฟริกาตะวันออก มีรสชาติเปรี้ยวและซับซ้อน",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Kayanza และ Ngozi",
-      specialties: ["Burundian Specialty Coffee"],
-    },
-    Cameroon: {
-      description:
-        "ปลูกกาแฟทั้งอาราบิก้าและโรบัสต้า โดยมีกาแฟอาราบิก้าคุณภาพสูงจากภูเขา",
-      cultivation: "พื้นที่เพาะปลูกหลักอยู่ในภูมิภาคทางตะวันตก",
-      specialties: ["Cameroonian Arabica Coffee"],
-    },
-    China: {
-      description: "การปลูกกาแฟกำลังเติบโต โดยเฉพาะในมณฑลยูนนาน",
-      cultivation:
-        "พื้นที่หลักอยู่ในมณฑลยูนนาน และปลูกกาแฟอาราบิก้าเป็นส่วนใหญ่",
-      specialties: ["Yunnan Arabica Coffee"],
-    },
-    Congo: {
-      description:
-        "กาแฟจากคองโกมีคุณภาพสูง โดยเฉพาะกาแฟอาราบิก้าจากภูมิภาค Kivu",
-      cultivation: "ปลูกในพื้นที่ทางตะวันออกและใต้ของประเทศ",
-      specialties: ["Congo Kivu Coffee"],
-    },
-    Guatemala: {
-      description: "กาแฟกัวเตมาลามีความเป็นกรดและมีกลิ่นหอมซับซ้อน",
-      cultivation: "ปลูกในพื้นที่ภูเขา เช่น Antigua และ Huehuetenango",
-      specialties: ["Guatemalan Antigua Coffee"],
-    },
-    India: {
-      description:
-        "อินเดียผลิตกาแฟทั้งอาราบิก้าและโรบัสต้า โดยมักใช้ในกาแฟเอสเปรสโซ",
-      cultivation: "พื้นที่เพาะปลูกหลักอยู่ในรัฐคาร์นาทากา, เคราลา และทมิฬนาฑู",
-      specialties: ["Monsooned Malabar Coffee"],
-    },
-    Indonesia: {
-      description:
-        "อินโดนีเซียผลิตกาแฟที่หลากหลาย รวมถึงกาแฟจากเกาะบาหลี, สุมาตรา และสุลาเวสี",
-      cultivation: "ปลูกในหลายภูมิภาค เช่น สุมาตราและชวา",
-      specialties: ["Kopi Luwak (กาแฟขี้ชะมด)", "Sumatra Mandheling Coffee"],
-    },
-    Jamaica: {
-      description:
-        "ขึ้นชื่อเรื่องกาแฟบลูเมาน์เทนซึ่งเป็นหนึ่งในกาแฟที่มีราคาแพงที่สุดในโลก",
-      cultivation: "ปลูกในพื้นที่ Blue Mountains",
-      specialties: ["Jamaica Blue Mountain Coffee"],
-    },
-    Kenya: {
-      description: "กาแฟเคนยามีชื่อเสียงในเรื่องรสชาติที่สดใสและซับซ้อน",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Mount Kenya",
-      specialties: ["Kenyan AA Coffee"],
-    },
-    Peru: {
-      description: "ผลิตกาแฟออร์แกนิกคุณภาพสูง รสชาติหลากหลาย",
-      cultivation: "ปลูกในเขต Amazon และ Andean",
-      specialties: ["Peruvian Organic Coffee"],
-    },
-    Rwanda: {
-      description: "กาแฟรวันดามีรสชาติที่ซับซ้อนและมีกลิ่นผลไม้",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Lake Kivu",
-      specialties: ["Rwandan Bourbon Coffee"],
-    },
-    Thailand: {
-      description: "ประเทศไทยปลูกกาแฟอาราบิก้าในพื้นที่สูงและโรบัสต้าในภาคใต้",
-      cultivation: "พื้นที่หลักอยู่ในภาคเหนือ เช่น เชียงราย และเชียงใหม่",
-      specialties: ["กาแฟดอยช้าง", "กาแฟดอยตุง"],
-    },
-    Uganda: {
-      description: "เป็นผู้ผลิตกาแฟโรบัสต้ารายใหญ่ที่สุดในแอฟริกา",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Mount Elgon",
-      specialties: ["Ugandan Bugisu Coffee"],
-    },
-    Yemen: {
-      description:
-        "กาแฟเยเมนเป็นกาแฟอาราบิก้าคุณภาพสูงที่ปลูกในพื้นที่ทะเลทราย",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Mocha",
-      specialties: ["Yemeni Mocha Coffee"],
-    },
-    Honduras: {
-      description: "เป็นผู้ผลิตกาแฟรายใหญ่ในอเมริกากลาง มีคุณภาพหลากหลาย",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Copán และ Lempira",
-      specialties: ["Honduran SHG Coffee"],
-    },
-    Mexico: {
-      description: "กาแฟเม็กซิโกมีรสชาติหลากหลายและมักปลูกแบบออร์แกนิก",
-      cultivation: "ปลูกในภูมิภาคเชียปัส และเวราครูซ",
-      specialties: ["Mexican Chiapas Coffee"],
-    },
-    Tanzania: {
-      description: "กาแฟแทนซาเนียมีรสชาติสดใส มักมีกลิ่นผลไม้และไวน์",
-      cultivation: "ปลูกในพื้นที่ Mount Kilimanjaro และ Mbeya",
-      specialties: ["Tanzanian Peaberry Coffee"],
-    },
-    IvoryCoast: {
-      description: "เป็นหนึ่งในผู้ผลิตกาแฟโรบัสต้ารายใหญ่ในแอฟริกา",
-      cultivation: "ปลูกในพื้นที่ทางใต้ของประเทศ",
-      specialties: ["Ivorian Robusta Coffee"],
-    },
-    Laos: {
-      description: "ปลูกกาแฟในระดับที่กำลังเติบโต โดยเฉพาะในพื้นที่สูง",
-      cultivation: "พื้นที่เพาะปลูกหลักอยู่ใน Bolaven Plateau",
-      specialties: ["Lao Arabica Coffee"],
-    },
-    Philippines: {
-      description: "ปลูกกาแฟทั้งอาราบิก้า, โรบัสต้า, เอ็กเซลซ่า และลิเบอริก้า",
-      cultivation: "ปลูกในภูมิภาค Batangas และ Cordillera",
-      specialties: ["Kape Barako"],
-    },
-    PapuaNewGuinea: {
-      description: "กาแฟปาปัวนิวกินีมีรสชาติซับซ้อนและกลิ่นหอมที่โดดเด่น",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Western Highlands",
-      specialties: ["Papua New Guinea Coffee"],
-    },
-    Brazil: {
-      description: "เป็นผู้ผลิตกาแฟรายใหญ่ที่สุดในโลก โดยเฉพาะกาแฟอาราบิก้า",
-      cultivation: "ปลูกในภูมิภาคทางใต้ เช่น Minas Gerais และ São Paulo",
-      specialties: ["Brazilian Santos Coffee"],
-    },
-    Ethiopia: {
-      description: "แหล่งกำเนิดของกาแฟและมีความหลากหลายทางพันธุกรรมสูง",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Sidama และ Yirgacheffe",
-      specialties: ["Ethiopian Yirgacheffe Coffee"],
-    },
-    Vietnam: {
-      description: "ผู้ผลิตกาแฟโรบัสต้ารายใหญ่ที่สุดในโลก",
-      cultivation: "ปลูกในพื้นที่ตอนกลาง เช่น Central Highlands",
-      specialties: ["Vietnamese Egg Coffee", "Cà phê sữa đá"],
-    },
-    Colombia: {
-      description:
-        "กาแฟโคลอมเบียเป็นที่รู้จักในเรื่องความหอมและความเป็นกรดอ่อน",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Antioquia และ Caldas",
-      specialties: ["Colombian Supremo Coffee"],
-    },
-    CostaRica: {
-      description: "กาแฟคอสตาริก้ามีคุณภาพสูงและเน้นการผลิตอาราบิก้า",
-      cultivation: "ปลูกในภูมิภาค Central Valley และ Tarrazú",
-      specialties: ["Costa Rican Tarrazú Coffee"],
-    },
-    Myanmar: {
-      description: "กาแฟพม่ากำลังได้รับความนิยมในตลาดกาแฟพิเศษ",
-      cultivation: "ปลูกในภูมิภาค Shan State",
-      specialties: ["Myanmar Specialty Coffee"],
-    },
-    Turkey: {
-      description: "เป็นที่รู้จักในเรื่องกาแฟตุรกีแบบดั้งเดิม",
-      cultivation: "ไม่ได้ปลูกกาแฟ แต่มีวัฒนธรรมการบริโภคกาแฟที่แข็งแรง",
-      specialties: ["Turkish Coffee"],
-    },
-    Madagascar: {
-      description: "ปลูกกาแฟในระดับเล็กน้อย โดยส่วนใหญ่เป็นโรบัสต้า",
-      cultivation: "ปลูกในพื้นที่ทางเหนือและตะวันออก",
-      specialties: ["Madagascar Robusta Coffee"],
-    },
-    Nepal: {
-      description: "กาแฟเนปาลกำลังเติบโตในตลาดพิเศษ โดยเน้นคุณภาพสูง",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Nuwakot และ Gulmi",
-      specialties: ["Nepalese Specialty Coffee"],
-    },
-    Zimbabwe: {
-      description: "กาแฟซิมบับเวมีรสชาติที่สดใสและสมดุล",
-      cultivation: "ปลูกในพื้นที่ Eastern Highlands",
-      specialties: ["Zimbabwean Arabica Coffee"],
-    },
-    SouthKorea: {
-      description:
-        "ไม่มีการปลูกกาแฟ แต่มีวัฒนธรรมการบริโภคกาแฟที่เติบโตอย่างรวดเร็ว",
-      cultivation: "ไม่มีการเพาะปลูกกาแฟ",
-      specialties: ["Korean Dalgona Coffee"],
-    },
-    SaudiArabia: {
-      description: "ไม่มีการปลูกกาแฟ แต่มีวัฒนธรรมกาแฟแบบดั้งเดิม",
-      cultivation: "ไม่มีการเพาะปลูกกาแฟ",
-      specialties: ["Saudi Arabian Qahwa"],
-    },
+  const [dataError, setDataError] = useState(false);
 
-    // เพิ่มประเทศใหม่
-    DominicanRepublic: {
-      description:
-        "ประเทศโดมินิกันเป็นอีกหนึ่งประเทศในภูมิภาคคาริบเบียนที่มีการผลิตกาแฟในระดับน้อย แต่มีรสชาติที่เป็นเอกลักษณ์",
-      cultivation: "ปลูกกาแฟในภูมิภาคสูง เช่น Cordillera Central",
-      specialties: ["Dominican Coffee"],
-    },
-    Panama: {
-      description:
-        "ประเทศปานามามีชื่อเสียงในเรื่องกาแฟ Geisha ที่ได้รับรางวัลมากมาย",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Boquete",
-      specialties: ["Panama Geisha Coffee"],
-    },
-    ElSalvador: {
-      description: "เป็นหนึ่งในประเทศในอเมริกากลางที่มีการผลิตกาแฟคุณภาพสูง",
-      cultivation: "ปลูกในภูมิภาคสูง เช่น Apaneca",
-      specialties: ["El Salvador Pacamara Coffee"],
-    },
-    Nicaragua: {
-      description:
-        "กาแฟนิการากามีรสชาติที่กลมกล่อมและเป็นที่นิยมในตลาดกาแฟพิเศษ",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Matagalpa",
-      specialties: ["Nicaraguan Coffee"],
-    },
-    Bolivia: {
-      description:
-        "กาแฟโบลิเวียนมีความหลากหลายทางรสชาติและมีการผลิตในระดับชุมชน",
-      cultivation: "ปลูกในพื้นที่สูงในภูมิภาค Andes",
-      specialties: ["Bolivian Organic Coffee"],
-    },
-    Ecuador: {
-      description:
-        "กาแฟเอกวาดอร์เป็นผลิตภัณฑ์ที่มีความเป็นเอกลักษณ์ในภูมิภาคอเมริกาใต้",
-      cultivation: "ปลูกในพื้นที่สูงในภูมิภาค Andes",
-      specialties: ["Ecuadorian Arabica Coffee"],
-    },
-    Venezuela: {
-      description:
-        "กาแฟเวเนซุเอลามีรสชาติที่นุ่มนวลและมีความเป็นเอกลักษณ์ แต่ปริมาณการผลิตลดลงในปัจจุบัน",
-      cultivation: "ปลูกในพื้นที่สูง เช่น Andes ของเวเนซุเอลา",
-      specialties: ["Venezuelan Coffee"],
-    },
-    USA: {
-      description:
-        "แม้ไม่เป็นประเทศผู้ผลิตกาแฟหลัก แต่สหรัฐอเมริกามีการเพาะปลูกกาแฟในบางพื้นที่ เช่น ฮาวาย",
-      cultivation: "ปลูกในฮาวายและบางส่วนของแคลิฟอร์เนีย",
-      specialties: ["Hawaiian Kona Coffee"],
-    },
-    Italy: {
-      description:
-        "ประเทศอิตาลีเป็นที่รู้จักในวัฒนธรรมการชงกาแฟ โดยเฉพาะเอสเปรสโซและคาปูชิโน",
-      cultivation: "ไม่ได้ปลูกกาแฟในระดับการค้า",
-      specialties: ["Italian Espresso"],
-    },
-    France: {
-      description:
-        "ฝรั่งเศสมีวัฒนธรรมการดื่มกาแฟที่โดดเด่น โดยเฉพาะในร้านกาแฟริมถนน",
-      cultivation: "ไม่ได้ปลูกกาแฟในระดับการค้า",
-      specialties: ["French Press Coffee"],
-    },
-    NewZealand: {
-      description:
-        "นิวซีแลนด์มีวัฒนธรรมการชงกาแฟที่เติบโตขึ้น โดยเฉพาะในเมืองใหญ่",
-      cultivation: "ไม่ได้ปลูกกาแฟ แต่มีการนำเข้ากาแฟคุณภาพสูง",
-      specialties: ["Flat White (ต้นกำเนิดจากออสเตรเลียและนิวซีแลนด์)"],
-    },
-  });
+  // Fetch country data and build coffeeIndexRef
+  useEffect(() => {
+    fetchCountries()
+      .then((data) => {
+        const idx = {};
+        data.forEach((item) => {
+          idx[normalizeCountryName(item.key)] = item;
+        });
+        coffeeIndexRef.current = idx;
+      })
+      .catch(() => setDataError(true));
+  }, []);
 
   function normalizeCountryName(name) {
     if (!name) return "";                    
@@ -306,11 +53,6 @@ function Home() {
     "czechia": "czechrepublic",    // เผื่อจะเพิ่มข้อมูลภายหลัง
   };
 
-  const coffeeIndex = {};
-  Object.keys(coffeeData).forEach((k) => {
-    coffeeIndex[normalizeCountryName(k)] = coffeeData[k];
-  });
-
   // useEffect สำหรับจัดการแผนที่และ GeoJSON
   useEffect(() => {
     if (mapRef.current !== null) return; // Prevent re-initializing the map
@@ -331,19 +73,124 @@ function Home() {
     let currentLayer = null; // Store the currently clicked country layer
     let geojson = null; // Store the GeoJSON data for search functionality
 
+    // การ์ดข้อมูลถิ่นกำเนิด/สายพันธุ์ของประเทศนั้น ๆ
+    const ROLE_LABEL = {
+      birthplace: { text: "ถิ่นกำเนิดสายพันธุ์", bg: "rgba(245,222,179,0.28)", icon: "\u{1F331}" },
+      producer:   { text: "ประเทศผู้ปลูก",      bg: "rgba(255,255,255,0.16)", icon: "\u{1F33E}" },
+      consumer:   { text: "วัฒนธรรมการดื่ม",    bg: "rgba(255,255,255,0.12)", icon: "\u2615" },
+    };
+
+    const card = (iconEmoji, title, bodyHtml) => `
+      <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(210,180,140,0.25);border-radius:0.75rem;padding:1rem;backdrop-filter:blur(4px)">
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+          <span style="font-size:1rem">${iconEmoji}</span>
+          <b style="color:#f5deb3;font-size:0.85rem">${title}</b>
+        </div>
+        ${bodyHtml}
+      </div>`;
+
+    const chips = (arr, strong) =>
+      `<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.25rem">${(arr || [])
+        .map(
+          (x) =>
+            `<span style="background:rgba(245,222,179,${strong ? "0.28" : "0.15"});color:#f5deb3;border:1px solid rgba(245,222,179,0.3);border-radius:9999px;padding:0.2rem 0.7rem;font-size:0.76rem">${x}</span>`
+        )
+        .join("")}</div>`;
+
+    const factRow = (label, value) =>
+      `<div style="display:flex;justify-content:space-between;gap:0.75rem;padding:0.3rem 0;border-bottom:1px dashed rgba(245,222,179,0.18)">
+         <span style="color:#f5deb3;opacity:.75;font-size:0.78rem">${label}</span>
+         <span style="color:#f5f5dc;font-size:0.8rem;text-align:right">${value}</span>
+       </div>`;
+
+    function originCards(info) {
+      const o = info && info.origin;
+      if (!o) return "";
+      const isConsumer = o.role === "consumer";
+      let html = "";
+
+      // สายพันธุ์ที่ปลูก
+      if (!isConsumer && (o.species || []).length) {
+        html += card(
+          "\u{1F9EC}",
+          "สายพันธุ์ที่ปลูก",
+          chips(o.species, true) +
+            ((o.cultivars || []).length
+              ? `<div style="margin-top:0.6rem;color:#f5deb3;opacity:.7;font-size:0.74rem">สายพันธุ์ย่อยเด่น</div>` +
+                chips(o.cultivars, false)
+              : "")
+        );
+      }
+
+      // ข้อมูลการเพาะปลูก
+      if (!isConsumer) {
+        html += card(
+          "\u{1F5FB}",
+          "ข้อมูลการเพาะปลูก",
+          `<div>${factRow("ความสูง", o.altitude || "—")}${factRow("ฤดูเก็บเกี่ยว", o.harvest || "—")}${factRow("การแปรรูป", (o.process || []).join(" · ") || "—")}</div>`
+        );
+      }
+
+      // โน้ตรสชาติ
+      if ((o.flavor || []).length) {
+        html += card(isConsumer ? "\u2615" : "\u{1F35E}", isConsumer ? "รสชาติที่นิยม" : "โน้ตรสชาติเด่น", chips(o.flavor, false));
+      }
+
+      // เกร็ดถิ่นกำเนิด
+      if (o.note) {
+        html += card(
+          "\u{1F4DC}",
+          o.role === "birthplace" ? "เกร็ดถิ่นกำเนิด" : "เกร็ดน่ารู้",
+          `<p style="color:#f5f5dc;font-size:0.85rem;line-height:1.6;margin:0">${o.note}</p>`
+        );
+      }
+      return html;
+    }
+
+    /* ชุดข้อมูล geo-countries ต้นทางเปลี่ยน property จาก ADMIN -> name
+       อ่านหลาย key เผื่อไว้ ไม่ให้แผนที่ตายอีกถ้าต้นทางเปลี่ยนอีกรอบ */
+    const featureName = (layer) => {
+      const pr = layer?.feature?.properties || {};
+      return pr.name || pr.ADMIN || pr.NAME || pr.admin || pr.sovereignt || "";
+    };
+
+    /* innerHTML ไม่พา event listener มาด้วย จึงต้องผูกใหม่ทุกครั้งที่เปลี่ยนประเทศ */
+    function wirePanel(infoEl) {
+      const panel = infoEl.querySelector(".wc-panel");
+      if (!panel) return;
+      const head = panel.querySelector(".wc-head");
+      const closeBtn = panel.querySelector(".wc-close");
+
+      head?.addEventListener("click", () => {
+        const open = panel.getAttribute("data-open") !== "false";
+        panel.setAttribute("data-open", open ? "false" : "true");
+        head.setAttribute("aria-expanded", open ? "false" : "true");
+      });
+
+      closeBtn?.addEventListener("click", () => {
+        infoEl.innerHTML = "";
+        resetHighlight();       // คืนสีประเทศที่เลือกไว้
+        currentLayer = null;
+        setSelectedCountry(null);
+      });
+    }
+
+    // คืนสีประเทศที่เคยถูกเลือกกลับเป็นค่าเริ่มต้น
+    function resetHighlight() {
+      if (!currentLayer) return;
+      currentLayer.setStyle({
+        weight: 2,
+        color: "white",
+        dashArray: "3",
+        fillOpacity: 0.5,
+        fillColor: "#5B4C3B",
+      });
+    }
+
     function highlightFeature(e) {
       const layer = e.target;
 
-      // Reset color of previously clicked country (if any)
-      if (currentLayer) {
-        currentLayer.setStyle({
-          weight: 2,
-          color: "white",
-          dashArray: "3",
-          fillOpacity: 0.5,
-          fillColor: "#5B4C3B", // Default color when not selected
-        });
-      }
+      resetHighlight(); // คืนสีประเทศก่อนหน้า (ถ้ามี)
 
       // Change color of clicked country
       layer.setStyle({
@@ -358,88 +205,75 @@ function Home() {
         layer.bringToFront();
       }
 
-      const rawName = layer?.feature?.properties?.ADMIN || "";
+      const rawName = featureName(layer);
       const key = normalizeCountryName(rawName);
       const aliasKey = COUNTRY_ALIASES[key] || key;
-      const info = coffeeIndex[aliasKey];
+      const info = coffeeIndexRef.current[aliasKey];
 
       const infoEl = document.getElementById("info");
       if (!infoEl) return; // กัน element หาย
 
       if (info) {
         infoEl.innerHTML = `
-          <div class="p-6 bg-[#5c4033] border border-[#d2b48c] rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold text-[#f5f5dc] mb-4">${rawName}</h2>
-
-            <!-- Card container -->
-            <div class="flex flex-wrap gap-4 justify-start">
-              <!-- ข้อมูลเพิ่มเติม -->
-              <div class="bg-[#6b4226] p-4 rounded-md shadow-md border border-[#d2b48c] w-full sm:w-full md:w-[calc(33.333%-16px)]">
-                <div class="flex items-center text-base text-[#f5f5dc] mb-2">
-                  <img src="/world/info.png" alt="info icon" class="w-6 h-6 mr-3" />
-                  <b class="mr-2">ข้อมูลเพิ่มเติม:</b>
+          <div class="wc-panel" data-open="true">
+            <button type="button" class="wc-head" aria-expanded="true">
+              <span class="wc-globe">🌍</span>
+              <h2 class="wc-name">${rawName}</h2>
+              ${
+                info.origin && ROLE_LABEL[info.origin.role]
+                  ? `<span class="wc-role" style="background:${ROLE_LABEL[info.origin.role].bg}">${ROLE_LABEL[info.origin.role].icon} ${ROLE_LABEL[info.origin.role].text}</span>`
+                  : ""
+              }
+              <span class="wc-caret" aria-hidden="true">▾</span>
+            </button>
+            <button type="button" class="wc-close" aria-label="ปิดข้อมูลประเทศ">✕</button>
+            <div class="wc-body">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
+              <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(210,180,140,0.25);border-radius:0.75rem;padding:1rem;backdrop-filter:blur(4px)">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+                  <img src="/world/info.png" alt="" style="width:20px;height:20px" />
+                  <b style="color:#f5deb3;font-size:0.85rem">ข้อมูลเพิ่มเติม</b>
                 </div>
-                <p class="text-[#f5f5dc]">${info.description}</p>
+                <p style="color:#f5f5dc;font-size:0.875rem;line-height:1.6;margin:0">${info.description}</p>
               </div>
-
-              <!-- ภูมิภาคที่ปลูกกาแฟ -->
-              <div class="bg-[#6b4226] p-4 rounded-md shadow-md border border-[#d2b48c] w-full sm:w-full md:w-[calc(33.333%-16px)]">
-                <div class="flex items-center text-base text-[#f5f5dc] mb-2">
-                  <img src="/world/map.png" alt="map icon" class="w-6 h-6 mr-3" />
-                  <b class="mr-2">ภูมิภาคที่ปลูกกาแฟ:</b>
+              <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(210,180,140,0.25);border-radius:0.75rem;padding:1rem;backdrop-filter:blur(4px)">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+                  <img src="/world/map.png" alt="" style="width:20px;height:20px" />
+                  <b style="color:#f5deb3;font-size:0.85rem">ภูมิภาคที่ปลูกกาแฟ</b>
                 </div>
-                <p class="text-[#f5f5dc]">${info.cultivation}</p>
+                <p style="color:#f5f5dc;font-size:0.875rem;line-height:1.6;margin:0">${info.cultivation}</p>
               </div>
-
-              <!-- กาแฟที่มีความโดดเด่น -->
-              <div class="bg-[#6b4226] p-4 rounded-md shadow-md border border-[#d2b48c] w-full sm:w-full md:w-[calc(33.333%-16px)]">
-                <div class="flex items-center text-base text-[#f5f5dc] mb-2">
-                  <img src="/world/bean.png" alt="bean icon" class="w-6 h-6 mr-3" />
-                  <b class="mr-2">กาแฟที่มีความโดดเด่น:</b>
+              <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(210,180,140,0.25);border-radius:0.75rem;padding:1rem;backdrop-filter:blur(4px)">
+                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
+                  <img src="/world/bean.png" alt="" style="width:20px;height:20px" />
+                  <b style="color:#f5deb3;font-size:0.85rem">กาแฟที่มีความโดดเด่น</b>
                 </div>
-                <p class="text-[#f5f5dc]">${(info.specialties || []).join(", ")}</p>
+                <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.25rem">
+                  ${(info.specialties || []).map(s => `<span style="background:rgba(245,222,179,0.2);color:#f5deb3;border:1px solid rgba(245,222,179,0.3);border-radius:9999px;padding:0.2rem 0.75rem;font-size:0.78rem">${s}</span>`).join("")}
+                </div>
               </div>
+              ${originCards(info)}
+            </div>
             </div>
           </div>
         `;
       } else {
         infoEl.innerHTML = `
-          <div class="p-6 bg-[#5c4033] border border-[#d2b48c] rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold text-[#f5f5dc] mb-4">${rawName}</h2>
-
-            <!-- Card container -->
-            <div class="flex flex-wrap gap-4 justify-start">
-              <!-- ข้อมูลเพิ่มเติม -->
-              <div class="bg-[#6b4226] p-4 rounded-md shadow-md border border-[#d2b48c] w-full sm:w-full md:w-[calc(33.333%-16px)]">
-                <div class="flex items-center text-base text-[#f5f5dc] mb-2">
-                  <img src="/world/info.png" alt="info icon" class="w-6 h-6 mr-3" />
-                  <b class="mr-2">ข้อมูลเพิ่มเติม:</b>
-                </div>
-                <p class="text-[#f5f5dc]"> - </p>
-              </div>
-
-              <!-- ภูมิภาคที่ปลูกกาแฟ -->
-              <div class="bg-[#6b4226] p-4 rounded-md shadow-md border border-[#d2b48c] w-full sm:w-full md:w-[calc(33.333%-16px)]">
-                <div class="flex items-center text-base text-[#f5f5dc] mb-2">
-                  <img src="/world/map.png" alt="map icon" class="w-6 h-6 mr-3" />
-                  <b class="mr-2">ภูมิภาคที่ปลูกกาแฟ:</b>
-                </div>
-                <p class="text-[#f5f5dc]"> - </p>
-              </div>
-
-              <!-- กาแฟที่มีความโดดเด่น -->
-              <div class="bg-[#6b4226] p-4 rounded-md shadow-md border border-[#d2b48c] w-full sm:w-full md:w-[calc(33.333%-16px)]">
-                <div class="flex items-center text-base text-[#f5f5dc] mb-2">
-                  <img src="/world/bean.png" alt="bean icon" class="w-6 h-6 mr-3" />
-                  <b class="mr-2">กาแฟที่มีความโดดเด่น:</b>
-                </div>
-                <p class="text-[#f5f5dc]"> - </p>
-              </div>
+          <div class="wc-panel" data-open="true">
+            <button type="button" class="wc-head" aria-expanded="true">
+              <span class="wc-globe">🌍</span>
+              <h2 class="wc-name">${rawName}</h2>
+              <span class="wc-caret" aria-hidden="true">▾</span>
+            </button>
+            <button type="button" class="wc-close" aria-label="ปิดข้อมูลประเทศ">✕</button>
+            <div class="wc-body">
+              <p style="color:#f5deb3;opacity:0.7;font-style:italic;margin:0">ยังไม่มีข้อมูลกาแฟสำหรับประเทศนี้ในระบบ</p>
             </div>
           </div>
         `;
       }
 
+      wirePanel(infoEl);
       currentLayer = layer;
     }
 
@@ -449,13 +283,16 @@ function Home() {
       });
     }
     if (!mapContainerRef.current) return; // กัน container ยังไม่ขึ้น
+    let cancelled = false; // true เมื่อ component unmount แล้ว
     // Load GeoJSON data for country boundaries
     fetch(
       "https://raw.githubusercontent.com/datasets/geo-countries/master/data/countries.geojson"
     )
       .then((response) => response.json())
       .then((data) => {
+        if (cancelled || mapRef.current !== map) return; // แผนที่ถูกทำลายไปแล้ว
         map.whenReady(() => {
+          if (cancelled || mapRef.current !== map) return;
           try {
             if (!map.getPane("overlayPane")) {
               map.createPane("overlayPane");
@@ -486,11 +323,13 @@ function Home() {
     // Search country by name
     function searchCountry() {
       if (!geojson) return; // กัน null
-      const searchInput = document.getElementById("search-input").value.toLowerCase();
+      const searchEl = document.getElementById("search-input");
+      if (!searchEl) return;
+      const searchInput = searchEl.value.toLowerCase();
       let found = false;
 
       geojson.eachLayer(function (layer) {
-        const cn = layer.feature?.properties?.ADMIN || "";
+        const cn = featureName(layer);
         if (cn.toLowerCase() === searchInput) {
           found = true;
           map.fitBounds(layer.getBounds());
@@ -518,7 +357,8 @@ function Home() {
       let suggestions = [];
 
       geojson.eachLayer(function (layer) {
-        const countryName = layer.feature.properties.ADMIN;
+        const countryName = featureName(layer);
+        if (!countryName) return;
         if (countryName.toLowerCase().startsWith(searchInput)) {
           suggestions.push(countryName);
         }
@@ -542,23 +382,24 @@ function Home() {
     }
 
     // Add search functionality to the search button
-    document
-      .getElementById("search-button")
-      .addEventListener("click", searchCountry);
+    const searchBtn = document.getElementById("search-button");
+    const searchInputEl = document.getElementById("search-input");
+    searchBtn?.addEventListener("click", searchCountry);
 
     // Add suggestions functionality when typing
-    document
-      .getElementById("search-input")
-      .addEventListener("input", suggestCountries);
+    searchInputEl?.addEventListener("input", suggestCountries);
 
     // Cleanup on component unmount
     return () => {
+      cancelled = true;
+      searchBtn?.removeEventListener("click", searchCountry);
+      searchInputEl?.removeEventListener("input", suggestCountries);
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
       }
     };
-  }, [coffeeData]); // Run this effect once when the component mounts
+  }, []); // Run this effect once when the component mounts
 
   // useEffect สำหรับตรวจจับการ scroll เพื่อควบคุมการแสดง search-container
   useEffect(() => {
@@ -576,41 +417,66 @@ function Home() {
   }, []);
 
   return (
-    <div>
+    <div className="min-h-screen bg-[#f3f1ec]">
       <Navbar />
+
+      {/* Error banner — แผนที่ยังใช้ได้ แต่ข้อมูลกาแฟไม่โหลด */}
+      {dataError && (
+        <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
+          <span>⚠️</span>
+          <span>โหลดข้อมูลกาแฟไม่สำเร็จ คลิกประเทศจะไม่แสดงข้อมูล</span>
+          <button
+            onClick={() => {
+              setDataError(false);
+              fetchCountries()
+                .then((data) => {
+                  const idx = {};
+                  data.forEach((item) => { idx[normalizeCountryName(item.key)] = item; });
+                  coffeeIndexRef.current = idx;
+                })
+                .catch(() => setDataError(true));
+            }}
+            className="ml-auto underline font-semibold"
+          >
+            ลองใหม่
+          </button>
+        </div>
+      )}
+
+      {/* Map */}
       <div
         ref={mapContainerRef}
         id="map"
-        style={{
-          height: "500px",
-          zIndex: 0, // ทำให้แผนที่อยู่ชั้นล่าง
-          position: "relative", // กำหนด position เพื่อรองรับ zIndex
-        }}
-      ></div>
+        style={{ zIndex: 0, position: "relative" }}
+      />
 
+      {/* Info panel */}
       <div id="info" className="info-container">
-        {selectedCountry ? (
-          <></>
-        ) : (
-          <p>Select a country to see coffee details.</p>
+        {!selectedCountry && (
+          <div className="flex items-center gap-4 py-6 px-4">
+            <span className="text-3xl">🗺️</span>
+            <div>
+              <p className="font-semibold text-[#5c4033]">คลิกที่ประเทศบนแผนที่เพื่อดูข้อมูลกาแฟ</p>
+              <p className="text-sm text-[#5c4033]/60 mt-0.5">มีข้อมูลกาแฟจาก 48 ประเทศทั่วโลก</p>
+            </div>
+          </div>
         )}
       </div>
 
+      {/* Search container */}
       <div
         id="search-container"
         style={{
-          position: "fixed",
-          top: showSearch ? "11%" : "-100px",
-          transition: "top 0.3s",
+          top: showSearch ? undefined : "-140px",
+          transition: "top 0.3s ease",
         }}
-        className="z-0 mt-0  w-20%"
       >
         <input
           type="text"
           id="search-input"
           placeholder="Search for a country..."
         />
-        <ul id="suggestions"></ul>
+        <ul id="suggestions" />
         <button id="search-button">Search</button>
       </div>
     </div>

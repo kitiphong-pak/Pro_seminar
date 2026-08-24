@@ -16,19 +16,22 @@ import Extraction from "./pages/Extraction";
 import Suggestion from "./pages/Suggestion";
 import Quiz from "./pages/Quiz";
 import QuizDetail from "./pages/QuizDetail";
-import Select from "./simulator/Select";
-import Customcoffee from "./simulator/Espresso";
-import { Helmet } from "react-helmet";
+// simulator เดิม — ปิดชั่วคราว
+// import Select from "./simulator/Select";
+// import Customcoffee from "./simulator/Espresso";
+import BrewSimulator from "./simulator2/BrewSimulator";
+import { HelmetProvider, Helmet } from "react-helmet-async";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   return (
+    <HelmetProvider>
     <BrowserRouter>
-      {/* Move Helmet outside of Routes */}
       <Helmet>
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-          integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2DhKNuXjbwN5th9XDEK7N+OaXsmRnN4p5bKf8Eh6D6+Kfh2wLyoe2B+mN2zSts3ug=="
+          integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
@@ -46,23 +49,40 @@ function App() {
         <Route path="/process" element={<Process />} />
         <Route path="/worldCoffee" element={<WorldCoffee />} />
         <Route path="/articles" element={<Articles />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile"
+          element={
+            <RequireAuth>
+              <Profile />
+            </RequireAuth>
+          }
+        />
 
         <Route path="/coffee_bean" element={<CoffeeBean />} />
 
         <Route path="/coffee_menu" element={<CoffeeMenu />} />
 
+        {/* simulator เดิม — ปิดชั่วคราว
         <Route path="/select" element={<Select/>}/>
-
         <Route path="/customcoffee" element={<Customcoffee/>} />
+        */}
+        <Route path="/brew" element={<BrewSimulator />} />
 
         <Route path="/suggestion" element={<Suggestion />} />
 
         <Route path="/quiz" element={<Quiz />} />
-        <Route path="/quiz/:id" element={<QuizDetail />} />
+        <Route
+          path="/quiz/:id"
+          element={
+            <RequireAuth>
+              <QuizDetail />
+            </RequireAuth>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
+    </HelmetProvider>
   );
 }
 

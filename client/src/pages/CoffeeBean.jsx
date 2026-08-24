@@ -1,9 +1,9 @@
 ﻿import { useState, useEffect, useMemo } from "react";
 import Navbar from "../components/Navbar";
-import MenuItems from "../data/beanItems.json";
+import { fetchBeans } from "../api/contentApi";
 import { useSearchParams } from "react-router-dom";
-import Footer from "../components/Footer";
 import BackToTop from "../components/BackToTop";
+import FetchError from "../components/FetchError";
 
 function CoffeeBeans() {
   const [activeFilter, setActiveFilter] = useState("กาแฟทั้งหมด"); // หมวด
@@ -14,8 +14,19 @@ function CoffeeBeans() {
   // อ่าน/เขียน query string
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // รายการทั้งหมด
-  const menuItems = MenuItems;
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [fetchSignal, setFetchSignal] = useState(0);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    fetchBeans()
+      .then(setMenuItems)
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [fetchSignal]);
 
   // map จาก type (อังกฤษจากหน้า Home) -> ชื่อปุ่มภาษาไทย
   const TYPE_MAP = useMemo(
@@ -133,6 +144,15 @@ function CoffeeBeans() {
     return current === key || activeFilter === TYPE_MAP[key];
   };
 
+  if (error) return (
+    <div className="min-h-screen bg-[#f3f1ec] flex flex-col">
+      <Navbar />
+      <div className="flex-grow flex items-center justify-center">
+        <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-[#f3f1ec] flex flex-col">
       <Navbar />
@@ -146,13 +166,13 @@ function CoffeeBeans() {
           <div className="relative mx-auto max-w-7xl px-4 md:px-8 h-[28vh] md:h-[32vh] flex items-center">
             <div className="text-white">
               <p className="uppercase tracking-widest text-xs text-white/80">
-                Beans • Selection
+                Bean Guide
               </p>
               <h1 className="text-2xl md:text-4xl font-extrabold leading-tight">
-                เลือกเมล็ดกาแฟที่ใช่สำหรับคุณ
+                เลือกเมล็ดกาแฟให้ตรงกับสไตล์การชง
               </h1>
               <p className="mt-1 text-white/90">
-                ค้นหา กรองตามหมวด และเลือกระดับการคั่วได้ในที่เดียว
+                กรองตามชนิด ระดับคั่ว และราคา เจอเมล็ดที่ต้องการได้เร็วขึ้น
               </p>
             </div>
           </div>
@@ -371,20 +391,31 @@ function CoffeeBeans() {
             </div>
 
             {/* สรุปจำนวนผลลัพธ์ */}
-            <div className="mb-3 text-sm text-black/60">
-              พบผลลัพธ์ {filteredItems.length} รายการ
-            </div>
+            {!loading && (
+              <div className="mb-3 text-sm text-black/60">
+                พบผลลัพธ์ {filteredItems.length} รายการ
+              </div>
+            )}
 
             {/* Empty state */}
-            {filteredItems.length === 0 && (
+            {!loading && filteredItems.length === 0 && (
               <div className="py-16 text-center text-black/60">
                 <div className="text-lg font-semibold">ไม่พบเมล็ดกาแฟที่ตรงเงื่อนไข</div>
                 <div className="mt-1 text-sm">ลองเปลี่ยนคำค้นหรือปรับตัวกรองดูนะ</div>
               </div>
             )}
 
+            {/* Skeleton loading */}
+            {loading && (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+                {[...Array(8)].map((_, i) => (
+                  <div key={i} className="rounded-2xl bg-[#e0d8ce] animate-pulse h-52" />
+                ))}
+              </div>
+            )}
+
             {/* Grid การ์ด */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {!loading && <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {filteredItems.map((item, index) => {
               // ------ เพิ่ม: สร้างแท็กไว้แสดงด้านขวาล่าง ------
               const tagsFromType = Array.isArray(item.type) ? item.type : (item.type ? [item.type] : []);
@@ -424,12 +455,11 @@ function CoffeeBeans() {
                 </button>
               );
             })}
-            </div>
+            </div>}
           </section>
         )}
       </main>
 
-      <Footer />
     </div>
   );
 }

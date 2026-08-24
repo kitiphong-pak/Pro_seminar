@@ -1,3 +1,121 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* =========================================================
+   TYPOGRAPHY — ฟอนต์สากล อ่านง่าย ไม่บาง
+   Noto Sans Thai สำหรับไทย + Inter สำหรับละติน/ตัวเลข
+   (เดิมใช้ Prompt ผ่าน * {} ใน index.html ซึ่งตัวบางและ x-height เตี้ย)
+   ========================================================= */
+@layer base {
+  html {
+    /* ขยายฐาน 16px -> 17px ทำให้ทุก text-* ของ Tailwind ใหญ่ขึ้น ~6% พร้อมกัน */
+    font-size: 17px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: "Noto Sans Thai", "Inter", system-ui, -apple-system,
+      "Segoe UI", Roboto, sans-serif;
+    font-weight: 400;
+    /* ไทยต้องการ leading มากกว่าละตินเพราะมีสระบน-ล่าง */
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* form control ไม่ inherit ฟอนต์เองโดยปริยาย ต้องสั่งตรง ๆ */
+  input, textarea, select, button {
+    font-family: inherit;
+    font-size: inherit;
+  }
+
+  /* หัวข้อไทยไม่ต้องการ leading เยอะเท่าเนื้อความ */
+  h1, h2, h3, h4, h5, h6 { line-height: 1.35; }
+
+  /* กันตัวอักษรบางเกินไป — น้ำหนักต่ำกว่า 400 ให้ดีดกลับเป็น 400 */
+  .font-light, .font-thin, .font-extralight { font-weight: 400; }
+}
+
+/* =========================================================
+   CURSOR — แสดง I-beam เฉพาะที่พิมพ์ได้จริง
+   ที่เหลือเป็นลูกศรปกติ / มือ สำหรับสิ่งที่กดได้
+   ========================================================= */
+@layer base {
+  html, body { cursor: default; }
+
+  /* กันแถบเลื่อนแนวนอนที่ไม่ตั้งใจ:
+     - AOS (fade-left/right) ดัน element ออกไป 100px ก่อนเล่นอนิเมชัน
+     - blob ตกแต่งในหน้า Home วางไว้เลยขอบจอ (-right-20)
+     ใช้ clip ไม่ใช่ hidden เพราะ hidden จะสร้าง scroll container
+     แล้วทำให้ position:sticky (สารบัญหน้า /extraction) พัง */
+  html, body { overflow-x: clip; }
+
+  /* ข้อความทั่วไปไม่ต้องขึ้น text cursor */
+  h1, h2, h3, h4, h5, h6,
+  p, span, li, td, th, dt, dd,
+  label, figcaption, small, strong, em, div, section, article, aside {
+    cursor: inherit;
+  }
+
+  /* พิมพ์ได้จริง -> I-beam */
+  input:not([type="button"]):not([type="submit"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  textarea,
+  [contenteditable="true"] {
+    cursor: text;
+  }
+
+  /* กดได้ -> มือ */
+  a[href], button, summary, label[for],
+  select,
+  input[type="button"], input[type="submit"], input[type="reset"],
+  input[type="checkbox"], input[type="radio"], input[type="file"],
+  [role="button"], [role="tab"], [role="link"], [role="option"] {
+    cursor: pointer;
+  }
+
+  /* ปิดใช้งานอยู่ -> ห้าม */
+  button:disabled, input:disabled, select:disabled, textarea:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  input[type="range"] { cursor: grab; }
+  input[type="range"]:active { cursor: grabbing; }
+}
+
+@keyframes brewFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-10px) rotate(2deg); }
+}
+@keyframes brewSlideIn {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes brewFadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes brewPulseRing {
+  0%   { box-shadow: 0 0 0 0 rgba(123,75,41,0.45); }
+  70%  { box-shadow: 0 0 0 14px rgba(123,75,41,0); }
+  100% { box-shadow: 0 0 0 0 rgba(123,75,41,0); }
+}
+@keyframes brewCheckPop {
+  0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+  60%  { transform: scale(1.25) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+@keyframes brewBarGrow {
+  from { width: 0%; }
+}
+@keyframes brewSteamRise {
+  0%   { opacity: 0; transform: translateY(0) scaleX(1); }
+  40%  { opacity: 0.7; }
+  100% { opacity: 0; transform: translateY(-28px) scaleX(1.5); }
+}
+@keyframes brewSpinSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}

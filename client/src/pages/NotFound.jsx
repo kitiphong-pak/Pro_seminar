@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
 const NotFound = () => (
   <div className="min-h-screen flex flex-col">
@@ -15,7 +14,6 @@ const NotFound = () => (
         กลับหน้าหลัก
       </Link>
     </main>
-    <Footer />
   </div>
 );
 

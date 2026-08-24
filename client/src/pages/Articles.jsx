@@ -1,19 +1,30 @@
 ﻿import { useState, useEffect, useMemo } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import Articles from "../data/article.json";
+import { fetchArticles } from "../api/contentApi";
 import BackToTop from "../components/BackToTop";
-import { updateUserAchievement } from "../firebase/firebaseAchievements";
+import FetchError from "../components/FetchError";
+import { updateUserAchievement } from "../api/achievementApi";
 import { useAuth } from "../contexts/AuthContext";
 
-const articles = Articles;
-
 function ArticlesPage() {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [fetchSignal, setFetchSignal] = useState(0);
   const [activeFilter, setActiveFilter] = useState("บทความทั้งหมด");
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [readProgress, setReadProgress] = useState(0);
   const { user } = useAuth();
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    fetchArticles()
+      .then(setArticles)
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [fetchSignal]);
   const uid = user?.uid ?? null;
 
   // สร้างรายการหมวดหมู่จากข้อมูลจริง + ใส่ "บทความทั้งหมด" นำหน้า
@@ -25,7 +36,7 @@ function ArticlesPage() {
       else if (typeof c === "string" && c.trim()) set.add(c.trim());
     });
     return ["บทความทั้งหมด", ...Array.from(set)];
-  }, []);
+  }, [articles]);
 
   const filteredArticles = useMemo(() => {
     return articles.filter((article) => {
@@ -37,7 +48,7 @@ function ArticlesPage() {
         (Array.isArray(cat) ? cat.includes(activeFilter) : cat === activeFilter);
       return matchesSearch && matchesFilter;
     });
-  }, [searchTerm, activeFilter]);
+  }, [articles, searchTerm, activeFilter]);
 
   // บันทึก achievement + แถบ progress ตอนอ่านบทความ
   useEffect(() => {
@@ -72,6 +83,15 @@ function ArticlesPage() {
   const firstParagraphOf = (a) =>
     a.content?.find?.((c) => c.type === "paragraph")?.text || "";
 
+  if (error) return (
+    <div className="min-h-screen bg-[#f3f1ec] flex flex-col">
+      <Navbar />
+      <div className="flex-grow flex items-center justify-center">
+        <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-[#f3f1ec]">
       <Navbar />
@@ -85,7 +105,7 @@ function ArticlesPage() {
           <div className="relative mx-auto max-w-7xl px-4 md:px-8 h-[34vh] flex items-center">
             <div className="text-white">
               <p className="uppercase tracking-widest text-xs text-white/80">
-                Articles • Knowledge
+                Knowledge Base
               </p>
               <h1 className="text-3xl md:text-5xl font-extrabold leading-tight">
                 บทความกาแฟ
@@ -251,8 +271,17 @@ function ArticlesPage() {
               </div>
             </div>
 
+            {/* Skeleton loading */}
+            {loading && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="rounded-2xl bg-[#e0d8ce] animate-pulse h-64" />
+                ))}
+              </div>
+            )}
+
             {/* Empty state */}
-            {filteredArticles.length === 0 && (
+            {!loading && filteredArticles.length === 0 && (
               <div className="py-16 text-center text-black/60">
                 <div className="text-lg font-semibold">ไม่พบบทความ</div>
                 <div className="mt-1 text-sm">
@@ -262,13 +291,14 @@ function ArticlesPage() {
             )}
 
             {/* Grid: 1/2/3 คอลัมน์ */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {!loading && <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
               {filteredArticles.map((article) => {
                 const cover = firstImageOf(article);
                 const excerpt = firstParagraphOf(article);
                 return (
                   <div
-                    key={article.id}
+                    key={article._id || article.title}
                     role="button"
                     onClick={() => handleArticleClick(article)}
                     className="group relative rounded-2xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer bg-white"
@@ -317,12 +347,11 @@ function ArticlesPage() {
                   </div>
                 );
               })}
-            </div>
+            </div>}
           </section>
         )}
       </main>
 
-      <Footer />
     </div>
   );
 }

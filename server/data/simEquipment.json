@@ -1,0 +1,379 @@
+[
+  {
+    "id": "espresso_machine",
+    "nameTh": "Espresso Machine",
+    "emoji": "⚙️",
+    "description": "เครื่องควบคุมแรงดัน 9 บาร์ และอุณหภูมิอัตโนมัติ ผลลัพธ์เข้มข้น crema หนา",
+    "grind": "ละเอียดมาก",
+    "waterTemp": "อัตโนมัติ (~93°C)",
+    "resultType": "espresso",
+    "compatibleMenuIds": [
+      "espresso",
+      "americano",
+      "latte",
+      "cappuccino",
+      "mocha",
+      "macchiato"
+    ],
+    "steps": [
+      {
+        "id": "add_coffee",
+        "title": "เติมกาแฟลง Portafilter",
+        "description": "ใส่กาแฟบดลงใน portafilter ให้เต็มพอดี ไม่กองเกินขอบ",
+        "hint": "9 กรัม = single shot กลมกล่อม / 18 กรัม = double shot เข้มข้น",
+        "interactionType": "drag",
+        "variable": "coffeeAmount",
+        "min": 7,
+        "max": 18,
+        "step": 0.5,
+        "default": 9,
+        "unit": "กรัม",
+        "flavorImpact": {
+          "bitterness": 0.4,
+          "body": 0.3,
+          "sourness": -0.1,
+          "aroma": 0.2
+        }
+      },
+      {
+        "id": "tamp",
+        "title": "กด Tamp",
+        "description": "กดกาแฟในตะแกรงให้แน่นและผิวหน้าเรียบ ใช้แรงประมาณ 15 กก.",
+        "hint": "กดแน่นไปน้ำผ่านยาก → ขม, กดเบาไปน้ำผ่านเร็ว → ชืด",
+        "interactionType": "press",
+        "variable": "tamped",
+        "label": "กด Tamp แล้ว",
+        "flavorImpact": {
+          "body": 0.15,
+          "bitterness": 0.1
+        }
+      },
+      {
+        "id": "brew",
+        "title": "ชงเอสเปรสโซ",
+        "description": "ล็อก portafilter เข้าเครื่อง กดปุ่มชง รอจนกาแฟไหลออกมาสีน้ำตาลทอง",
+        "hint": "เวลาที่ดีคือ 25–30 วิ สังเกต crema ที่ผิวหน้า",
+        "interactionType": "timer",
+        "variable": "brewTime",
+        "duration": 27,
+        "unit": "วินาที",
+        "flavorImpact": {}
+      }
+    ],
+    "image": "/simulator/equipment/espresso_machine.jpg"
+  },
+  {
+    "id": "espresso_manual",
+    "nameTh": "Espresso Manual",
+    "emoji": "🫙",
+    "description": "ควบคุมทุกขั้นตอนด้วยมือ เลือกอุณหภูมิและเวลาชงได้เอง เหมาะกับสายทดลอง",
+    "grind": "ละเอียดมาก",
+    "waterTemp": "90–95°C",
+    "resultType": "espresso",
+    "compatibleMenuIds": [
+      "espresso",
+      "americano",
+      "latte",
+      "cappuccino",
+      "mocha",
+      "macchiato"
+    ],
+    "steps": [
+      {
+        "id": "add_coffee",
+        "title": "เติมกาแฟลง Portafilter",
+        "description": "ใส่กาแฟบดละเอียดมากลงใน portafilter",
+        "hint": "9 กรัมสำหรับ single shot",
+        "interactionType": "drag",
+        "variable": "coffeeAmount",
+        "min": 7,
+        "max": 18,
+        "step": 0.5,
+        "default": 9,
+        "unit": "กรัม",
+        "flavorImpact": {
+          "bitterness": 0.4,
+          "body": 0.3,
+          "aroma": 0.2
+        }
+      },
+      {
+        "id": "tamp",
+        "title": "กด Tamp",
+        "description": "กดกาแฟให้แน่นและผิวหน้าเรียบ",
+        "hint": "ผิวหน้าต้องเรียบ ไม่มีรอยแตก",
+        "interactionType": "press",
+        "variable": "tamped",
+        "label": "กด Tamp แล้ว",
+        "flavorImpact": {
+          "body": 0.1
+        }
+      },
+      {
+        "id": "water_temp",
+        "title": "ควบคุมอุณหภูมิน้ำ",
+        "description": "ต้มน้ำให้ได้อุณหภูมิที่ต้องการ อย่าใช้น้ำเดือด 100°C เพราะจะทำให้กาแฟขมไหม้",
+        "hint": "90°C = เปรี้ยวหน่อย / 95°C = สมดุล / ใกล้ 100°C = ขมมาก",
+        "interactionType": "slider",
+        "variable": "waterTemp",
+        "min": 85,
+        "max": 98,
+        "step": 1,
+        "default": 93,
+        "unit": "°C",
+        "flavorImpact": {
+          "bitterness": 0.35,
+          "sourness": -0.25,
+          "aroma": 0.1
+        }
+      },
+      {
+        "id": "pull_shot",
+        "title": "Pull Shot",
+        "description": "ดึง lever หรือกดปั๊มให้น้ำผ่านกาแฟ รอจนได้ปริมาณ 30–40 ml",
+        "hint": "เวลาที่ดีคือ 25–30 วิ ถ้าไหลเร็วเกินให้บดละเอียดขึ้น",
+        "interactionType": "timer",
+        "variable": "brewTime",
+        "duration": 27,
+        "unit": "วินาที",
+        "flavorImpact": {}
+      }
+    ],
+    "image": "/simulator/equipment/espresso_manual.webp"
+  },
+  {
+    "id": "moka_pot",
+    "nameTh": "Moka Pot",
+    "emoji": "☕",
+    "description": "หม้อไอน้ำสุดคลาสสิก กาแฟเข้มข้น บอดี้หนัก ไม่ต้องใช้เครื่อง",
+    "grind": "ละเอียด",
+    "waterTemp": "น้ำเย็นตั้งไฟ",
+    "resultType": "direct",
+    "compatibleMenuIds": [
+      "moka_coffee"
+    ],
+    "steps": [
+      {
+        "id": "add_water",
+        "title": "เติมน้ำส่วนล่าง",
+        "description": "เติมน้ำเย็นลงในหม้อส่วนล่างจนถึงเส้นวาล์ว ห้ามเกินเด็ดขาด",
+        "hint": "น้ำมากขึ้น = กาแฟเจือจางลง แต่ไม่ควรน้อยกว่า 50 ml",
+        "interactionType": "pour",
+        "variable": "waterAmount",
+        "min": 50,
+        "max": 200,
+        "step": 10,
+        "default": 100,
+        "unit": "ml",
+        "flavorImpact": {
+          "bitterness": -0.15,
+          "body": -0.2
+        }
+      },
+      {
+        "id": "add_coffee",
+        "title": "เติมกาแฟลงตะแกรง",
+        "description": "ใส่กาแฟบดให้เต็มตะแกรงกลาง กองเล็กน้อย แต่ไม่ต้องกดแน่นเหมือน espresso",
+        "hint": "กาแฟมากขึ้น = ขมและเข้มขึ้น ประมาณ 15 กรัมสำหรับ 100 ml",
+        "interactionType": "drag",
+        "variable": "coffeeAmount",
+        "min": 10,
+        "max": 25,
+        "step": 1,
+        "default": 15,
+        "unit": "กรัม",
+        "flavorImpact": {
+          "bitterness": 0.4,
+          "body": 0.35,
+          "aroma": 0.2
+        }
+      },
+      {
+        "id": "assemble",
+        "title": "ประกอบโมก้าพอต",
+        "description": "ขันส่วนบน-ล่างให้แน่น ระวังไม่ให้กาแฟติดขอบซีล",
+        "hint": "ขันแน่นเพื่อป้องกันไอน้ำรั่ว",
+        "interactionType": "button",
+        "variable": "assembled",
+        "label": "ประกอบเสร็จแล้ว",
+        "flavorImpact": {}
+      },
+      {
+        "id": "heat",
+        "title": "ตั้งไฟและรอ",
+        "description": "ตั้งไฟกลาง-อ่อน รอฟังเสียงกาแฟไหลขึ้น ปิดไฟทันทีเมื่อเสียงเปลี่ยนเป็นฟู่",
+        "hint": "ไฟแรงเกินทำให้กาแฟขมไหม้ เสียงฟู่ = กาแฟใกล้หมดแล้ว",
+        "interactionType": "timer",
+        "variable": "heatTime",
+        "duration": 40,
+        "unit": "วินาที",
+        "flavorImpact": {}
+      }
+    ],
+    "image": "/simulator/equipment/moka_pot.webp"
+  },
+  {
+    "id": "drip",
+    "nameTh": "Drip Coffee",
+    "emoji": "🫗",
+    "description": "ดริปแบบ pour-over สกัดกลิ่นหอมและรสละเอียดอ่อน เหมาะกับกาแฟ light-medium roast",
+    "grind": "หยาบ",
+    "waterTemp": "90–96°C",
+    "resultType": "direct",
+    "compatibleMenuIds": [
+      "drip_coffee"
+    ],
+    "steps": [
+      {
+        "id": "setup_filter",
+        "title": "เตรียม Filter และ Dripper",
+        "description": "วาง filter กระดาษลงใน dripper แล้วเทน้ำร้อนล้าง 1 รอบ (เพื่อกำจัดกลิ่นกระดาษ) จากนั้นเทน้ำนั้นทิ้ง",
+        "hint": "การ rinse filter ช่วยให้กาแฟมีรสสะอาดขึ้น ไม่มีกลิ่นกระดาษ",
+        "interactionType": "button",
+        "variable": "filterReady",
+        "label": "เตรียม Filter เสร็จแล้ว",
+        "flavorImpact": {}
+      },
+      {
+        "id": "add_coffee",
+        "title": "เติมกาแฟ",
+        "description": "ใส่กาแฟบดหยาบลงใน dripper อัตราส่วนแนะนำ 1:15 (กาแฟ:น้ำ)",
+        "hint": "15 กรัม ต่อน้ำ 225 ml เป็นจุดเริ่มต้นที่ดี",
+        "interactionType": "drag",
+        "variable": "coffeeAmount",
+        "min": 10,
+        "max": 25,
+        "step": 0.5,
+        "default": 15,
+        "unit": "กรัม",
+        "flavorImpact": {
+          "bitterness": 0.3,
+          "body": 0.3,
+          "sourness": 0.1,
+          "aroma": 0.25
+        }
+      },
+      {
+        "id": "water_temp",
+        "title": "ต้มน้ำให้ได้อุณหภูมิ",
+        "description": "ต้มน้ำให้ได้ 90–96°C ก่อนเริ่มเท",
+        "hint": "90°C ให้รสละเอียดอ่อน / 96°C ให้ความหวานและกลิ่นหอมมากขึ้น",
+        "interactionType": "slider",
+        "variable": "waterTemp",
+        "min": 88,
+        "max": 98,
+        "step": 1,
+        "default": 93,
+        "unit": "°C",
+        "flavorImpact": {
+          "bitterness": 0.2,
+          "sourness": -0.15,
+          "sweetness": 0.1
+        }
+      },
+      {
+        "id": "bloom",
+        "title": "Bloom (ปล่อยก๊าซ CO₂)",
+        "description": "เทน้ำประมาณ 2 เท่าของกาแฟ (30 ml สำหรับ 15 g) รออย่างน้อย 30 วิ ให้กาแฟฟูและปล่อยก๊าซ",
+        "hint": "กาแฟสดจะฟูขึ้นมาก กาแฟเก่าฟูน้อย ใช้สังเกตความสดได้",
+        "interactionType": "timer",
+        "variable": "bloomTime",
+        "duration": 30,
+        "unit": "วินาที",
+        "flavorImpact": {}
+      },
+      {
+        "id": "pour",
+        "title": "เทน้ำเป็นวงกลม",
+        "description": "ค่อยๆ เทน้ำเป็นวงกลมจากในออกนอก ช้าๆ สม่ำเสมอ จนครบปริมาณ",
+        "hint": "เทช้า = เวลาสัมผัสนาน = กาแฟเข้มขึ้น / เทเร็ว = รสเบา",
+        "interactionType": "slider",
+        "variable": "pourSpeed",
+        "min": 1,
+        "max": 5,
+        "step": 1,
+        "default": 3,
+        "unit": "ระดับความเร็ว (1=ช้า 5=เร็ว)",
+        "flavorImpact": {
+          "bitterness": 0.2,
+          "body": 0.15,
+          "sourness": -0.1
+        }
+      }
+    ],
+    "image": "/simulator/equipment/drip.jpg"
+  },
+  {
+    "id": "french_press",
+    "nameTh": "French Press",
+    "emoji": "🧉",
+    "description": "แช่กาแฟในน้ำร้อนแล้วกด plunger บอดี้หนักสุดในบรรดาวิธีกรอง",
+    "grind": "หยาบ",
+    "waterTemp": "93–96°C",
+    "resultType": "direct",
+    "compatibleMenuIds": [
+      "french_press_coffee"
+    ],
+    "steps": [
+      {
+        "id": "add_coffee",
+        "title": "ใส่กาแฟลงกา",
+        "description": "ใส่กาแฟบดหยาบลงใน French Press อัตรา 1:15 (กาแฟ:น้ำ)",
+        "hint": "15 กรัม ต่อน้ำ 225 ml บดหยาบกว่า drip เล็กน้อย",
+        "interactionType": "drag",
+        "variable": "coffeeAmount",
+        "min": 10,
+        "max": 30,
+        "step": 0.5,
+        "default": 15,
+        "unit": "กรัม",
+        "flavorImpact": {
+          "bitterness": 0.3,
+          "body": 0.45,
+          "aroma": 0.2
+        }
+      },
+      {
+        "id": "water_temp",
+        "title": "ต้มน้ำ",
+        "description": "ต้มน้ำให้ได้ 93–96°C",
+        "hint": "อุณหภูมิสูงกว่า drip เล็กน้อย เพราะ French Press แช่นาน",
+        "interactionType": "slider",
+        "variable": "waterTemp",
+        "min": 88,
+        "max": 98,
+        "step": 1,
+        "default": 94,
+        "unit": "°C",
+        "flavorImpact": {
+          "bitterness": 0.25,
+          "sourness": -0.1
+        }
+      },
+      {
+        "id": "steep",
+        "title": "แช่กาแฟ",
+        "description": "เทน้ำลง คนเบาๆ ปิดฝา (ยังไม่กด plunger) รอ 4 นาที",
+        "hint": "4 นาทีเป็นมาตรฐาน แช่นานกว่านี้อาจทำให้ขมและฝาดมากขึ้น",
+        "interactionType": "timer",
+        "variable": "steepTime",
+        "duration": 240,
+        "unit": "วินาที",
+        "flavorImpact": {}
+      },
+      {
+        "id": "press",
+        "title": "กด Plunger",
+        "description": "กด plunger ลงช้าๆ สม่ำเสมอ ใช้เวลา 20–30 วิ ห้ามกดเร็ว",
+        "hint": "ถ้ากดยากเกินไป แสดงว่าบดละเอียดเกิน ลองบดหยาบขึ้น",
+        "interactionType": "press",
+        "variable": "pressed",
+        "label": "กด Plunger แล้ว",
+        "flavorImpact": {
+          "body": 0.1
+        }
+      }
+    ],
+    "image": "/simulator/equipment/french_press.jpg"
+  }
+]

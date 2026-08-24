@@ -1,8 +1,9 @@
 ﻿import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import MenuItems from "../data/menuItems.json";
+import BackToTop from "../components/BackToTop";
+import FetchError from "../components/FetchError";
+import { fetchMenus } from "../api/contentApi";
 
 function CoffeeBeans() {
   const [activeFilter, setActiveFilter] = useState("กาแฟทั้งหมด");
@@ -13,7 +14,19 @@ function CoffeeBeans() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const menuItems = MenuItems;
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [fetchSignal, setFetchSignal] = useState(0);
+
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    fetchMenus()
+      .then(setMenuItems)
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [fetchSignal]);
 
   // ----- Utils -----
   const scrollToTopWithOffset = () => {
@@ -88,12 +101,7 @@ function CoffeeBeans() {
   // NEW: ส่ง recipe → หน้าเลือกวิธี พร้อม state
   const handleTryIt = () => {
     if (!selectedItem) return;
-    navigate("/select", {
-      state: {
-        recipeId: selectedItem.name,
-        recipe: selectedItem,   // แนบข้อมูลไปด้วย (กันกรณีเปิดแท็บใหม่)
-      },
-    });
+    navigate("/brew", { state: { menuName: selectedItem.name } });
   };
 
   const filteredItems = menuItems.filter((item) => {
@@ -110,19 +118,61 @@ function CoffeeBeans() {
     setSearchTerm("");
   };
 
+  if (error) return (
+    <div className="flex flex-col min-h-screen bg-[#f3f1ec]">
+      <Navbar />
+      <div className="flex-grow flex items-center justify-center">
+        <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
+      </div>
+    </div>
+  );
+
   return (
     <div className="flex flex-col min-h-screen bg-[#f3f1ec]">
       <Navbar />
+      <BackToTop />
+
+      {/* HERO — แสดงเฉพาะตอน list view */}
+      {!selectedItem && (
+        <header className="relative isolate overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#4b2f1a] via-[#7b4b29] to-[#d9c4aa]" />
+          <div className="relative mx-auto max-w-7xl px-4 md:px-8 h-[22vh] flex items-center">
+            <div className="text-white">
+              <p className="uppercase tracking-widest text-xs text-white/70 mb-1">Menu</p>
+              <h1 className="text-2xl md:text-4xl font-extrabold">เมนูกาแฟ</h1>
+              <p className="mt-1 text-white/80 text-sm">กรองตามหมวดหมู่ ดูสูตรทำแบบละเอียดทุกเมนู</p>
+            </div>
+          </div>
+        </header>
+      )}
+
       <main ref={mainRef} className="flex-1 lg:p-6 sm:p-0">
         {/* =============== DETAIL VIEW =============== */}
         {selectedItem ? (
           <div className="bg-white rounded-2xl shadow-md p-5 md:p-6">
-            <button
-              onClick={handleBack}
-              className="mb-4 rounded-full px-4 py-2 text-sm bg-[#6f4e37] text-white hover:opacity-90"
-            >
-              ← ย้อนกลับ
-            </button>
+            {/* แถบปุ่มหลักของหน้า — ย้อนกลับ + ลองชง อยู่กล่องเดียวกัน */}
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#faf6f3] ring-1 ring-black/5 px-3 py-3 sm:px-4">
+              <button
+                onClick={handleBack}
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#6f4e37]/25 bg-white px-4 py-2 text-sm font-medium text-[#6f4e37] transition hover:bg-[#6f4e37] hover:text-white"
+              >
+                <span aria-hidden="true">←</span>
+                ย้อนกลับ
+              </button>
+
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span className="hidden sm:inline text-sm text-neutral-500">
+                  เปิดแบบจำลองการชงแบบทีละขั้นตอน
+                </span>
+                <button
+                  onClick={handleTryIt}
+                  className="inline-flex items-center gap-2 rounded-full bg-[#6f4e37] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#6f4e37]/25 transition hover:bg-[#5b3f2c] hover:shadow-xl active:scale-[.98]"
+                >
+                  <span aria-hidden="true">☕</span>
+                  ลองชงเมนูนี้
+                </button>
+              </div>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
               <figure className="lg:col-span-5">
@@ -231,14 +281,6 @@ function CoffeeBeans() {
                   </div>
                 </section>
 
-                <div className="pt-2">
-                  <button
-                    onClick={handleTryIt}
-                    className="rounded-full bg-[#6f4e37] px-6 py-3 text-white font-semibold shadow hover:opacity-90"
-                  >
-                    ลองทำ
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -336,6 +378,13 @@ function CoffeeBeans() {
               </div>
 
               {/* Grid cards */}
+              {loading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="rounded-2xl bg-[#e0d8ce] animate-pulse h-56" />
+                  ))}
+                </div>
+              ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
                 {filteredItems.map((item, idx) => {
                   const tags = getTags(item);
@@ -395,13 +444,13 @@ function CoffeeBeans() {
                   );
                 })}
               </div>
+              )}
 
               <div className="h-4 md:h-6" />
             </div>
           </section>
         )}
       </main>
-      <Footer />
     </div>
   );
 }

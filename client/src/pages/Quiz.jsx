@@ -1,6 +1,5 @@
 ﻿import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { useAuth } from "../contexts/AuthContext";
 
 const quizzes = [
@@ -46,7 +45,6 @@ const Quiz = () => {
           ))}
         </div>
       </main>
-      <Footer />
     </div>
   );
 };

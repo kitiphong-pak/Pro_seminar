@@ -13,7 +13,7 @@ export function NextHint({ method, flow, requiredSteps, stepsForMethod, canStart
     tipTitle = "กำลังชง";
     tipBodyNode = (
       <div className="text-sm space-y-1.5">
-        <div><b>ทำยังไง:</b> จับเวลาแล้วกด "หยุด" ใกล้เป้าหมาย</div>
+        <div><b>ทำยังไง:</b> จับเวลาแล้วกด &quot;หยุด&quot; ใกล้เป้าหมาย</div>
         <div><b>ทิป:</b> เกินเป้าหมาย → เข้ม/ขม • ต่ำกว่าเป้า → ใส/เปรี้ยว</div>
       </div>
     );
@@ -26,7 +26,7 @@ export function NextHint({ method, flow, requiredSteps, stepsForMethod, canStart
     tipTitle = "เริ่มชง";
     tipBodyNode = (
       <div className="text-sm space-y-1.5">
-        <div><b>ทำยังไง:</b> กด "ตั้งไฟ / เริ่ม" ให้ระบบจับเวลา</div>
+        <div><b>ทำยังไง:</b> กด &quot;ตั้งไฟ / เริ่ม&quot; ให้ระบบจับเวลา</div>
         <div><b>ทิป:</b> ตั้งเป้าเวลาให้เหมาะกับเมธอดเพื่อรสที่ตั้งใจ</div>
       </div>
     );

@@ -1,244 +1,242 @@
-﻿import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
-import { updateUserAchievement } from "../firebase/firebaseAchievements";
+import { updateUserAchievement } from "../api/achievementApi";
 import { useAuth } from "../contexts/AuthContext";
+import { fetchRoasting } from "../api/contentApi";
+import FetchError from "../components/FetchError";
 
 const CoffeeInfo = () => {
   const [selectedRoast, setSelectedRoast] = useState("คั่วอ่อน (Light Roast)");
+  const [roastings, setRoastings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [fetchSignal, setFetchSignal] = useState(0);
   const { user } = useAuth();
   const uid = user?.uid ?? null;
 
-  const coffeeData = {
-    "คั่วอ่อน (Light Roast)": {
-      alias: "Cinnamon Roast, New England Roast",
-      color: "เมล็ดกาแฟสีอ่อน มักมีสีระหว่างน้ำตาลอ่อนถึงสีน้ำตาลกลาง",
-      taste: [
-        "รสชาติที่สดชื่นและเปรี้ยว มักจะมีโน้ตของผลไม้ เช่น เบอร์รี่และกลิ่นดอกไม้",
-        "ความหวานที่น้อยกว่าระดับการคั่วที่สูงขึ้น",
-        "สามารถสะท้อนลักษณะความเป็นธรรมชาติของกาแฟได้ดี",
-      ],
-      characteristics: [
-        "ไม่มีน้ำมันบนผิวเมล็ด",
-        "เมล็ดกาแฟจะไม่เกิดการแตก (first crack)",
-        "เหมาะสำหรับกาแฟพิเศษ (Specialty Coffee)",
-        "เหมาะสำหรับการชงแบบ Pour Over หรือ Aeropress",
-      ],
-      img: "/roasting/roasting1.png",
-    },
-    "คั่วกลาง (Medium Roast)": {
-      alias: "City Roast, Breakfast Roast",
-      color: "เมล็ดกาแฟมีสีน้ำตาลกลาง",
-      taste: [
-        "รสชาติสมดุลระหว่างความเปรี้ยว ความหวาน และความขม",
-        "มักมีโน้ตของช็อกโกแลตและถั่ว",
-        "ยังคงมีความสดชื่นในระดับหนึ่ง แต่รสชาติความคั่วจะเด่นขึ้น",
-      ],
-      characteristics: [
-        "มีน้ำมันเล็กน้อยบนผิวเมล็ด",
-        "เหมาะสำหรับการชงด้วยวิธีหลากหลาย เช่น Drip, French Press หรือ Espresso",
-        "เหมาะสำหรับการดื่มในแบบที่ไม่มีส่วนผสม เช่น กาแฟดำ",
-        "เป็นที่นิยมในหมู่นักดื่มกาแฟที่ชอบรสชาติกาแฟแบบสมดุล",
-      ],
-      img: "/roasting/roasting2.JPG",
-    },
-    "คั่วเข้ม (Dark Roast)": {
-      alias: "Full City Roast, Vienna Roast",
-      color: "เมล็ดกาแฟมีสีน้ำตาลเข้มถึงดำ",
-      taste: [
-        "รสชาติขมเข้มข้นและมีความคั่วเด่นชัด",
-        "โน้ตของคาราเมลและช็อกโกแลตเข้ม",
-        "ความเปรี้ยวลดลงแทบหมดไป แต่ความหวานจากการคั่วจะเด่นขึ้น",
-      ],
-      characteristics: [
-        "ผิวเมล็ดมันเนื่องจากมีน้ำมันออกมา",
-        "เหมาะสำหรับการชงกาแฟเอสเพรสโซ และกาแฟที่มีส่วนผสม เช่น ลาเต้หรือคาปูชิโน่",
-        "ให้รสชาติหนักแน่น เหมาะสำหรับผู้ที่ชอบกาแฟเข้มข้น",
-        "บางครั้งจะมีกลิ่นหอมคล้ายควันหรือถ่านเล็กน้อย",
-      ],
-      img: "/roasting/roasting3.PNG",
-    },
-    "คั่วเข้มมาก (Very Dark Roast)": {
-      alias: "French Roast, Italian Roast",
-      color: "เมล็ดกาแฟมีสีน้ำตาลเข้มถึงดำสนิท",
-      taste: [
-        "รสชาติขมเข้มข้นมาก เน้นรสคั่วอย่างชัดเจน",
-        "โน้ตของคาราเมลไหม้และความเผ็ดร้อนเล็กน้อยจากการคั่วนาน",
-        "ไม่มีรสชาติผลไม้หรือความเปรี้ยวหลงเหลืออยู่",
-      ],
-      characteristics: [
-        "ผิวเมล็ดมันมากเนื่องจากมีน้ำมันออกมาเยอะ",
-        "เหมาะสำหรับการชงกาแฟเอสเพรสโซแบบเข้มข้น หรือกาแฟแบบอเมริกาโน่",
-        "รสชาติของเมล็ดกาแฟดั้งเดิมจะถูกกลบด้วยรสคั่วที่โดดเด่น",
-        "บางครั้งอาจมีกลิ่นหอมควันไฟที่ชัดเจน",
-      ],
-      img: "/roasting/roasting4.PNG",
-    },
-  };
+  useEffect(() => {
+    setLoading(true);
+    setError(null);
+    fetchRoasting()
+      .then(setRoastings)
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, [fetchSignal]);
+
+  const coffeeData = useMemo(() => {
+    const obj = {};
+    roastings.forEach((r) => { obj[r.key] = r; });
+    return obj;
+  }, [roastings]);
 
   const data = coffeeData[selectedRoast];
+  const meterValue = data?.meterValue ?? 0;
+  const recommendBrews = data?.recommendBrews ?? [];
 
-  // แผนภาพ Roast Meter (ตำแหน่งตัวชี้ 0 → 100)
-  const meterValue = useMemo(() => {
-    if (selectedRoast.includes("อ่อน")) return 15;
-    if (selectedRoast.includes("กลาง")) return 45;
-    if (selectedRoast.includes("เข้มมาก")) return 88;
-    return 68; // เข้ม
-  }, [selectedRoast]);
-
-  // วิธีชงที่เหมาะ
-  const recommendBrews = useMemo(() => {
-    if (selectedRoast.includes("อ่อน")) return ["Pour Over", "Aeropress", "Chemex"];
-    if (selectedRoast.includes("กลาง")) return ["Drip", "French Press", "Espresso"];
-    if (selectedRoast.includes("เข้มมาก")) return ["Espresso Ristretto", "Americano", "Mocha"];
-    return ["Espresso", "Latte", "Cappuccino"];
-  }, [selectedRoast]);
-
-  // บันทึก Achievement เมื่อเลื่อนเกือบสุด
   useEffect(() => {
     if (!uid) return;
     const onScroll = () => {
       const docH = document.documentElement.scrollHeight;
       const winH = window.innerHeight;
-      if (window.scrollY + winH >= docH - 100) {
+      if (window.scrollY + winH >= docH - 100)
         updateUserAchievement(uid, "content", "roasting_coffee", true);
-      }
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [uid]);
+
+  if (error) return (
+    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex-grow flex items-center justify-center">
+        <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
+      </div>
+    </div>
+  );
+
+  if (loading) return (
+    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+      <Navbar />
+      <div className="flex-grow flex items-center justify-center">
+        <div className="space-y-4 w-full max-w-3xl px-4">
+          <div className="h-8 rounded-xl bg-[#e0d8ce] animate-pulse w-1/3 mx-auto" />
+          <div className="flex gap-3 justify-center">
+            {[...Array(4)].map((_, i) => <div key={i} className="h-10 w-32 rounded-full bg-[#e0d8ce] animate-pulse" />)}
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="h-64 rounded-2xl bg-[#e0d8ce] animate-pulse" />
+            <div className="h-64 rounded-2xl bg-[#e0d8ce] animate-pulse" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="bg-[#f3f1ec] min-h-screen">
       <Navbar />
 
       {/* HERO */}
-      <header className="relative isolate overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#6f4e37] via-[#8b5e3c] to-[#d9c4aa]" />
-        <div className="relative mx-auto max-w-6xl px-4 md:px-8 py-10 text-center text-white">
-          <h1 className="text-2xl md:text-4xl font-extrabold">ระดับการคั่วกาแฟ</h1>
-          <p className="mt-2 opacity-90">รู้จักบุคลิกของกาแฟแต่ละระดับ—ตั้งแต่สดชื่นผลไม้ จนถึงเข้มควันไฟ</p>
-        </div>
+      <header className="bg-gradient-to-r from-[#4b2f1a] via-[#7b4b29] to-[#d9c4aa] py-10 text-center text-white">
+        <p className="text-xs uppercase tracking-widest text-white/70 mb-2">Roasting Levels</p>
+        <h1 className="text-3xl md:text-4xl font-extrabold">ระดับการคั่วกาแฟ</h1>
+        <p className="mt-2 text-white/80 text-sm">รู้จักบุคลิกของกาแฟแต่ละระดับ ตั้งแต่สดชื่นผลไม้ไปจนถึงเข้มควันไฟ</p>
       </header>
 
-      {/* Tabs ระดับคั่ว */}
-      <div className="sticky top-0 z-10 bg-[#f3f1ec]/90 backdrop-blur border-b border-brown/10">
-        <div className="max-w-6xl mx-auto px-4 md:px-8 py-3 flex gap-2 flex-wrap justify-center">
+      {/* Tabs */}
+      <div className="sticky top-0 z-10 bg-[#f3f1ec]/95 backdrop-blur border-b border-black/10 shadow-sm">
+        <div className="max-w-5xl mx-auto py-3">
+          <div className="-mx-0 overflow-x-auto">
+          <div className="px-4 flex gap-2 whitespace-nowrap">
           {Object.keys(coffeeData).map((label) => {
             const active = selectedRoast === label;
             return (
               <button
                 key={label}
-                onClick={() => window.requestAnimationFrame(() => setSelectedRoast(label))}
+                onClick={() => setSelectedRoast(label)}
                 className={[
-                  "px-4 py-2 rounded-full text-sm font-medium border transition shadow-sm",
+                  "shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-all",
                   active
-                    ? "bg-[#8b4513] text-white border-[#8b4513]"
-                    : "bg-white text-[#2a1c14] border-[#2a1c14]/20 hover:bg-white/90",
+                    ? "bg-[#5c3a1e] text-white border-[#5c3a1e] shadow"
+                    : "bg-white text-[#3d2010] border-black/10 hover:border-[#7b4b29]/40 hover:bg-[#f7efe6]",
                 ].join(" ")}
-                aria-pressed={active}
               >
                 {label}
               </button>
             );
           })}
+          </div>
+          </div>
         </div>
       </div>
 
       {/* Content */}
-      <main className="max-w-6xl mx-auto px-4 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+      <main className="max-w-5xl mx-auto px-4 py-8 pb-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
           {/* รูป */}
-          <figure className="lg:col-span-5 self-stretch">
-            <div className="relative h-full w-full min-h-[300px] rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.14)]">
+          <figure className="lg:col-span-5">
+            <div className="rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
               <img
                 src={data.img}
-                alt={`${selectedRoast} Coffee Beans`}
-                className="h-full w-full object-cover"
+                alt={selectedRoast}
+                className="w-full h-full object-cover"
               />
-              <span className="absolute bottom-3 left-3 rounded-full bg-white/85 px-3 py-1 text-[11px] text-neutral-700 backdrop-blur">
-                ภาพตัวอย่างเมล็ด
-              </span>
             </div>
           </figure>
 
-          {/* การ์ดรายละเอียด */}
-          <section className="lg:col-span-7 self-stretch">
-            <div className="h-full bg-white rounded-2xl shadow p-6 flex flex-col">
-              <h2 className="text-2xl md:text-3xl font-bold text-center text-[#5c4033]">
-                {selectedRoast}
-              </h2>
+          {/* รายละเอียด */}
+          <div className="lg:col-span-7 space-y-5">
 
-              {/* Roast Meter */}
-              <div className="mt-4">
-                <div className="flex items-center justify-between text-xs text-[#2a1c14]/70">
-                  <span>Light</span>
-                  <span>Dark</span>
-                </div>
-                <div className="relative mt-1 h-2 w-full rounded-full bg-gradient-to-r from-[#d7ccc8] via-[#8d6e63] to-[#4e342e]">
-                  <span
-                    className="absolute -top-1.5 h-5 w-5 rounded-full bg-white shadow ring-2 ring-[#2a1c14]/20 transition-[left] duration-300"
-                    style={{ left: `calc(${meterValue}% - 10px)` }}
-                    aria-hidden="true"
-                  />
-                </div>
-              </div>
-
-              {/* Alias / สี */}
-              <div className="mt-5 flex flex-wrap gap-2">
-                <span className="rounded-full bg-[#f7efe6] text-[#7b4b29] text-xs px-3 py-1">
-                  ชื่อเรียกอื่น: {data.alias}
-                </span>
-                <span className="rounded-full bg-[#efe7da] text-[#7b4b29] text-xs px-3 py-1">
-                  สี: {data.color}
-                </span>
-              </div>
-
-              {/* รสชาติ */}
-              <div className="mt-6">
-                <p className="font-semibold text-[#2a1c14] mb-2">รสชาติ</p>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 list-disc list-inside text-[#2a1c14]/90">
-                  {data.taste.map((t, i) => (
-                    <li key={i}>{t}</li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* ลักษณะ */}
-              <div className="mt-6">
-                <p className="font-semibold text-[#2a1c14] mb-2">ลักษณะ</p>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 list-disc list-inside text-[#2a1c14]/90">
-                  {data.characteristics.map((c, i) => (
-                    <li key={i}>{c}</li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* วิธีชงที่เหมาะ */}
-              <div className="mt-6">
-                <p className="font-semibold text-[#2a1c14] mb-2">วิธีชงที่แนะนำ</p>
-                <div className="flex flex-wrap gap-2">
-                  {recommendBrews.map((b) => (
-                    <span
-                      key={b}
-                      className="rounded-full border border-[#2a1c14]/20 px-3 py-1 text-sm text-[#2a1c14] bg-white"
-                    >
-                      {b}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* ทิปเล็ก ๆ */}
-              <div className="mt-6 rounded-xl bg-[#fff7ec] text-[#7b4b29] p-4 text-sm">
-                เคล็ดลับ: เลือกระดับคั่วให้เข้ากับวิธีชง—คั่วอ่อนเหมาะกับการดริปที่เน้นกลิ่นผลไม้
-                ส่วนคั่วเข้มเหมาะกับเอสเพรสโซหรือเมนูนมที่ต้องการบอดี้ชัด ๆ
+            {/* ชื่อ + chips */}
+            <div>
+              <h2 className="text-2xl font-bold text-[#3d2010]">{selectedRoast}</h2>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">{data.alias}</span>
+                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">🌡️ {data.temperature}</span>
+                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">⚡ คาเฟอีน{data.caffeineLevel}</span>
               </div>
             </div>
-          </section>
+
+            {/* Roast Meter */}
+            <div>
+              <p className="text-xs font-semibold text-[#5c4033]/60 uppercase tracking-wider mb-2">ระดับการคั่ว</p>
+              <div className="relative h-3 w-full rounded-full bg-gradient-to-r from-[#e8d5b0] via-[#9b6035] to-[#2a1208]">
+                <span
+                  className="absolute top-1/2 -translate-y-1/2 h-5 w-5 rounded-full bg-white shadow ring-2 ring-[#7b4b29]/30 transition-[left] duration-500"
+                  style={{ left: `calc(${meterValue}% - 10px)` }}
+                />
+              </div>
+              <div className="grid grid-cols-4 text-[10px] text-[#5c4033]/40 mt-1">
+                <span>Light</span><span className="text-center">Med-Light</span><span className="text-center">Medium</span><span className="text-right">Dark</span>
+              </div>
+            </div>
+
+            {/* Flavor Profile */}
+            <div className="bg-white rounded-xl p-4 shadow-sm">
+              <p className="text-xs font-semibold text-[#5c4033]/60 uppercase tracking-wider mb-3">Flavor Profile</p>
+              {[
+                { label: "ความเปรี้ยว", value: data.acidity },
+                { label: "บอดี้",        value: data.body },
+                { label: "กลิ่นหอม",    value: data.aroma },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex items-center gap-3 mb-2 last:mb-0">
+                  <span className="text-xs text-[#5c4033]/70 w-20 shrink-0">{label}</span>
+                  <div className="flex-1 h-2 rounded-full bg-[#ede5d8]">
+                    <div
+                      className="h-2 rounded-full bg-[#7b4b29] transition-[width] duration-500"
+                      style={{ width: `${(value / 5) * 100}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-[#5c4033]/40 w-6 text-right">{value}/5</span>
+                </div>
+              ))}
+            </div>
+
+            {/* รสชาติ */}
+            <div>
+              <p className="text-sm font-semibold text-[#3d2010] mb-2">รสชาติ</p>
+              <ul className="space-y-1">
+                {data.taste.map((t, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-[#2a1c14]/80">
+                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#c47a3a] shrink-0" />{t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* ลักษณะ */}
+            <div>
+              <p className="text-sm font-semibold text-[#3d2010] mb-2">ลักษณะ</p>
+              <ul className="space-y-1">
+                {data.characteristics.map((c, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-[#2a1c14]/80">
+                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#7b4b29] shrink-0" />{c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* เหมาะกับ */}
+            <div>
+              <p className="text-sm font-semibold text-[#3d2010] mb-1">เหมาะกับ</p>
+              <p className="text-sm text-[#2a1c14]/75 leading-6">{data.suitableFor}</p>
+            </div>
+
+            {/* แหล่งกาแฟ */}
+            <div>
+              <p className="text-sm font-semibold text-[#3d2010] mb-2">แหล่งกาแฟที่เหมาะ</p>
+              <div className="flex flex-wrap gap-2">
+                {(data.origins ?? []).map((o) => (
+                  <span key={o} className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">
+                    {o}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* วิธีชง */}
+            <div>
+              <p className="text-sm font-semibold text-[#3d2010] mb-2">วิธีชงที่แนะนำ</p>
+              <div className="flex flex-wrap gap-2">
+                {recommendBrews.map((b) => (
+                  <span key={b} className="rounded-full bg-[#3d2010] text-white text-sm px-4 py-1.5">
+                    {b}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* เคล็ดลับ */}
+        <div className="mt-6 rounded-xl bg-[#fff7ec] border border-[#e8c88a] p-4 text-sm text-[#7b4b29]">
+          <span className="font-semibold">💡 เคล็ดลับ: </span>
+          เลือกระดับคั่วให้เข้ากับวิธีชง คั่วอ่อนเหมาะกับดริปที่เน้นกลิ่นผลไม้ ส่วนคั่วเข้มเหมาะกับเอสเปรสโซหรือเมนูนมที่ต้องการบอดี้ชัด
         </div>
       </main>
-      <Footer />
+
     </div>
   );
 };

@@ -1,0 +1,358 @@
+[
+  {
+    "id": "espresso",
+    "nameTh": "Espresso",
+    "requiresEspresso": true,
+    "addOnSteps": [],
+    "flavorBase": {
+      "sweetness": 1,
+      "bitterness": 5,
+      "sourness": 3,
+      "body": 4,
+      "aroma": 4
+    },
+    "nutritionBase": {
+      "calories": 5,
+      "caffeine": 64,
+      "fat": 0.1,
+      "water": 30
+    }
+  },
+  {
+    "id": "americano",
+    "nameTh": "Americano",
+    "requiresEspresso": true,
+    "addOnSteps": [
+      {
+        "id": "add_water",
+        "title": "เติมน้ำร้อน",
+        "description": "เทน้ำร้อน 80–85°C ลงแก้วก่อน แล้วเทเอสเปรสโซตาม (crema จะลอยอยู่ด้านบน)",
+        "hint": "ยิ่งเติมน้ำมาก = ยิ่งเจือจาง เลือกตามความชอบ",
+        "interactionType": "pour",
+        "variable": "waterRatio",
+        "min": 1,
+        "max": 4,
+        "step": 0.5,
+        "default": 2,
+        "unit": "ส่วน (ต่อ 1 ส่วนเอสเปรสโซ)",
+        "flavorImpact": {
+          "bitterness": -0.4,
+          "body": -0.35,
+          "sweetness": 0.1
+        }
+      }
+    ],
+    "flavorBase": {
+      "sweetness": 1,
+      "bitterness": 3,
+      "sourness": 2,
+      "body": 2,
+      "aroma": 3
+    },
+    "nutritionBase": {
+      "calories": 5,
+      "caffeine": 64,
+      "fat": 0.1,
+      "water": 30
+    }
+  },
+  {
+    "id": "latte",
+    "nameTh": "Latte",
+    "requiresEspresso": true,
+    "addOnSteps": [
+      {
+        "id": "steam_milk",
+        "title": "ทำ Steam Milk",
+        "description": "ทำนมให้ได้ texture ครีมมี่ ฟองละเอียด อุณหภูมิ 60–65°C",
+        "hint": "นมเย็นช่วยให้ steam ได้นาน อย่าเกิน 70°C นมจะสูญเสียความหวาน",
+        "interactionType": "pour",
+        "variable": "milkAmount",
+        "min": 100,
+        "max": 300,
+        "step": 10,
+        "default": 200,
+        "unit": "ml",
+        "flavorImpact": {
+          "sweetness": 0.4,
+          "bitterness": -0.5,
+          "body": 0.3
+        }
+      },
+      {
+        "id": "pour_milk",
+        "title": "เทนมลงแก้ว",
+        "description": "เทนม steam ลงแก้วที่มีเอสเปรสโซ ช้าๆ จากระยะใกล้ให้ฟองลอยอยู่บน",
+        "hint": "เทจากระยะสูงก่อนแล้วค่อยลดต่ำ ช่วยให้ฟองออกมาเป็นชั้น",
+        "interactionType": "pour",
+        "variable": "milkPoured",
+        "label": "เทนมแล้ว",
+        "flavorImpact": {}
+      },
+      {
+        "id": "latte_art",
+        "title": "Latte Art (ไม่บังคับ)",
+        "description": "วาดลาย latte art ด้วยการขยับแก้วและ pitcher",
+        "hint": "ฝึกลายหัวใจก่อน: เท→ขยับ pitcher ซ้ายขวาตอนน้ำนมใกล้เต็ม",
+        "interactionType": "choice",
+        "variable": "hasLatteArt",
+        "options": [
+          {
+            "value": true,
+            "label": "วาด Latte Art"
+          },
+          {
+            "value": false,
+            "label": "ข้าม"
+          }
+        ],
+        "default": false,
+        "flavorImpact": {}
+      }
+    ],
+    "flavorBase": {
+      "sweetness": 3,
+      "bitterness": 2,
+      "sourness": 1,
+      "body": 3,
+      "aroma": 3
+    },
+    "nutritionBase": {
+      "calories": 5,
+      "caffeine": 64,
+      "fat": 0.1,
+      "water": 30
+    }
+  },
+  {
+    "id": "cappuccino",
+    "nameTh": "Cappuccino",
+    "requiresEspresso": true,
+    "addOnSteps": [
+      {
+        "id": "steam_foam",
+        "title": "ทำ Steam Foam",
+        "description": "ทำนมให้มีฟองหนาขึ้น (microfoam) โดยใส่ wand ตื้นกว่า latte เพื่อดึงอากาศเข้า",
+        "hint": "ฟองน้อย = Wet cappuccino / ฟองมาก = Dry cappuccino",
+        "interactionType": "choice",
+        "variable": "foamStyle",
+        "options": [
+          {
+            "value": "wet",
+            "label": "Wet (นมมาก ฟองน้อย)"
+          },
+          {
+            "value": "classic",
+            "label": "Classic (1:1:1)"
+          },
+          {
+            "value": "dry",
+            "label": "Dry (ฟองมาก นมน้อย)"
+          }
+        ],
+        "default": "classic",
+        "flavorImpact": {
+          "sweetness": 0.15,
+          "bitterness": -0.15,
+          "body": 0.1
+        }
+      },
+      {
+        "id": "pour_cap",
+        "title": "เทนม+ฟองลงแก้ว",
+        "description": "เทนม steam ลงให้ชั้นล่างเป็นนม ชั้นบนเป็นฟอง sprinkle ด้วย cocoa powder ถ้าชอบ",
+        "hint": "Cappuccino ดั้งเดิมไม่มี cocoa แต่บ้านเราใส่กันแล้ว",
+        "interactionType": "pour",
+        "variable": "capPoured",
+        "label": "เทเสร็จแล้ว",
+        "flavorImpact": {}
+      }
+    ],
+    "flavorBase": {
+      "sweetness": 2,
+      "bitterness": 3,
+      "sourness": 1,
+      "body": 3,
+      "aroma": 3
+    },
+    "nutritionBase": {
+      "calories": 5,
+      "caffeine": 64,
+      "fat": 0.1,
+      "water": 30
+    }
+  },
+  {
+    "id": "mocha",
+    "nameTh": "Mocha",
+    "requiresEspresso": true,
+    "addOnSteps": [
+      {
+        "id": "add_chocolate",
+        "title": "เติมซอสช็อกโกแลต",
+        "description": "เติมซอสช็อกโกแลตลงแก้วก่อนเอสเปรสโซ ช่วยให้ผสมกันดีขึ้น",
+        "hint": "1 ช้อนโต๊ะ = ช็อกพอดี / 2+ ช้อนโต๊ะ = หวานเข้มข้นมาก",
+        "interactionType": "pour",
+        "variable": "chocolateAmount",
+        "min": 0.5,
+        "max": 4,
+        "step": 0.5,
+        "default": 1.5,
+        "unit": "ช้อนโต๊ะ",
+        "flavorImpact": {
+          "sweetness": 0.5,
+          "bitterness": 0.1,
+          "body": 0.1
+        }
+      },
+      {
+        "id": "steam_milk_mocha",
+        "title": "ทำ Steam Milk",
+        "description": "ทำนม steam ประมาณ 100–200 ml สำหรับ mocha",
+        "hint": "นมน้อยกว่า latte ให้รสช็อกและกาแฟชัดขึ้น",
+        "interactionType": "pour",
+        "variable": "milkAmount",
+        "min": 60,
+        "max": 200,
+        "step": 10,
+        "default": 120,
+        "unit": "ml",
+        "flavorImpact": {
+          "sweetness": 0.2,
+          "bitterness": -0.25,
+          "body": 0.15
+        }
+      },
+      {
+        "id": "whipped_cream",
+        "title": "วิปครีม (ไม่บังคับ)",
+        "description": "วางวิปครีมด้านบน ราดซอสช็อกโกแลตเพิ่มได้",
+        "hint": "วิปครีมเพิ่มความครีมมี่ และช่วยลดความขมของกาแฟ",
+        "interactionType": "choice",
+        "variable": "hasWhippedCream",
+        "options": [
+          {
+            "value": true,
+            "label": "ใส่วิปครีม"
+          },
+          {
+            "value": false,
+            "label": "ไม่ใส่"
+          }
+        ],
+        "default": false,
+        "flavorImpact": {
+          "sweetness": 0.2,
+          "bitterness": -0.15
+        }
+      }
+    ],
+    "flavorBase": {
+      "sweetness": 4,
+      "bitterness": 2,
+      "sourness": 1,
+      "body": 3,
+      "aroma": 3
+    },
+    "nutritionBase": {
+      "calories": 5,
+      "caffeine": 64,
+      "fat": 0.1,
+      "water": 30
+    }
+  },
+  {
+    "id": "macchiato",
+    "nameTh": "Macchiato",
+    "requiresEspresso": true,
+    "addOnSteps": [
+      {
+        "id": "add_foam",
+        "title": "ตักฟองนมวางบนเอสเปรสโซ",
+        "description": "ตักฟองนมครีมมี่ 1–2 ช้อนโต๊ะวางลงบนหน้าเอสเปรสโซ",
+        "hint": "Macchiato แปลว่า 'ถูกทำเครื่องหมาย' ใส่ฟองนมแค่นิดเดียวบนเอสเปรสโซ",
+        "interactionType": "pour",
+        "variable": "foamAmount",
+        "min": 0.5,
+        "max": 3,
+        "step": 0.5,
+        "default": 1.5,
+        "unit": "ช้อนโต๊ะ",
+        "flavorImpact": {
+          "sweetness": 0.2,
+          "bitterness": -0.2
+        }
+      }
+    ],
+    "flavorBase": {
+      "sweetness": 2,
+      "bitterness": 4,
+      "sourness": 2,
+      "body": 3,
+      "aroma": 4
+    },
+    "nutritionBase": {
+      "calories": 5,
+      "caffeine": 64,
+      "fat": 0.1,
+      "water": 30
+    }
+  },
+  {
+    "id": "drip_coffee",
+    "nameTh": "Drip Coffee",
+    "requiresEspresso": false,
+    "addOnSteps": [],
+    "flavorBase": {
+      "sweetness": 2,
+      "bitterness": 2,
+      "sourness": 3,
+      "body": 2,
+      "aroma": 4
+    },
+    "nutritionBase": {
+      "calories": 5,
+      "caffeine": 95,
+      "fat": 0.1,
+      "water": 240
+    }
+  },
+  {
+    "id": "french_press_coffee",
+    "nameTh": "French Press Coffee",
+    "requiresEspresso": false,
+    "addOnSteps": [],
+    "flavorBase": {
+      "sweetness": 2,
+      "bitterness": 3,
+      "sourness": 2,
+      "body": 4,
+      "aroma": 3
+    },
+    "nutritionBase": {
+      "calories": 5,
+      "caffeine": 80,
+      "fat": 0.5,
+      "water": 230
+    }
+  },
+  {
+    "id": "moka_coffee",
+    "nameTh": "Moka Pot Coffee",
+    "requiresEspresso": false,
+    "addOnSteps": [],
+    "flavorBase": {
+      "sweetness": 1,
+      "bitterness": 4,
+      "sourness": 2,
+      "body": 4,
+      "aroma": 3
+    },
+    "nutritionBase": {
+      "calories": 8,
+      "caffeine": 70,
+      "fat": 0.2,
+      "water": 60
+    }
+  }
+]

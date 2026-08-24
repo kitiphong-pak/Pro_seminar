@@ -1,0 +1,6 @@
+{
+  "milk_per_100ml":           { "calories": 61,  "caffeine": 0, "fat": 3.2, "carbs": 4.8 },
+  "chocolate_sauce_per_tbsp": { "calories": 50,  "caffeine": 3, "fat": 1.0, "carbs": 11  },
+  "whipped_cream_per_tbsp":   { "calories": 52,  "caffeine": 0, "fat": 5.5, "carbs": 0.5 },
+  "hot_water_per_100ml":      { "calories": 0,   "caffeine": 0, "fat": 0,   "carbs": 0   }
+}

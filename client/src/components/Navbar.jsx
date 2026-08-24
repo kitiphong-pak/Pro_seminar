@@ -1,8 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { auth } from "../firebase/firebase";
-import { signOut } from "firebase/auth";
 import { useAuth } from "../contexts/AuthContext";
+
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
+const resolvePhoto = (url) => {
+  if (!url) return "/coffeebean.png";
+  if (url.startsWith("http")) return url;
+  return `${API_BASE}${url}`;
+};
 
 export default function Navbar() {
   // ความสูง Navbar เดิม (เป็น % ของ viewport)
@@ -22,7 +27,7 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   // ปิดเมนูเมื่อคลิกนอก
   useEffect(() => {
@@ -37,8 +42,8 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = async () => {
-    await signOut(auth);
+  const handleLogout = () => {
+    logout();
     setShowProfileMenu(false);
     navigate("/login");
   };
@@ -113,7 +118,7 @@ export default function Navbar() {
         className={`${wrapperBase} ${showFloatingNav ? "animate-slideDown" : ""}`}
       >
         <header
-          className={`bg-white flex justify-between items-center shadow-lg ${
+          className={`bg-white flex justify-between items-center shadow-lg select-none ${
             showFloatingNav ? "rounded-b-xl" : ""
           }`}
           style={{ padding: "1rem 1.25rem", height: "100%" }}
@@ -134,7 +139,7 @@ export default function Navbar() {
                 ref={knowledgeMenuRef}
               >
                 <span
-                  className="cursor-pointer hover:text-light-brown transition duration-300"
+                  className="cursor-pointer select-none hover:text-light-brown transition duration-300"
                   onClick={() => setShowKnowledgeMenu((prev) => !prev)}
                 >
                   คลังความรู้กาแฟ
@@ -257,8 +262,9 @@ export default function Navbar() {
               {/* เมนูโปรไฟล์ */}
               <li className="relative group" ref={profileMenuRef}>
                 <img
-                  src={user?.photoURL || "/coffeebean.png"}
+                  src={resolvePhoto(user?.photoURL)}
                   alt="Profile"
+                  onError={(e) => { e.currentTarget.src = "/coffeebean.png"; }}
                   className="w-10 h-10 rounded-full cursor-pointer hover:opacity-80 transition duration-300"
                   onClick={() => setShowProfileMenu((prev) => !prev)}
                 />

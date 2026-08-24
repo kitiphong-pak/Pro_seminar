@@ -2,40 +2,57 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import BackToTop from "../components/BackToTop";
-import quiz from "../data/quiz.json";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import { fetchQuiz } from "../api/contentApi";
+import { saveQuizScore } from "../api/userApi";
 import { useNavigate } from 'react-router-dom';
-
-const quizData = quiz;
 
 const QuizDetail = () => {
   const { id } = useParams();
-  const quiz = quizData[id];
   const { user } = useAuth();
   const uid = user?.uid ?? null;
   const navigate = useNavigate();
+
+  const [quiz, setQuiz] = useState(null);
+  const [loadError, setLoadError] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState(
-    new Array(quiz?.questions.length).fill(null)
-  );
+  const [selectedAnswers, setSelectedAnswers] = useState([]);
   const [showScore, setShowScore] = useState(false);
   const [score, setScore] = useState(0);
 
+  useEffect(() => {
+    fetchQuiz(id)
+      .then((data) => {
+        if (data?.error) { setLoadError(true); return; }
+        setQuiz(data);
+        setSelectedAnswers(new Array(data.questions.length).fill(null));
+      })
+      .catch(() => setLoadError(true));
+  }, [id]);
 
-  if (!quiz) {
+  if (loadError || (!quiz && loadError === false && quiz === null)) {
+    if (!quiz && !loadError) return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <div className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
+          <p className="text-dark-brown">กำลังโหลด...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (loadError) {
     return (
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <div className="flex-grow container mx-auto px-4 py-8">
           <p>ไม่พบแบบทดสอบ</p>
         </div>
-        <Footer />
       </div>
     );
   }
+
+  if (!quiz) return null;
 
   // ฟังก์ชันเลือกคำตอบในแต่ละข้อ
   const handleSelect = (option) => {
@@ -56,27 +73,13 @@ const QuizDetail = () => {
     return count;
   };
 
-  // ฟังก์ชันบันทึกคะแนนลง Firestore
-  const saveScoreToFirestore = async (finalScore) => {
-    if (!uid) {
-      console.error("ผู้ใช้ยังไม่ได้ล็อกอิน");
-      return;
-    }
+  const saveScoreToDb = async (finalScore) => {
+    if (!uid) return;
     try {
-      await setDoc(
-        doc(db, "users", uid, "quiz", id),
-        {
-          score: finalScore,
-          max: quiz.questions.length, // จำนวนคำถามทั้งหมด
-          title: quiz.title, // ชื่อแบบทดสอบ
-        },
-        { merge: true }
-      );
-      console.log(
-        "✅ บันทึกคะแนน จำนวนคำถาม และชื่อแบบทดสอบลง Firestore แล้ว!"
-      );
+      await saveQuizScore(uid, id, finalScore, quiz.questions.length, quiz.title);
+      console.log("✅ บันทึกคะแนนลง MongoDB แล้ว");
     } catch (error) {
-      console.error("❌ เกิดข้อผิดพลาดในการบันทึกคะแนน: ", error);
+      console.error("❌ เกิดข้อผิดพลาดในการบันทึกคะแนน:", error);
     }
   };
 
@@ -89,7 +92,7 @@ const QuizDetail = () => {
     if (currentQuestion === quiz.questions.length - 1) {
       const finalScore = calculateScore();
       setShowScore(true);
-      saveScoreToFirestore(finalScore);
+      saveScoreToDb(finalScore);
     } else {
       setCurrentQuestion(currentQuestion + 1);
     }
@@ -243,7 +246,6 @@ const QuizDetail = () => {
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

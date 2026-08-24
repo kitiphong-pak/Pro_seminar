@@ -422,8 +422,8 @@ export default function BrewSimulator() {
                 <div className="flex items-center justify-between gap-2">
                   <Label>ความละเอียดบด</Label>
                   <InfoTip title="ความละเอียดบดคืออะไร?">
-                    ยิ่งบด "ละเอียด" น้ำไหลยาก → เวลาไหลยาวขึ้น รสเข้ม/หนา<br/>
-                    ยิ่งบด "หยาบ"  น้ำไหลง่าย → เวลาไหลสั้น รสบาง/ใส<br/><br/>
+                    ยิ่งบด &quot;ละเอียด&quot; น้ำไหลยาก → เวลาไหลยาวขึ้น รสเข้ม/หนา<br/>
+                    ยิ่งบด &quot;หยาบ&quot;  น้ำไหลง่าย → เวลาไหลสั้น รสบาง/ใส<br/><br/>
                     เริ่มจากค่าที่แนะนำของแต่ละวิธี แล้วค่อยปรับทีละครึ่งสเต็ปครับ
                   </InfoTip>
                 </div>
@@ -460,7 +460,7 @@ export default function BrewSimulator() {
                       onClick={() => markFlow("tamp", true)}
                       className="px-3 py-1.5 rounded-full border border-amber-300 text-sm bg-white hover:bg-amber-50"
                     >
-                      ทำเครื่องหมายว่า "แทมป์แล้ว"
+                      ทำเครื่องหมายว่า &quot;แทมป์แล้ว&quot;
                     </button>
                   ) : (
                     <button
@@ -519,7 +519,7 @@ export default function BrewSimulator() {
                       อัดผงกาแฟ
                       <InfoTip title="อัดผงกาแฟคืออะไร?">
                         กดผงกาแฟแน่นกว่าปกติให้แน่นและต้านแรงไหลมากขึ้น
-                        ทำให้ไหลช้าลงและรสเข้มหนาขึ้น แต่เสี่ยง "ขม/ไหม้" ถ้ามากเกินไป
+                        ทำให้ไหลช้าลงและรสเข้มหนาขึ้น แต่เสี่ยง &quot;ขม/ไหม้&quot; ถ้ามากเกินไป
                       </InfoTip>
                     </span>
                   }

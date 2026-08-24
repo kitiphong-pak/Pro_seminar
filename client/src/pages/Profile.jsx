@@ -1,13 +1,17 @@
 ﻿import { useState, useEffect, useRef } from "react";
 import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import { Link } from "react-router-dom";
-import { updateProfile } from "firebase/auth";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { db } from "../firebase/firebase";
+import { getUser, updateUser, uploadAvatar } from "../api/userApi";
 import { useAuth } from "../contexts/AuthContext";
-import articles from "../data/article.json";
+import { fetchArticles } from "../api/contentApi";
+
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
+
+const resolvePhoto = (url) => {
+  if (!url) return "/coffeebean.png";
+  if (url.startsWith("http")) return url;
+  return `${API_BASE}${url}`;
+};
 
 // ---------- UI helpers ----------
 const StatCard = ({ icon, label, value, sub }) => (
@@ -41,9 +45,12 @@ const Pill = ({ children }) => (
 );
 
 const Profile = () => {
-  const { user, isLoading: loading } = useAuth();
+  const { user, isLoading: loading, updateUserData } = useAuth();
   const [profileData, setProfileData] = useState(null);
   const [saveError, setSaveError] = useState("");
+  const [articleCount, setArticleCount] = useState(0);
+
+  useEffect(() => { fetchArticles().then((data) => setArticleCount(Array.isArray(data) ? data.length : 0)); }, []);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editedName, setEditedName] = useState("");
@@ -83,21 +90,9 @@ const Profile = () => {
     if (!file || !user) return;
     setUploading(true);
     try {
-      const storage = getStorage();
-      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
-      const path = `users/${user.uid}/avatar_${Date.now()}.${ext}`;
-      const storageRef = ref(storage, path);
-      await uploadBytes(storageRef, file, { contentType: file.type });
-      const url = await getDownloadURL(storageRef);
-
-      // อัปเดตโปรไฟล์ใน Auth
-      await updateProfile(user, { photoURL: url });
-
-      // อัปเดตใน Firestore
-      const refDoc = doc(db, "users", user.uid);
-      await updateDoc(refDoc, { photoURL: url });
-
-      setProfileData({ ...profileData, photoURL: url });
+      const fullUrl = await uploadAvatar(user.uid, file);
+      updateUserData({ photoURL: fullUrl });
+      setProfileData({ ...profileData, photoURL: fullUrl });
     } catch {
       alert("อัปโหลดรูปไม่สำเร็จ ลองใหม่อีกครั้ง");
     } finally {
@@ -106,12 +101,10 @@ const Profile = () => {
     }
   };
 
-  // load profile data from Firestore when user is available
   useEffect(() => {
     if (!user) return;
-    const userRef = doc(db, "users", user.uid);
-    getDoc(userRef).then((snap) => {
-      if (snap.exists()) setProfileData(snap.data());
+    getUser(user.uid).then((data) => {
+      if (data) setProfileData(data);
     });
   }, [user]);
 
@@ -124,19 +117,17 @@ const Profile = () => {
     setIsEditing(true);
   };
 
-  const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleSaveProfile = async () => {
     if (!user) return;
     setSaveError("");
     if (!editedName.trim()) { setSaveError("กรุณากรอกชื่อ"); return; }
-    if (editedEmail && !EMAIL_RE.test(editedEmail)) { setSaveError("รูปแบบอีเมลไม่ถูกต้อง"); return; }
     try {
-      const ref = doc(db, "users", user.uid);
-      await updateDoc(ref, { name: editedName, email: editedEmail });
-      setProfileData({ ...profileData, name: editedName, email: editedEmail });
+      await updateUser(user.uid, { name: editedName, displayName: editedName });
+      updateUserData({ name: editedName, displayName: editedName });
+      setProfileData({ ...profileData, name: editedName, displayName: editedName });
       setIsEditing(false);
-    } catch (e) {
+    } catch {
       setSaveError("บันทึกไม่สำเร็จ กรุณาลองใหม่อีกครั้ง");
     }
   };
@@ -154,7 +145,6 @@ const Profile = () => {
           </div>
           <div className="h-48 rounded-2xl bg-neutral-200 animate-pulse mt-6" />
         </div>
-        <Footer />
       </div>
     );
   }
@@ -173,7 +163,7 @@ const Profile = () => {
     achievements.simulator && Object.keys(achievements.simulator).length > 0 ? 1 : 0;
   const simulatorPct = (simulatorCompleted / simulatorTotal) * 100;
 
-  const knowledgeTotal = articles.length || 0;
+  const knowledgeTotal = articleCount;
   const knowledgeCompleted = achievements.knowledge
     ? Object.keys(achievements.knowledge).length
     : 0;
@@ -241,8 +231,9 @@ const Profile = () => {
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
               <div className="relative">
                 <img
-                  src={profileData?.photoURL || "/coffeebean.png"}
+                  src={resolvePhoto(profileData?.photoURL || user?.photoURL)}
                   alt="avatar"
+                  onError={(e) => { e.currentTarget.src = "/coffeebean.png"; }}
                   className="h-24 w-24 md:h-28 md:w-28 rounded-full object-cover ring-4 ring-white shadow-lg"
                 />
                 <span className="absolute -bottom-1 -right-1 rounded-full bg-[#6f4e37] text-white text-[10px] px-2 py-0.5 shadow">
@@ -434,8 +425,8 @@ const Profile = () => {
                 <label className="block text-sm text-neutral-700 mb-1">รูปโปรไฟล์</label>
                 <div className="flex items-center gap-3">
                   <img
-                    src={profileData?.photoURL || "/coffeebean.png"}
-                    onError={(e) => (e.currentTarget.src = "/coffeebean.png")}
+                    src={resolvePhoto(profileData?.photoURL || user?.photoURL)}
+                    onError={(e) => { e.currentTarget.src = "/coffeebean.png"; }}
                     className="h-12 w-12 rounded-full object-cover ring-2 ring-neutral-200"
                     alt="avatar"
                   />
@@ -472,9 +463,11 @@ const Profile = () => {
                 <input
                   type="email"
                   value={editedEmail}
-                  onChange={(e) => setEditedEmail(e.target.value)}
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                  readOnly
+                  disabled
+                  className="w-full rounded-lg border border-neutral-300 bg-neutral-100 text-neutral-500 px-3 py-2 cursor-not-allowed"
                 />
+                <p className="mt-1 text-xs text-neutral-500">อีเมลใช้สำหรับเข้าสู่ระบบ จึงแก้ไขไม่ได้</p>
               </div>
             </div>
             <div className="p-5 border-t">
@@ -500,7 +493,6 @@ const Profile = () => {
         </div>
       )}
 
-      <Footer />
     </div>
   );
 };

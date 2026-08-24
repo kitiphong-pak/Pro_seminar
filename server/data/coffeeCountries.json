@@ -1,0 +1,1440 @@
+[
+  {
+    "key": "Afghanistan",
+    "description": "ไม่ได้เป็นผู้ผลิตกาแฟสำคัญ แต่มีวัฒนธรรมการดื่มชาและเครื่องดื่มที่เกี่ยวข้องมากกว่า",
+    "cultivation": "ไม่มีการเพาะปลูกกาแฟในระดับการค้า",
+    "specialties": [],
+    "origin": {
+      "role": "consumer",
+      "species": [],
+      "cultivars": [],
+      "altitude": "—",
+      "harvest": "—",
+      "process": [],
+      "flavor": [
+        "ชาเขียว",
+        "กระวาน"
+      ],
+      "note": "ไม่ใช่ประเทศผู้ปลูกกาแฟ วัฒนธรรมการดื่มเน้นชาเป็นหลัก และมีกาแฟผสมกระวานตามอิทธิพลตะวันออกกลาง"
+    }
+  },
+  {
+    "key": "Angola",
+    "description": "เคยเป็นผู้ผลิตกาแฟรายใหญ่ในทวีปแอฟริกา โดยเฉพาะกาแฟโรบัสต้า",
+    "cultivation": "ปลูกในภูมิภาคทางเหนือและตอนกลางของประเทศ",
+    "specialties": [
+      "Angolan Robusta Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Robusta",
+        "Arabica"
+      ],
+      "cultivars": [
+        "Robusta",
+        "Typica"
+      ],
+      "altitude": "600–1,200 ม.",
+      "harvest": "พ.ค.–ก.ย.",
+      "process": [
+        "Natural"
+      ],
+      "flavor": [
+        "ถั่ว",
+        "ช็อกโกแลต",
+        "บอดี้หนา"
+      ],
+      "note": "เคยเป็นผู้ส่งออกโรบัสต้าอันดับต้นของโลกก่อนเกิดสงครามกลางเมือง"
+    }
+  },
+  {
+    "key": "Argentina",
+    "description": "ไม่ใช่ประเทศที่ปลูกกาแฟ แต่เป็นผู้บริโภคกาแฟที่สำคัญในภูมิภาค",
+    "cultivation": "ไม่มีพื้นที่ปลูกกาแฟในระดับการค้า",
+    "specialties": [
+      "Café con leche (กาแฟนม)"
+    ],
+    "origin": {
+      "role": "consumer",
+      "species": [],
+      "cultivars": [],
+      "altitude": "—",
+      "harvest": "—",
+      "process": [],
+      "flavor": [
+        "เอสเปรสโซเข้ม",
+        "นม"
+      ],
+      "note": "ภูมิอากาศไม่เหมาะกับการปลูกกาแฟ แต่มีวัฒนธรรมคาเฟ่เก่าแก่ในบัวโนสไอเรสและนิยมดื่ม cortado"
+    }
+  },
+  {
+    "key": "Australia",
+    "description": "เริ่มมีการเพาะปลูกกาแฟเพิ่มขึ้นในช่วงไม่กี่ปีที่ผ่านมา โดยเฉพาะกาแฟอาราบิก้า",
+    "cultivation": "ปลูกในควีนส์แลนด์และนิวเซาท์เวลส์",
+    "specialties": [
+      "Australian Arabica Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "K7",
+        "Catuaí",
+        "Bourbon",
+        "Typica"
+      ],
+      "altitude": "300–900 ม.",
+      "harvest": "มิ.ย.–ก.ย.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ช็อกโกแลตนม",
+        "ถั่ว",
+        "กรดต่ำ"
+      ],
+      "note": "ปลูกแถบ Byron Bay และ Atherton Tablelands เก็บเกี่ยวด้วยเครื่องจักรเกือบทั้งหมด"
+    }
+  },
+  {
+    "key": "Burundi",
+    "description": "เป็นหนึ่งในผู้ผลิตกาแฟสำคัญของแอฟริกาตะวันออก มีรสชาติเปรี้ยวและซับซ้อน",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Kayanza และ Ngozi",
+    "specialties": [
+      "Burundian Specialty Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Red Bourbon",
+        "Jackson",
+        "Mibirizi"
+      ],
+      "altitude": "1,250–2,000 ม.",
+      "harvest": "มี.ค.–ก.ค.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ส้ม",
+        "ดอกไม้",
+        "น้ำผึ้ง"
+      ],
+      "note": "โครงสร้างการผลิตคล้ายรวันดา เน้น Bourbon และระบบสถานีล้างกลาง (washing station)"
+    }
+  },
+  {
+    "key": "Cameroon",
+    "description": "ปลูกกาแฟทั้งอาราบิก้าและโรบัสต้า โดยมีกาแฟอาราบิก้าคุณภาพสูงจากภูเขา",
+    "cultivation": "พื้นที่เพาะปลูกหลักอยู่ในภูมิภาคทางตะวันตก",
+    "specialties": [
+      "Cameroonian Arabica Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Robusta",
+        "Arabica"
+      ],
+      "cultivars": [
+        "Java",
+        "Typica",
+        "Robusta"
+      ],
+      "altitude": "1,000–1,800 ม.",
+      "harvest": "ต.ค.–ม.ค.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "เครื่องเทศ",
+        "บอดี้หนา"
+      ],
+      "note": "เขตภูเขาทางตะวันตกปลูกอาราบิก้า ส่วนพื้นที่ราบเป็นโรบัสต้า"
+    }
+  },
+  {
+    "key": "China",
+    "description": "การปลูกกาแฟกำลังเติบโต โดยเฉพาะในมณฑลยูนนาน",
+    "cultivation": "พื้นที่หลักอยู่ในมณฑลยูนนาน และปลูกกาแฟอาราบิก้าเป็นส่วนใหญ่",
+    "specialties": [
+      "Yunnan Arabica Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Catimor",
+        "Typica",
+        "Bourbon"
+      ],
+      "altitude": "1,000–1,700 ม.",
+      "harvest": "พ.ย.–มี.ค.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ถั่ว",
+        "ช็อกโกแลต",
+        "ผลไม้อ่อน"
+      ],
+      "note": "มณฑลยูนนานผลิตกาแฟกว่า 95% ของประเทศ ส่วนใหญ่เป็นสายพันธุ์ Catimor"
+    }
+  },
+  {
+    "key": "Congo",
+    "description": "กาแฟจากคองโกมีคุณภาพสูง โดยเฉพาะกาแฟอาราบิก้าจากภูมิภาค Kivu",
+    "cultivation": "ปลูกในพื้นที่ทางตะวันออกและใต้ของประเทศ",
+    "specialties": [
+      "Congo Kivu Coffee"
+    ],
+    "origin": {
+      "role": "birthplace",
+      "species": [
+        "Robusta",
+        "Arabica"
+      ],
+      "cultivars": [
+        "Robusta พื้นเมือง",
+        "Bourbon",
+        "Blue Mountain"
+      ],
+      "altitude": "1,400–2,000 ม. (เขต Kivu)",
+      "harvest": "มี.ค.–มิ.ย. และ ก.ย.–ธ.ค.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "ผลไม้สุก",
+        "บอดี้หนา"
+      ],
+      "note": "ป่าลุ่มน้ำคองโกเป็นถิ่นกำเนิดตามธรรมชาติของ Coffea canephora หรือโรบัสต้า"
+    }
+  },
+  {
+    "key": "Guatemala",
+    "description": "กาแฟกัวเตมาลามีความเป็นกรดและมีกลิ่นหอมซับซ้อน",
+    "cultivation": "ปลูกในพื้นที่ภูเขา เช่น Antigua และ Huehuetenango",
+    "specialties": [
+      "Guatemalan Antigua Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Bourbon",
+        "Caturra",
+        "Catuaí",
+        "Pache"
+      ],
+      "altitude": "1,300–2,000 ม.",
+      "harvest": "ธ.ค.–เม.ย.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "ส้ม",
+        "เครื่องเทศ"
+      ],
+      "note": "Antigua และ Huehuetenango เป็นเขตปลูกที่ได้รับการรับรองแหล่งผลิตอย่างเป็นทางการ"
+    }
+  },
+  {
+    "key": "India",
+    "description": "อินเดียผลิตกาแฟทั้งอาราบิก้าและโรบัสต้า โดยมักใช้ในกาแฟเอสเปรสโซ",
+    "cultivation": "พื้นที่เพาะปลูกหลักอยู่ในรัฐคาร์นาทากา, เคราลา และทมิฬนาฑู",
+    "specialties": [
+      "Monsooned Malabar Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Kents",
+        "S795",
+        "Cauvery",
+        "Selection 9"
+      ],
+      "altitude": "1,000–1,600 ม.",
+      "harvest": "พ.ย.–ก.พ.",
+      "process": [
+        "Washed",
+        "Natural",
+        "Monsooned"
+      ],
+      "flavor": [
+        "เครื่องเทศ",
+        "ช็อกโกแลต",
+        "บอดี้หนา"
+      ],
+      "note": "Monsooned Malabar คือการบ่มเมล็ดในลมมรสุมจนพองและกรดลดลง เป็นเอกลักษณ์เฉพาะของอินเดีย"
+    }
+  },
+  {
+    "key": "Indonesia",
+    "description": "อินโดนีเซียผลิตกาแฟที่หลากหลาย รวมถึงกาแฟจากเกาะบาหลี, สุมาตรา และสุลาเวสี",
+    "cultivation": "ปลูกในหลายภูมิภาค เช่น สุมาตราและชวา",
+    "specialties": [
+      "Kopi Luwak (กาแฟขี้ชะมด)",
+      "Sumatra Mandheling Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Typica",
+        "Ateng",
+        "Tim Tim",
+        "S-795"
+      ],
+      "altitude": "1,100–1,600 ม.",
+      "harvest": "ต.ค.–มี.ค.",
+      "process": [
+        "Giling Basah (Wet-hulled)",
+        "Washed"
+      ],
+      "flavor": [
+        "สมุนไพร",
+        "ดิน",
+        "ยาสูบ",
+        "บอดี้หนัก"
+      ],
+      "note": "Giling Basah เป็นวิธีแปรรูปเฉพาะถิ่นที่ให้บอดี้หนักและกรดต่ำ แหล่งเด่นคือ Sumatra, Java และ Sulawesi"
+    }
+  },
+  {
+    "key": "Jamaica",
+    "description": "ขึ้นชื่อเรื่องกาแฟบลูเมาน์เทนซึ่งเป็นหนึ่งในกาแฟที่มีราคาแพงที่สุดในโลก",
+    "cultivation": "ปลูกในพื้นที่ Blue Mountains",
+    "specialties": [
+      "Jamaica Blue Mountain Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Jamaica Blue Mountain (Typica)"
+      ],
+      "altitude": "900–1,700 ม.",
+      "harvest": "ส.ค.–ก.พ.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "นุ่มละมุน",
+        "ถั่ว",
+        "เปรี้ยวอ่อน"
+      ],
+      "note": "Blue Mountain คือ Typica ที่ปลูกในเขตคุ้มครองชื่อแหล่งผลิตบนเทือกเขาบลูเมาน์เทน"
+    }
+  },
+  {
+    "key": "Kenya",
+    "description": "กาแฟเคนยามีชื่อเสียงในเรื่องรสชาติที่สดใสและซับซ้อน",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Mount Kenya",
+    "specialties": [
+      "Kenyan AA Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "SL28",
+        "SL34",
+        "Ruiru 11",
+        "Batian"
+      ],
+      "altitude": "1,400–2,100 ม.",
+      "harvest": "ต.ค.–ธ.ค.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "แบล็กเคอร์แรนต์",
+        "เปรี้ยวสดใส",
+        "มะเขือเทศ"
+      ],
+      "note": "SL28 และ SL34 คัดเลือกโดย Scott Laboratories เป็นสายพันธุ์ประจำถิ่นที่โด่งดังระดับโลก"
+    }
+  },
+  {
+    "key": "Peru",
+    "description": "ผลิตกาแฟออร์แกนิกคุณภาพสูง รสชาติหลากหลาย",
+    "cultivation": "ปลูกในเขต Amazon และ Andean",
+    "specialties": [
+      "Peruvian Organic Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Typica",
+        "Bourbon",
+        "Caturra",
+        "Pache"
+      ],
+      "altitude": "1,200–2,000 ม.",
+      "harvest": "พ.ค.–ก.ย.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ถั่ว",
+        "ช็อกโกแลตนม",
+        "หวานอ่อน"
+      ],
+      "note": "เป็นแหล่งกาแฟอินทรีย์รายใหญ่ของโลก เขตเด่นคือ Cajamarca และ Cusco"
+    }
+  },
+  {
+    "key": "Rwanda",
+    "description": "กาแฟรวันดามีรสชาติที่ซับซ้อนและมีกลิ่นผลไม้",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Lake Kivu",
+    "specialties": [
+      "Rwandan Bourbon Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Red Bourbon",
+        "Jackson",
+        "Mibirizi"
+      ],
+      "altitude": "1,400–2,000 ม.",
+      "harvest": "มี.ค.–ก.ค.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ส้ม",
+        "ดอกไม้",
+        "ชาดำ"
+      ],
+      "note": "Red Bourbon เป็นสายพันธุ์หลักของประเทศ ให้รสสะอาดและหวานเป็นเอกลักษณ์"
+    }
+  },
+  {
+    "key": "Thailand",
+    "description": "ประเทศไทยปลูกกาแฟอาราบิก้าในพื้นที่สูงและโรบัสต้าในภาคใต้",
+    "cultivation": "พื้นที่หลักอยู่ในภาคเหนือ เช่น เชียงราย และเชียงใหม่",
+    "specialties": [
+      "กาแฟดอยช้าง",
+      "กาแฟดอยตุง"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Catimor",
+        "Typica",
+        "Java",
+        "Chiang Mai 80"
+      ],
+      "altitude": "800–1,500 ม. (ภาคเหนือ)",
+      "harvest": "พ.ย.–ก.พ.",
+      "process": [
+        "Washed",
+        "Natural",
+        "Honey"
+      ],
+      "flavor": [
+        "ถั่ว",
+        "ช็อกโกแลตนม",
+        "ผลไม้สุก"
+      ],
+      "note": "อาราบิก้าปลูกบนดอยภาคเหนือ เช่น ดอยช้าง ดอยตุง ดอยป่าแป๋ ส่วนโรบัสต้าอยู่ภาคใต้แถบชุมพรและระนอง"
+    }
+  },
+  {
+    "key": "Uganda",
+    "description": "เป็นผู้ผลิตกาแฟโรบัสต้ารายใหญ่ที่สุดในแอฟริกา",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Mount Elgon",
+    "specialties": [
+      "Ugandan Bugisu Coffee"
+    ],
+    "origin": {
+      "role": "birthplace",
+      "species": [
+        "Robusta",
+        "Arabica"
+      ],
+      "cultivars": [
+        "Nganda",
+        "Erecta",
+        "SL14",
+        "SL28"
+      ],
+      "altitude": "1,200–2,200 ม. (Mt. Elgon)",
+      "harvest": "ต.ค.–ก.พ.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "ถั่ว",
+        "ผลไม้แห้ง"
+      ],
+      "note": "มีโรบัสต้าขึ้นเองตามธรรมชาติรอบทะเลสาบวิกตอเรีย ถือเป็นหนึ่งในถิ่นกำเนิดของโรบัสต้า"
+    }
+  },
+  {
+    "key": "Yemen",
+    "description": "กาแฟเยเมนเป็นกาแฟอาราบิก้าคุณภาพสูงที่ปลูกในพื้นที่ทะเลทราย",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Mocha",
+    "specialties": [
+      "Yemeni Mocha Coffee"
+    ],
+    "origin": {
+      "role": "birthplace",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Udaini",
+        "Tuffahi",
+        "Dawairi",
+        "Yemenia"
+      ],
+      "altitude": "1,000–2,400 ม.",
+      "harvest": "ต.ค.–ธ.ค.",
+      "process": [
+        "Natural"
+      ],
+      "flavor": [
+        "ไวน์",
+        "เครื่องเทศ",
+        "ช็อกโกแลตเข้ม"
+      ],
+      "note": "ถิ่นกำเนิดของการปลูกและค้ากาแฟเชิงพาณิชย์ เมล็ดที่ส่งออกผ่านเมืองท่า Mocha คือต้นสายของ Typica และ Bourbon"
+    }
+  },
+  {
+    "key": "Honduras",
+    "description": "เป็นผู้ผลิตกาแฟรายใหญ่ในอเมริกากลาง มีคุณภาพหลากหลาย",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Copán และ Lempira",
+    "specialties": [
+      "Honduran SHG Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Catuaí",
+        "Bourbon",
+        "Typica",
+        "Lempira"
+      ],
+      "altitude": "1,000–1,700 ม.",
+      "harvest": "พ.ย.–เม.ย.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "คาราเมล",
+        "ผลไม้แห้ง",
+        "ช็อกโกแลต"
+      ],
+      "note": "ผู้ผลิตอันดับต้นของอเมริกากลาง เขตเด่นคือ Marcala และ Santa Bárbara"
+    }
+  },
+  {
+    "key": "Mexico",
+    "description": "กาแฟเม็กซิโกมีรสชาติหลากหลายและมักปลูกแบบออร์แกนิก",
+    "cultivation": "ปลูกในภูมิภาคเชียปัส และเวราครูซ",
+    "specialties": [
+      "Mexican Chiapas Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Typica",
+        "Bourbon",
+        "Mundo Novo",
+        "Caturra"
+      ],
+      "altitude": "900–1,700 ม.",
+      "harvest": "พ.ย.–มี.ค.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "ถั่ว",
+        "หวานอ่อน"
+      ],
+      "note": "Chiapas และ Veracruz เป็นแหล่งหลัก และเป็นผู้ส่งออกกาแฟอินทรีย์รายใหญ่ของโลก"
+    }
+  },
+  {
+    "key": "Tanzania",
+    "description": "กาแฟแทนซาเนียมีรสชาติสดใส มักมีกลิ่นผลไม้และไวน์",
+    "cultivation": "ปลูกในพื้นที่ Mount Kilimanjaro และ Mbeya",
+    "specialties": [
+      "Tanzanian Peaberry Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Bourbon",
+        "Kent",
+        "N39",
+        "KP423"
+      ],
+      "altitude": "1,200–1,900 ม.",
+      "harvest": "ก.ค.–ธ.ค.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "เปรี้ยวสดใส",
+        "แบล็กเคอร์แรนต์",
+        "ส้ม"
+      ],
+      "note": "ปลูกรอบเชิงเขาคิลิมันจาโรและเขต Mbeya ทางตอนใต้ของประเทศ"
+    }
+  },
+  {
+    "key": "IvoryCoast",
+    "description": "เป็นหนึ่งในผู้ผลิตกาแฟโรบัสต้ารายใหญ่ในแอฟริกา",
+    "cultivation": "ปลูกในพื้นที่ทางใต้ของประเทศ",
+    "specialties": [
+      "Ivorian Robusta Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Robusta",
+        "Liberica"
+      ],
+      "cultivars": [
+        "Robusta",
+        "Liberica"
+      ],
+      "altitude": "200–600 ม.",
+      "harvest": "พ.ย.–เม.ย.",
+      "process": [
+        "Natural"
+      ],
+      "flavor": [
+        "ไม้",
+        "ถั่ว",
+        "ขมเข้ม"
+      ],
+      "note": "หนึ่งในผู้ผลิตโรบัสต้ารายใหญ่ของแอฟริกาตะวันตก"
+    }
+  },
+  {
+    "key": "Laos",
+    "description": "ปลูกกาแฟในระดับที่กำลังเติบโต โดยเฉพาะในพื้นที่สูง",
+    "cultivation": "พื้นที่เพาะปลูกหลักอยู่ใน Bolaven Plateau",
+    "specialties": [
+      "Lao Arabica Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Typica",
+        "Bourbon",
+        "Catimor",
+        "Robusta"
+      ],
+      "altitude": "1,000–1,350 ม.",
+      "harvest": "พ.ย.–ก.พ.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "ถั่ว",
+        "ผลไม้สุก"
+      ],
+      "note": "ที่ราบสูงโบลาเวน (Bolaven Plateau) เป็นแหล่งปลูกหลักที่ฝรั่งเศสวางรากฐานไว้ตั้งแต่ยุคอาณานิคม"
+    }
+  },
+  {
+    "key": "Philippines",
+    "description": "ปลูกกาแฟทั้งอาราบิก้า, โรบัสต้า, เอ็กเซลซ่า และลิเบอริก้า",
+    "cultivation": "ปลูกในภูมิภาค Batangas และ Cordillera",
+    "specialties": [
+      "Kape Barako"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta",
+        "Liberica",
+        "Excelsa"
+      ],
+      "cultivars": [
+        "Barako (Liberica)",
+        "Typica",
+        "Robusta"
+      ],
+      "altitude": "500–1,500 ม.",
+      "harvest": "ต.ค.–มี.ค.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ไม้",
+        "ถั่ว",
+        "กลิ่นแรง"
+      ],
+      "note": "หนึ่งในไม่กี่ประเทศที่ปลูกครบทั้งสี่สปีชีส์ Barako คือ Liberica พื้นเมืองที่มีเมล็ดใหญ่ผิดปกติ"
+    }
+  },
+  {
+    "key": "PapuaNewGuinea",
+    "description": "กาแฟปาปัวนิวกินีมีรสชาติซับซ้อนและกลิ่นหอมที่โดดเด่น",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Western Highlands",
+    "specialties": [
+      "Papua New Guinea Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Typica",
+        "Bourbon",
+        "Arusha"
+      ],
+      "altitude": "1,300–1,800 ม.",
+      "harvest": "เม.ย.–ก.ย.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ผลไม้เมืองร้อน",
+        "สมุนไพร",
+        "บอดี้หนา"
+      ],
+      "note": "ส่วนใหญ่ปลูกโดยเกษตรกรรายย่อยในที่ราบสูง Wahgi Valley"
+    }
+  },
+  {
+    "key": "Brazil",
+    "description": "เป็นผู้ผลิตกาแฟรายใหญ่ที่สุดในโลก โดยเฉพาะกาแฟอาราบิก้า",
+    "cultivation": "ปลูกในภูมิภาคทางใต้ เช่น Minas Gerais และ São Paulo",
+    "specialties": [
+      "Brazilian Santos Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Bourbon",
+        "Mundo Novo",
+        "Catuaí",
+        "Icatu"
+      ],
+      "altitude": "800–1,350 ม.",
+      "harvest": "พ.ค.–ก.ย.",
+      "process": [
+        "Natural",
+        "Pulped Natural"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "ถั่ว",
+        "คาราเมล"
+      ],
+      "note": "ผู้ผลิตกาแฟอันดับ 1 ของโลก แหล่งใหญ่คือรัฐ Minas Gerais และ São Paulo"
+    }
+  },
+  {
+    "key": "Ethiopia",
+    "description": "แหล่งกำเนิดของกาแฟและมีความหลากหลายทางพันธุกรรมสูง",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Sidama และ Yirgacheffe",
+    "specialties": [
+      "Ethiopian Yirgacheffe Coffee"
+    ],
+    "origin": {
+      "role": "birthplace",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Heirloom (Landrace)",
+        "Geisha/Gesha",
+        "Typica"
+      ],
+      "altitude": "1,500–2,200 ม.",
+      "harvest": "ต.ค.–ม.ค.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ดอกไม้",
+        "มะนาว",
+        "เบอร์รี่",
+        "ชา"
+      ],
+      "note": "ถิ่นกำเนิดของ Coffea arabica ป่ากาแฟแถบ Kaffa และ Gori Gesha คือแหล่งพันธุกรรมตั้งต้นของอาราบิก้าทั้งโลก"
+    }
+  },
+  {
+    "key": "Vietnam",
+    "description": "ผู้ผลิตกาแฟโรบัสต้ารายใหญ่ที่สุดในโลก",
+    "cultivation": "ปลูกในพื้นที่ตอนกลาง เช่น Central Highlands",
+    "specialties": [
+      "Vietnamese Egg Coffee",
+      "Cà phê sữa đá"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Robusta",
+        "Arabica"
+      ],
+      "cultivars": [
+        "Robusta",
+        "Catimor"
+      ],
+      "altitude": "500–1,500 ม.",
+      "harvest": "ต.ค.–ม.ค.",
+      "process": [
+        "Natural",
+        "Washed"
+      ],
+      "flavor": [
+        "ช็อกโกแลตเข้ม",
+        "ถั่ว",
+        "บอดี้หนัก"
+      ],
+      "note": "ผู้ผลิตโรบัสต้าอันดับ 1 ของโลก ศูนย์กลางอยู่ที่ราบสูง Dak Lak"
+    }
+  },
+  {
+    "key": "Colombia",
+    "description": "กาแฟโคลอมเบียเป็นที่รู้จักในเรื่องความหอมและความเป็นกรดอ่อน",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Antioquia และ Caldas",
+    "specialties": [
+      "Colombian Supremo Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Castillo",
+        "Caturra",
+        "Colombia",
+        "Typica"
+      ],
+      "altitude": "1,200–2,000 ม.",
+      "harvest": "เก็บได้ 2 รอบต่อปี",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "คาราเมล",
+        "ส้ม",
+        "ถั่ว"
+      ],
+      "note": "เก็บเกี่ยวได้เกือบตลอดปีเพราะแบ่งเป็นหลายเขตภูมิอากาศ ขึ้นชื่อเรื่อง Washed ที่สะอาดและสมดุล"
+    }
+  },
+  {
+    "key": "CostaRica",
+    "description": "กาแฟคอสตาริก้ามีคุณภาพสูงและเน้นการผลิตอาราบิก้า",
+    "cultivation": "ปลูกในภูมิภาค Central Valley และ Tarrazú",
+    "specialties": [
+      "Costa Rican Tarrazú Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Caturra",
+        "Villa Sarchí",
+        "Geisha",
+        "Catuaí"
+      ],
+      "altitude": "1,200–1,900 ม.",
+      "harvest": "พ.ย.–มี.ค.",
+      "process": [
+        "Honey",
+        "Washed"
+      ],
+      "flavor": [
+        "น้ำผึ้ง",
+        "ผลไม้เมืองร้อน",
+        "หวานสะอาด"
+      ],
+      "note": "ผู้บุกเบิกการแปรรูปแบบ Honey และเคยมีกฎหมายห้ามปลูกโรบัสต้ามายาวนาน แหล่งเด่นคือ Tarrazú"
+    }
+  },
+  {
+    "key": "Myanmar",
+    "description": "กาแฟพม่ากำลังได้รับความนิยมในตลาดกาแฟพิเศษ",
+    "cultivation": "ปลูกในภูมิภาค Shan State",
+    "specialties": [
+      "Myanmar Specialty Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "S795",
+        "Catuai",
+        "Catimor"
+      ],
+      "altitude": "1,000–1,500 ม.",
+      "harvest": "ธ.ค.–มี.ค.",
+      "process": [
+        "Washed",
+        "Natural",
+        "Honey"
+      ],
+      "flavor": [
+        "ผลไม้แห้ง",
+        "คาราเมล",
+        "ดอกไม้"
+      ],
+      "note": "อุตสาหกรรม specialty เพิ่งเติบโต แหล่งหลักอยู่รัฐฉานและเขตมัณฑะเลย์"
+    }
+  },
+  {
+    "key": "Turkey",
+    "description": "เป็นที่รู้จักในเรื่องกาแฟตุรกีแบบดั้งเดิม",
+    "cultivation": "ไม่ได้ปลูกกาแฟ แต่มีวัฒนธรรมการบริโภคกาแฟที่แข็งแรง",
+    "specialties": [
+      "Turkish Coffee"
+    ],
+    "origin": {
+      "role": "consumer",
+      "species": [],
+      "cultivars": [],
+      "altitude": "—",
+      "harvest": "—",
+      "process": [],
+      "flavor": [
+        "เข้มข้น",
+        "กระวาน",
+        "ตะกอนละเอียด"
+      ],
+      "note": "ไม่ปลูกกาแฟเอง แต่กาแฟตุรกีคือการต้มผงละเอียดในหม้อ cezve ซึ่งขึ้นทะเบียนมรดกวัฒนธรรม UNESCO"
+    }
+  },
+  {
+    "key": "Madagascar",
+    "description": "ปลูกกาแฟในระดับเล็กน้อย โดยส่วนใหญ่เป็นโรบัสต้า",
+    "cultivation": "ปลูกในพื้นที่ทางเหนือและตะวันออก",
+    "specialties": [
+      "Madagascar Robusta Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Robusta",
+        "Arabica",
+        "Liberica"
+      ],
+      "cultivars": [
+        "Robusta",
+        "Bourbon Pointu"
+      ],
+      "altitude": "400–1,300 ม.",
+      "harvest": "พ.ค.–ต.ค.",
+      "process": [
+        "Natural",
+        "Washed"
+      ],
+      "flavor": [
+        "เครื่องเทศ",
+        "ผลไม้แห้ง",
+        "บอดี้หนา"
+      ],
+      "note": "เป็นแหล่งพันธุกรรมกาแฟป่าที่หลากหลายที่สุดแห่งหนึ่ง มีสปีชีส์เฉพาะถิ่นหลายสิบชนิด"
+    }
+  },
+  {
+    "key": "Nepal",
+    "description": "กาแฟเนปาลกำลังเติบโตในตลาดพิเศษ โดยเน้นคุณภาพสูง",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Nuwakot และ Gulmi",
+    "specialties": [
+      "Nepalese Specialty Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Typica",
+        "Bourbon",
+        "Pacamara"
+      ],
+      "altitude": "800–1,600 ม.",
+      "harvest": "ธ.ค.–ก.พ.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ถั่ว",
+        "หวานอ่อน",
+        "กรดนุ่ม"
+      ],
+      "note": "ผลผลิตน้อยมาก ปลูกในเขต Gulmi และ Palpa เป็นหลัก"
+    }
+  },
+  {
+    "key": "Zimbabwe",
+    "description": "กาแฟซิมบับเวมีรสชาติที่สดใสและสมดุล",
+    "cultivation": "ปลูกในพื้นที่ Eastern Highlands",
+    "specialties": [
+      "Zimbabwean Arabica Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Catimor",
+        "SL28",
+        "Caturra"
+      ],
+      "altitude": "1,200–1,700 ม.",
+      "harvest": "เม.ย.–ก.ค.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ส้ม",
+        "ไวน์",
+        "เปรี้ยวสดใส"
+      ],
+      "note": "ปลูกในเขต Chipinge ทางตะวันออกติดชายแดนโมซัมบิก"
+    }
+  },
+  {
+    "key": "SouthKorea",
+    "description": "ไม่มีการปลูกกาแฟ แต่มีวัฒนธรรมการบริโภคกาแฟที่เติบโตอย่างรวดเร็ว",
+    "cultivation": "ไม่มีการเพาะปลูกกาแฟ",
+    "specialties": [
+      "Korean Dalgona Coffee"
+    ],
+    "origin": {
+      "role": "consumer",
+      "species": [],
+      "cultivars": [],
+      "altitude": "—",
+      "harvest": "—",
+      "process": [],
+      "flavor": [
+        "คั่วอ่อนถึงกลาง",
+        "ดริป"
+      ],
+      "note": "ไม่ปลูกกาแฟ แต่มีความหนาแน่นของร้านกาแฟสูงที่สุดแห่งหนึ่งของโลกและตลาด specialty เติบโตเร็วมาก"
+    }
+  },
+  {
+    "key": "SaudiArabia",
+    "description": "ไม่มีการปลูกกาแฟ แต่มีวัฒนธรรมกาแฟแบบดั้งเดิม",
+    "cultivation": "ไม่มีการเพาะปลูกกาแฟ",
+    "specialties": [
+      "Saudi Arabian Qahwa"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Khawlani"
+      ],
+      "altitude": "1,300–2,000 ม. (เขตจาซาน)",
+      "harvest": "ต.ค.–ธ.ค.",
+      "process": [
+        "Natural"
+      ],
+      "flavor": [
+        "กระวาน",
+        "หญ้าฝรั่น",
+        "อ่อนละมุน"
+      ],
+      "note": "ปลูกปริมาณน้อยในเขตจาซาน สายพันธุ์ Khawlani มีประวัติการปลูกกว่า 300 ปีและขึ้นทะเบียนมรดกวัฒนธรรม UNESCO"
+    }
+  },
+  {
+    "key": "DominicanRepublic",
+    "description": "ประเทศโดมินิกันเป็นอีกหนึ่งประเทศในภูมิภาคคาริบเบียนที่มีการผลิตกาแฟในระดับน้อย แต่มีรสชาติที่เป็นเอกลักษณ์",
+    "cultivation": "ปลูกกาแฟในภูมิภาคสูง เช่น Cordillera Central",
+    "specialties": [
+      "Dominican Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Typica",
+        "Caturra",
+        "Catuaí"
+      ],
+      "altitude": "600–1,500 ม.",
+      "harvest": "พ.ย.–พ.ค.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "ถั่ว",
+        "บอดี้กลาง"
+      ],
+      "note": "ปลูกในเขตภูเขา Barahona และ Cibao"
+    }
+  },
+  {
+    "key": "Panama",
+    "description": "ประเทศปานามามีชื่อเสียงในเรื่องกาแฟ Geisha ที่ได้รับรางวัลมากมาย",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Boquete",
+    "specialties": [
+      "Panama Geisha Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Geisha",
+        "Caturra",
+        "Catuaí"
+      ],
+      "altitude": "1,400–1,800 ม.",
+      "harvest": "ธ.ค.–มี.ค.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "มะลิ",
+        "ท้อ",
+        "เบอร์กาม็อต"
+      ],
+      "note": "เขต Boquete ทำให้ Geisha โด่งดังไปทั่วโลกและทำราคาประมูลสูงที่สุดหลายปีติดต่อกัน"
+    }
+  },
+  {
+    "key": "ElSalvador",
+    "description": "เป็นหนึ่งในประเทศในอเมริกากลางที่มีการผลิตกาแฟคุณภาพสูง",
+    "cultivation": "ปลูกในภูมิภาคสูง เช่น Apaneca",
+    "specialties": [
+      "El Salvador Pacamara Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Pacamara",
+        "Bourbon",
+        "Pacas"
+      ],
+      "altitude": "1,200–1,800 ม.",
+      "harvest": "พ.ย.–มี.ค.",
+      "process": [
+        "Washed",
+        "Honey"
+      ],
+      "flavor": [
+        "คาราเมล",
+        "ผลไม้เมืองร้อน",
+        "ครีม"
+      ],
+      "note": "ถิ่นกำเนิดของ Pacas ซึ่งเป็นการกลายพันธุ์ของ Bourbon และ Pacamara ที่ผสม Pacas กับ Maragogipe"
+    }
+  },
+  {
+    "key": "Nicaragua",
+    "description": "กาแฟนิการากามีรสชาติที่กลมกล่อมและเป็นที่นิยมในตลาดกาแฟพิเศษ",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Matagalpa",
+    "specialties": [
+      "Nicaraguan Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Caturra",
+        "Bourbon",
+        "Maragogipe",
+        "Catuaí"
+      ],
+      "altitude": "1,100–1,700 ม.",
+      "harvest": "ธ.ค.–มี.ค.",
+      "process": [
+        "Washed",
+        "Honey"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "ถั่ว",
+        "ผลไม้อ่อน"
+      ],
+      "note": "เขต Jinotega และ Matagalpa เป็นแหล่งปลูกหลักของประเทศ"
+    }
+  },
+  {
+    "key": "Bolivia",
+    "description": "กาแฟโบลิเวียนมีความหลากหลายทางรสชาติและมีการผลิตในระดับชุมชน",
+    "cultivation": "ปลูกในพื้นที่สูงในภูมิภาค Andes",
+    "specialties": [
+      "Bolivian Organic Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Typica",
+        "Caturra",
+        "Catuaí"
+      ],
+      "altitude": "1,400–1,900 ม.",
+      "harvest": "ก.ค.–ต.ค.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ดอกไม้",
+        "น้ำผึ้ง",
+        "แอปเปิล"
+      ],
+      "note": "ผลผลิตน้อยแต่คุณภาพสูง แหล่งหลักอยู่เขต Yungas ใกล้กรุง La Paz"
+    }
+  },
+  {
+    "key": "Ecuador",
+    "description": "กาแฟเอกวาดอร์เป็นผลิตภัณฑ์ที่มีความเป็นเอกลักษณ์ในภูมิภาคอเมริกาใต้",
+    "cultivation": "ปลูกในพื้นที่สูงในภูมิภาค Andes",
+    "specialties": [
+      "Ecuadorian Arabica Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica",
+        "Robusta"
+      ],
+      "cultivars": [
+        "Typica",
+        "Bourbon",
+        "Caturra",
+        "Sidra"
+      ],
+      "altitude": "1,200–2,000 ม.",
+      "harvest": "พ.ค.–ก.ย.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ดอกไม้",
+        "ผลไม้เมืองร้อน",
+        "หวานสะอาด"
+      ],
+      "note": "เป็นแหล่งของสายพันธุ์ Sidra ที่กำลังได้รับความนิยมสูงในวงการ specialty"
+    }
+  },
+  {
+    "key": "Venezuela",
+    "description": "กาแฟเวเนซุเอลามีรสชาติที่นุ่มนวลและมีความเป็นเอกลักษณ์ แต่ปริมาณการผลิตลดลงในปัจจุบัน",
+    "cultivation": "ปลูกในพื้นที่สูง เช่น Andes ของเวเนซุเอลา",
+    "specialties": [
+      "Venezuelan Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Typica",
+        "Bourbon",
+        "Caturra"
+      ],
+      "altitude": "1,000–1,600 ม.",
+      "harvest": "ต.ค.–ก.พ.",
+      "process": [
+        "Washed"
+      ],
+      "flavor": [
+        "ช็อกโกแลต",
+        "หวานนุ่ม",
+        "กรดต่ำ"
+      ],
+      "note": "เขต Táchira ติดชายแดนโคลอมเบียเป็นแหล่งปลูกดั้งเดิมของประเทศ"
+    }
+  },
+  {
+    "key": "USA",
+    "description": "แม้ไม่เป็นประเทศผู้ผลิตกาแฟหลัก แต่สหรัฐอเมริกามีการเพาะปลูกกาแฟในบางพื้นที่ เช่น ฮาวาย",
+    "cultivation": "ปลูกในฮาวายและบางส่วนของแคลิฟอร์เนีย",
+    "specialties": [
+      "Hawaiian Kona Coffee"
+    ],
+    "origin": {
+      "role": "producer",
+      "species": [
+        "Arabica"
+      ],
+      "cultivars": [
+        "Kona Typica",
+        "Caturra",
+        "Geisha"
+      ],
+      "altitude": "150–900 ม.",
+      "harvest": "ส.ค.–ม.ค.",
+      "process": [
+        "Washed",
+        "Natural"
+      ],
+      "flavor": [
+        "ถั่ว",
+        "หวานนุ่ม",
+        "กรดอ่อน"
+      ],
+      "note": "ปลูกที่ฮาวาย เช่น เขต Kona และ Kau ดินภูเขาไฟทำให้ Kona Typica มีเอกลักษณ์เฉพาะตัว"
+    }
+  },
+  {
+    "key": "Italy",
+    "description": "ประเทศอิตาลีเป็นที่รู้จักในวัฒนธรรมการชงกาแฟ โดยเฉพาะเอสเปรสโซและคาปูชิโน",
+    "cultivation": "ไม่ได้ปลูกกาแฟในระดับการค้า",
+    "specialties": [
+      "Italian Espresso"
+    ],
+    "origin": {
+      "role": "consumer",
+      "species": [],
+      "cultivars": [],
+      "altitude": "—",
+      "harvest": "—",
+      "process": [],
+      "flavor": [
+        "คั่วเข้ม",
+        "ช็อกโกแลต",
+        "crema หนา"
+      ],
+      "note": "ไม่ปลูกกาแฟ แต่เป็นต้นกำเนิดเครื่องเอสเปรสโซและเป็นผู้นิยามเมนู espresso, cappuccino, latte ให้ทั้งโลก"
+    }
+  },
+  {
+    "key": "France",
+    "description": "ฝรั่งเศสมีวัฒนธรรมการดื่มกาแฟที่โดดเด่น โดยเฉพาะในร้านกาแฟริมถนน",
+    "cultivation": "ไม่ได้ปลูกกาแฟในระดับการค้า",
+    "specialties": [
+      "French Press Coffee"
+    ],
+    "origin": {
+      "role": "consumer",
+      "species": [],
+      "cultivars": [],
+      "altitude": "—",
+      "harvest": "—",
+      "process": [],
+      "flavor": [
+        "คั่วกลางถึงเข้ม",
+        "นม"
+      ],
+      "note": "ไม่ปลูกกาแฟในประเทศ แต่เป็นผู้เผยแพร่กาแฟไปยังอาณานิคมและเป็นต้นกำเนิดวัฒนธรรมคาเฟ่ยุโรป"
+    }
+  },
+  {
+    "key": "NewZealand",
+    "description": "นิวซีแลนด์มีวัฒนธรรมการชงกาแฟที่เติบโตขึ้น โดยเฉพาะในเมืองใหญ่",
+    "cultivation": "ไม่ได้ปลูกกาแฟ แต่มีการนำเข้ากาแฟคุณภาพสูง",
+    "specialties": [
+      "Flat White (ต้นกำเนิดจากออสเตรเลียและนิวซีแลนด์)"
+    ],
+    "origin": {
+      "role": "consumer",
+      "species": [],
+      "cultivars": [],
+      "altitude": "—",
+      "harvest": "—",
+      "process": [],
+      "flavor": [
+        "นมสตีม",
+        "คั่วกลาง"
+      ],
+      "note": "ไม่ปลูกกาแฟเชิงพาณิชย์ แต่ถือเป็นต้นกำเนิดของเมนู Flat White ร่วมกับออสเตรเลีย"
+    }
+  }
+]
