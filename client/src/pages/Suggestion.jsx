@@ -238,7 +238,7 @@ export default function Suggestion() {
               <div className="mb-6">
                 <div className="flex items-center justify-between text-xs text-neutral-600">
                   {Array.from({ length: maxSteps }).map((_, i) => (
-                    <span key={i} className={`h-2 flex-1 mx-1 rounded-full ${i < stepsDone ? "bg-[#6f4e37]" : "bg-neutral-200"}`} />
+                    <span key={i} className={`h-2 flex-1 mx-1 rounded-full transition-colors duration-300 ${i < stepsDone ? "bg-[#6f4e37]" : "bg-neutral-200"}`} />
                   ))}
                 </div>
                 <div className="mt-2 text-sm text-neutral-600">
@@ -250,7 +250,7 @@ export default function Suggestion() {
               {Object.keys(answers).length > 0 && (
                 <div className="mb-5 flex flex-wrap gap-2">
                   {Object.entries(answers).map(([k, v], idx) => (
-                    <span key={idx} className="rounded-full border border-[#6f4e37]/25 bg-[#6f4e37]/5 px-3 py-1 text-xs text-[#2a1c14]">
+                    <span key={idx} className="rounded-full border border-[#6f4e37]/25 bg-[#6f4e37]/5 px-3 py-1 text-xs text-[#2a1c14] animate-fade-in">
                       {k}: <span className="font-semibold">{v}</span>
                     </span>
                   ))}
@@ -261,23 +261,23 @@ export default function Suggestion() {
 
           {/* คำถาม & ตัวเลือก */}
           {!result ? (
-            <>
-              <h2 className="text-center text-2xl md:text-3xl font-bold text-[#2a1c14]">
+            <div key={currentNode?.question ?? "no-question"}>
+              <h2 className="text-center text-2xl md:text-3xl font-bold text-[#2a1c14] animate-fade-in-up">
                 {currentNode ? currentNode.question : "กรุณาตอบคำถาม"}
               </h2>
 
               {currentNode && (
-                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 animate-fade-in-up">
                   {currentNode.options.map((op) => {
                     const active = currentSelection?.value === op.value;
                     return (
                       <button
                         key={op.value}
                         onClick={() => handleOptionSelect(op)}
-                        className={`group rounded-2xl border px-4 py-4 text-left transition
+                        className={`group rounded-2xl border px-4 py-4 text-left transition-all duration-200 ease-smooth active:scale-[.98]
                           ${active
-                            ? "border-[#6f4e37] bg-[#6f4e37] text-white shadow-md"
-                            : "border-black/10 bg-white text-[#2a1c14] hover:bg-black/5"}`}
+                            ? "border-[#6f4e37] bg-[#6f4e37] text-white shadow-md scale-[1.02]"
+                            : "border-black/10 bg-white text-[#2a1c14] hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-sm"}`}
                       >
                         <span className="block font-semibold">{op.label}</span>
                         {op.next?.result && (
@@ -296,7 +296,7 @@ export default function Suggestion() {
                   {path.length > 0 && (
                     <button
                       onClick={handleBack}
-                      className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm text-[#2a1c14] hover:bg-black/5"
+                      className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm text-[#2a1c14] transition-all duration-200 ease-smooth hover:bg-black/5 active:scale-95"
                     >
                       ย้อนกลับ
                     </button>
@@ -305,24 +305,24 @@ export default function Suggestion() {
                 <div className="ml-auto flex gap-2">
                   <button
                     onClick={resetAll}
-                    className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm text-[#2a1c14] hover:bg-black/5"
+                    className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm text-[#2a1c14] transition-all duration-200 ease-smooth hover:bg-black/5 active:scale-95"
                   >
                     เริ่มใหม่
                   </button>
                   <button
                     onClick={handleNextOption}
                     disabled={!currentSelection}
-                    className={`rounded-full px-6 py-2 text-sm font-semibold text-white shadow
-                      ${currentSelection ? "bg-[#6f4e37] hover:opacity-90" : "bg-neutral-400 cursor-not-allowed"}`}
+                    className={`rounded-full px-6 py-2 text-sm font-semibold text-white shadow transition-all duration-200 ease-smooth
+                      ${currentSelection ? "bg-[#6f4e37] hover:opacity-90 hover:-translate-y-0.5 active:translate-y-0 active:scale-95" : "bg-neutral-400 cursor-not-allowed"}`}
                   >
                     ถัดไป
                   </button>
                 </div>
               </div>
-            </>
+            </div>
           ) : (
             // ---------- ผลลัพธ์ ----------
-            <div className="text-center">
+            <div className="text-center animate-fade-in-up">
               <h2 className="text-2xl md:text-3xl font-bold text-[#2a1c14]">กาแฟที่แนะนำสำหรับคุณ</h2>
 
               {menuError && (
@@ -392,14 +392,14 @@ export default function Suggestion() {
                     {recommendedItem && (
                       <button
                         onClick={() => handleViewDetails(recommendedItem)}
-                        className="rounded-full bg-[#6f4e37] px-6 py-3 text-sm font-semibold text-white shadow hover:opacity-90"
+                        className="rounded-full bg-[#6f4e37] px-6 py-3 text-sm font-semibold text-white shadow transition-all duration-200 ease-smooth hover:opacity-90 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-95"
                       >
                         ดูข้อมูลเมนูนี้
                       </button>
                     )}
                     <button
                       onClick={resetAll}
-                      className="rounded-full border border-black/10 bg-white px-6 py-3 text-sm text-[#2a1c14] hover:bg-black/5"
+                      className="rounded-full border border-black/10 bg-white px-6 py-3 text-sm text-[#2a1c14] transition-all duration-200 ease-smooth hover:bg-black/5 active:scale-95"
                     >
                       เลือกใหม่
                     </button>
@@ -416,7 +416,8 @@ export default function Suggestion() {
                       <button
                         key={`${it.name}-${i}`}
                         type="button"
-                        className="group relative overflow-hidden rounded-2xl bg-white shadow hover:shadow-xl transition text-left w-full"
+                        style={{ animationDelay: `${i * 60}ms` }}
+                        className="group relative overflow-hidden rounded-2xl bg-white shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
                         onClick={() => it && handleViewDetails(it)}
                       >
                         <div className="relative h-40 w-full">

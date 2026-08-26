@@ -18,6 +18,14 @@ function Extraction() {
   const { user } = useAuth();
   const uid = user?.uid ?? null;
 
+  // ปิด modal สารบัญ (มือถือ) ด้วย Escape สำหรับคนที่ใช้คีย์บอร์ด
+  useEffect(() => {
+    if (!tocOpen) return;
+    const onKey = (e) => { if (e.key === "Escape") setTocOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [tocOpen]);
+
   useEffect(() => {
     setLoading(true);
     setError(null);
@@ -134,10 +142,10 @@ function Extraction() {
                   <li key={m.id}>
                     <button
                       onClick={() => scrollToId(m.id)}
-                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition ${
+                      className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ease-smooth ${
                         activeId === m.id
-                          ? "bg-[#2a1c14] text-white"
-                          : "text-[#2a1c14] hover:bg-black/5"
+                          ? "bg-[#2a1c14] text-white shadow-sm"
+                          : "text-[#2a1c14] hover:bg-black/5 hover:pl-4"
                       }`}
                     >
                       {m.title}
@@ -161,12 +169,12 @@ function Extraction() {
                 data-aos={isRight ? "fade-left" : "fade-right"}
               >
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-                  <figure className={`lg:col-span-6 ${isRight ? "order-2 lg:order-1" : ""}`}>
-                    <div className="relative h-full w-full min-h-[320px] rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.14)]">
+                  <figure className={`group lg:col-span-6 ${isRight ? "order-2 lg:order-1" : ""}`}>
+                    <div className="relative h-full w-full min-h-[320px] rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.14)] transition-shadow duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.2)]">
                       <img
                         src={m.image}
                         alt={m.title}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
                       />
                       <span className="absolute bottom-3 left-3 rounded-full bg-white/85 px-3 py-1 text-[11px] text-neutral-700">
                         {m.title}
@@ -174,7 +182,7 @@ function Extraction() {
                     </div>
                   </figure>
                   <article className={`lg:col-span-6 ${isRight ? "order-1 lg:order-2" : ""}`}>
-                    <div className="h-full bg-white rounded-2xl shadow p-6 flex flex-col">
+                    <div className="h-full bg-white rounded-2xl shadow p-6 flex flex-col transition-shadow duration-300 hover:shadow-lg">
                       <h2 className="text-xl md:text-2xl font-bold mb-4 text-[#2a1c14]">
                         {m.title}
                       </h2>
@@ -204,7 +212,7 @@ function Extraction() {
       {/* ปุ่มสารบัญ – มือถือ */}
       <button
         onClick={() => setTocOpen(true)}
-        className="lg:hidden fixed right-4 bottom-4 z-30 rounded-full bg-[#2a1c14] text-white px-4 py-3 shadow"
+        className="lg:hidden fixed right-4 bottom-4 z-30 rounded-full bg-[#2a1c14] text-white px-4 py-3 shadow-lg transition-all duration-200 ease-smooth hover:bg-black hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
         aria-label="สารบัญ"
       >
         สารบัญ
@@ -213,18 +221,26 @@ function Extraction() {
       {/* Modal สารบัญ – มือถือ */}
       {tocOpen && (
         <div className="lg:hidden fixed inset-0 z-40">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setTocOpen(false)} />
-          <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white shadow-xl p-4">
+          <div
+            className="absolute inset-0 bg-black/40 animate-fade-in"
+            onClick={() => setTocOpen(false)}
+          />
+          <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white shadow-xl p-4 animate-fade-in-up">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-semibold text-[#2a1c14]">สารบัญวิธีชง</span>
-              <button className="text-sm text-[#2a1c14]/70" onClick={() => setTocOpen(false)}>ปิด</button>
+              <button
+                className="text-sm text-[#2a1c14]/70 px-2 py-1 rounded-md transition-colors duration-150 hover:bg-black/5 hover:text-[#2a1c14]"
+                onClick={() => setTocOpen(false)}
+              >
+                ปิด
+              </button>
             </div>
             <div className="grid grid-cols-1 divide-y">
               {methods.map((m) => (
                 <button
                   key={m.id}
                   onClick={() => scrollToId(m.id)}
-                  className={`w-full text-left py-3 text-sm ${
+                  className={`w-full text-left py-3 text-sm transition-colors duration-150 hover:text-[#2a1c14] ${
                     activeId === m.id ? "text-[#2a1c14] font-semibold" : "text-neutral-700"
                   }`}
                 >

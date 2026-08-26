@@ -15,7 +15,7 @@ const resolvePhoto = (url) => {
 
 // ---------- UI helpers ----------
 const StatCard = ({ icon, label, value, sub }) => (
-  <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-4 md:p-5 hover:shadow-lg transition">
+  <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-4 md:p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 ease-smooth">
     <div className="flex items-center gap-3">
       <div className="h-10 w-10 grid place-items-center rounded-xl bg-brown/10 text-brown">{icon}</div>
       <div>
@@ -32,7 +32,7 @@ const StatCard = ({ icon, label, value, sub }) => (
 const ProgressLine = ({ percent }) => (
   <div className="w-full h-2.5 rounded-full bg-neutral-200 overflow-hidden">
     <div
-      className="h-full bg-gradient-to-r from-[#8b5e34] via-[#6f4e37] to-[#3e2a1f] transition-all"
+      className="h-full bg-gradient-to-r from-[#8b5e34] via-[#6f4e37] to-[#3e2a1f] transition-[width] duration-700 ease-smooth"
       style={{ width: `${Math.min(100, Math.max(0, percent))}%` }}
     />
   </div>
@@ -256,7 +256,7 @@ const Profile = () => {
               <div className="md:text-right">
                 <button
                   onClick={openEditPopup}
-                  className="rounded-full bg-[#6f4e37] text-white px-5 py-2 text-sm font-semibold shadow hover:opacity-90 transition"
+                  className="rounded-full bg-[#6f4e37] text-white px-5 py-2 text-sm font-semibold shadow transition-all duration-200 ease-smooth hover:opacity-90 hover:-translate-y-0.5 hover:shadow-md active:translate-y-0 active:scale-95"
                 >
                   แก้ไขโปรไฟล์
                 </button>
@@ -297,9 +297,9 @@ const Profile = () => {
               <button
                 key={t.key}
                 onClick={() => setActiveTab(t.key)}
-                className={`px-5 md:px-6 py-2 text-sm md:text-base rounded-full transition ${
+                className={`px-5 md:px-6 py-2 text-sm md:text-base rounded-full transition-all duration-200 ease-smooth ${
                   activeTab === t.key
-                    ? "bg-[#6f4e37] text-white"
+                    ? "bg-[#6f4e37] text-white shadow-sm"
                     : "text-[#2a1c14] hover:bg-neutral-100"
                 }`}
               >
@@ -311,7 +311,7 @@ const Profile = () => {
 
         {/* Tab: Overview (เหลือเฉพาะ Progress) */}
         {activeTab === "overview" && (
-          <section className="max-w-6xl mx-auto px-4 mt-6">
+          <section key="overview" className="max-w-6xl mx-auto px-4 mt-6 animate-fade-in-up">
             <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-5">
               <h3 className="text-lg font-bold text-[#2a1c14]">ความคืบหน้า</h3>
               <div className="mt-4 space-y-5">
@@ -343,7 +343,7 @@ const Profile = () => {
 
         {/* Tab: Achievements */}
         {activeTab === "achievements" && (
-          <section className="max-w-6xl mx-auto px-4 mt-6">
+          <section key="achievements" className="max-w-6xl mx-auto px-4 mt-6 animate-fade-in-up">
             {/* Content achievements */}
             <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-5">
               <h2 className="text-xl font-bold text-[#2a1c14]">ความสำเร็จจากบทความ</h2>
@@ -352,7 +352,7 @@ const Profile = () => {
                   {Object.keys(achievements.content).map((key) => {
                     const m = contentMap[key];
                     return (
-                      <div key={key} className="rounded-xl bg-white border border-neutral-200 hover:shadow-md transition">
+                      <div key={key} className="rounded-xl bg-white border border-neutral-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-smooth">
                         <Link to={m?.link || "#"} className="flex items-center gap-3 p-4">
                           <img src={m?.icon || "nav/icons8-coffee-bean-32.png"} className="w-7 h-7" />
                           <div>
@@ -408,14 +408,14 @@ const Profile = () => {
 
       {/* Modal Edit */}
       {isEditing && (
-        <div className="fixed inset-0 z-50 grid place-items-center bg-black/50 p-4">
+        <div className="fixed inset-0 z-50 grid place-items-center bg-black/50 p-4 animate-fade-in">
           <div
             ref={modalRef}
             tabIndex={-1}
             role="dialog"
             aria-modal="true"
             aria-labelledby="edit-modal-title"
-            className="w-full max-w-md rounded-2xl bg-white shadow-xl outline-none"
+            className="w-full max-w-md rounded-2xl bg-white shadow-xl outline-none animate-scale-in"
           >
             <div className="p-5 border-b">
               <h3 id="edit-modal-title" className="text-lg font-bold text-[#2a1c14]">แก้ไขโปรไฟล์</h3>
@@ -432,7 +432,7 @@ const Profile = () => {
                   />
                   <button
                     onClick={onPickFile}
-                    className="rounded-full bg-neutral-100 border px-3 py-1.5 text-sm hover:bg-neutral-200 disabled:opacity-60"
+                    className="rounded-full bg-neutral-100 border px-3 py-1.5 text-sm transition-colors duration-200 hover:bg-neutral-200 disabled:opacity-60"
                     disabled={uploading}
                     type="button"
                   >
@@ -455,7 +455,7 @@ const Profile = () => {
                   type="text"
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
                 />
               </div>
               <div>
@@ -477,13 +477,13 @@ const Profile = () => {
               <div className="flex justify-end gap-2">
                 <button
                   onClick={() => { setIsEditing(false); setSaveError(""); }}
-                  className="rounded-full bg-neutral-200 px-4 py-2 text-sm hover:bg-neutral-300"
+                  className="rounded-full bg-neutral-200 px-4 py-2 text-sm transition-all duration-200 ease-smooth hover:bg-neutral-300 active:scale-95"
                 >
                   ยกเลิก
                 </button>
                 <button
                   onClick={handleSaveProfile}
-                  className="rounded-full bg-[#6f4e37] text-white px-5 py-2 text-sm font-semibold hover:opacity-90"
+                  className="rounded-full bg-[#6f4e37] text-white px-5 py-2 text-sm font-semibold transition-all duration-200 ease-smooth hover:opacity-90 active:scale-95"
                 >
                   บันทึก
                 </button>

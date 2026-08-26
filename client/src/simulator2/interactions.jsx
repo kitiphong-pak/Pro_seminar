@@ -14,6 +14,16 @@ const clamp = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
 const roundTo = (v, stepSize) => Math.round(v / stepSize) * stepSize;
 const fmt = (v, stepSize) => (Number.isInteger(stepSize) ? Math.round(v) : Number(v.toFixed(1)));
 
+// ไอคอนช้อนตักกาแฟ วาดเองแบบเส้น (lucide ไม่มีไอคอนนี้)
+function ScoopIcon({ className }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className}>
+      <ellipse cx="9" cy="15" rx="6" ry="4" stroke="currentColor" strokeWidth="1.6" />
+      <line x1="13.5" y1="11.5" x2="20" y2="5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /* ─── 1. ลากวาง — ตักกาแฟลงตะแกรง ──────────────────────────────────────────── */
 
 /**
@@ -47,7 +57,8 @@ export function DragDoseInteraction({ step, value, onChange, dropRef, onDragStat
 
   const onPointerDown = (e) => {
     e.preventDefault();
-    e.currentTarget.setPointerCapture?.(e.pointerId);
+    // capture ล้มเหลวได้ในบางเคส (เช่น pointer หลุดก่อน) ไม่ควรทำให้ทั้ง handler พัง
+    try { e.currentTarget.setPointerCapture?.(e.pointerId); } catch { /* เพิกเฉย ยังลาก/กด/เทต่อได้แม้ capture ไม่ติด */ }
     draggingRef.current = true;
     setDrag({ x: e.clientX, y: e.clientY });
     setOver(false);
@@ -110,7 +121,7 @@ export function DragDoseInteraction({ step, value, onChange, dropRef, onDragStat
             animation: drag ? undefined : "brewFloat 2.6s ease-in-out infinite",
           }}
         >
-          <span className="text-3xl">🥄</span>
+          <ScoopIcon className="w-8 h-8 text-[#7b4b29]" />
           <span className="text-[10px] text-[#7b4b29]/70">
             {drag ? (over ? "ปล่อยเลย!" : "ลากไปที่อุปกรณ์") : "← ลากไปทางซ้าย"}
           </span>
@@ -121,7 +132,7 @@ export function DragDoseInteraction({ step, value, onChange, dropRef, onDragStat
       {drag &&
         createPortal(
           <div
-            className="pointer-events-none fixed z-[60] text-4xl"
+            className="pointer-events-none fixed z-[60]"
             style={{
               left: drag.x,
               top: drag.y,
@@ -130,7 +141,7 @@ export function DragDoseInteraction({ step, value, onChange, dropRef, onDragStat
               transition: "transform .12s ease-out",
             }}
           >
-            🥄
+            <ScoopIcon className="w-9 h-9 text-[#7b4b29]" />
           </div>,
           document.body
         )}
@@ -197,7 +208,8 @@ export function PressInteraction({ step, done, onDone }) {
   const begin = (e) => {
     if (done || holdRef.current) return;
     e.preventDefault();
-    e.currentTarget.setPointerCapture?.(e.pointerId);
+    // capture ล้มเหลวได้ในบางเคส (เช่น pointer หลุดก่อน) ไม่ควรทำให้ทั้ง handler พัง
+    try { e.currentTarget.setPointerCapture?.(e.pointerId); } catch { /* เพิกเฉย ยังลาก/กด/เทต่อได้แม้ capture ไม่ติด */ }
     stop();                    // กัน loop เดิมค้างแล้วแรงพุ่งเกิน
     forceRef.current = 0;
     setForce(0);
@@ -328,7 +340,8 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
   const begin = (e) => {
     if (done || pouringRef.current) return;
     e.preventDefault();
-    e.currentTarget.setPointerCapture?.(e.pointerId);
+    // capture ล้มเหลวได้ในบางเคส (เช่น pointer หลุดก่อน) ไม่ควรทำให้ทั้ง handler พัง
+    try { e.currentTarget.setPointerCapture?.(e.pointerId); } catch { /* เพิกเฉย ยังลาก/กด/เทต่อได้แม้ capture ไม่ติด */ }
     pouringRef.current = true;
     setPouring(true);
     startRef.current = { t: performance.now(), level: levelRef.current };
@@ -415,7 +428,7 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
           ].join(" ")}
           style={{ touchAction: "none" }}
         >
-          {done ? "✓ เสร็จแล้ว" : pouring ? "🫗 กำลังเท…" : "🫗 กดค้างเพื่อเท"}
+          {done ? "✓ เสร็จแล้ว" : pouring ? "กำลังเท…" : "กดค้างเพื่อเท"}
         </button>
         {pct > 0 && !done && (
           <button

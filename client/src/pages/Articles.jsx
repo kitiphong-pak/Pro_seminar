@@ -130,11 +130,11 @@ function ArticlesPage() {
             </div>
 
             {/* บทความ */}
-            <article className="bg-white rounded-2xl shadow p-4 md:p-8">
+            <article className="bg-white rounded-2xl shadow p-4 md:p-8 animate-fade-in-up">
               <div className="flex items-center justify-between gap-3">
                 <button
                   onClick={handleBack}
-                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm hover:bg-black/5 transition"
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm hover:bg-black/5 hover:-translate-x-0.5 active:scale-95 transition-all duration-200 ease-smooth"
                 >
                   ← กลับ
                 </button>
@@ -230,7 +230,7 @@ function ArticlesPage() {
                   <input
                     type="text"
                     placeholder="พิมพ์คำค้น (เช่น espresso, latte)..."
-                    className="w-full pl-10 pr-3 py-2 rounded-md border border-black/10 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full pl-10 pr-3 py-2 rounded-md border border-black/10 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -253,7 +253,7 @@ function ArticlesPage() {
                     id="category"
                     value={activeFilter}
                     onChange={(e) => setActiveFilter(e.target.value)}
-                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
                   >
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>
@@ -293,15 +293,18 @@ function ArticlesPage() {
             {/* Grid: 1/2/3 คอลัมน์ */}
             {!loading && <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-              {filteredArticles.map((article) => {
+              {filteredArticles.map((article, idx) => {
                 const cover = firstImageOf(article);
                 const excerpt = firstParagraphOf(article);
                 return (
                   <div
                     key={article._id || article.title}
                     role="button"
+                    tabIndex={0}
                     onClick={() => handleArticleClick(article)}
-                    className="group relative rounded-2xl overflow-hidden shadow hover:shadow-lg transition cursor-pointer bg-white"
+                    onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), handleArticleClick(article))}
+                    style={{ animationDelay: `${Math.min(idx, 8) * 45}ms` }}
+                    className="group relative rounded-2xl overflow-hidden shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-smooth cursor-pointer bg-white animate-fade-in-up focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4b29]/50"
                   >
                     {/* ภาพ */}
                     <div className="relative h-52">

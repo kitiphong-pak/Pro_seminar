@@ -1,39 +1,12 @@
 import { useEffect, useRef, useState, useCallback } from "react";
+import { Coffee, Lightbulb } from "lucide-react";
 import { DragDoseInteraction, PressInteraction, PourInteraction } from "./interactions";
-
-// ─── Emoji map for illustration placeholder ───────────────────────────────────
-
-const STEP_EMOJI = {
-  add_coffee:       "☕",
-  tamp:             "🔩",
-  brew:             "⚙️",
-  water_temp:       "🌡️",
-  pull_shot:        "💧",
-  add_water:        "💧",
-  assemble:         "🔧",
-  heat:             "🔥",
-  setup_filter:     "📄",
-  bloom:            "🌸",
-  pour:             "🫗",
-  steep:            "⏳",
-  press:            "👇",
-  steam_milk:       "♨️",
-  steam_milk_mocha: "♨️",
-  steam_foam:       "🫧",
-  pour_milk:        "🥛",
-  pour_cap:         "☕",
-  latte_art:        "🎨",
-  add_chocolate:    "🍫",
-  whipped_cream:    "🍦",
-  add_foam:         "🫧",
-  filter_ready:     "📝",
-};
-
 
 // ─── Illustration area ────────────────────────────────────────────────────────
 
 function StepIllustration({ step, equipment, dropRef, isDropActive, isOver, fillPct = 0 }) {
-  const emoji = STEP_EMOJI[step.id] || equipment?.emoji || "☕";
+  const [imgFailed, setImgFailed] = useState(false);
+  const showImg = !!equipment?.image && !imgFailed;
 
   // Steam lines for heat/brew steps
   const showSteam = ["brew", "heat", "steam_milk", "steam_milk_mocha", "steam_foam", "steep"].includes(step.id);
@@ -60,8 +33,26 @@ function StepIllustration({ step, equipment, dropRef, isDropActive, isOver, fill
       <div className="absolute -bottom-10 -left-10 w-36 h-36 rounded-full bg-white/10" />
       <div className="absolute top-1/3 left-1/4 w-16 h-16 rounded-full bg-white/10" />
 
-      {/* Floating emoji */}
-      <div className="relative z-10 flex flex-col items-center gap-3">
+      {/* อุปกรณ์จริง — เบลอรูปตัวเองเป็นพื้นหลังเหมือนการ์ดเลือกอุปกรณ์ */}
+      {showImg && (
+        <>
+          <img
+            src={equipment.image}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-40"
+          />
+          <img
+            src={equipment.image}
+            alt=""
+            onError={() => setImgFailed(true)}
+            className="absolute inset-0 w-full h-full object-contain object-center p-8 sm:p-10 drop-shadow-lg"
+            style={{ animation: "brewFloat 3.5s ease-in-out infinite" }}
+          />
+        </>
+      )}
+
+      <div className="relative z-10 flex flex-col items-center gap-3 mt-auto">
         {showSteam && (
           <div className="flex gap-3 mb-1 h-7">
             {[0, 1, 2].map((i) => (
@@ -77,15 +68,12 @@ function StepIllustration({ step, equipment, dropRef, isDropActive, isOver, fill
           </div>
         )}
 
-        <div
-          className="text-6xl sm:text-7xl"
-          style={{ animation: "brewFloat 3.5s ease-in-out infinite" }}
-        >
-          {emoji}
-        </div>
+        {!showImg && <Coffee className="size-14 text-[#7b4b29]/40" strokeWidth={1.5} />}
 
         <div className="text-center px-6">
-          <p className="text-sm font-semibold text-[#7b4b29]/80">{step.title}</p>
+          <p className="text-sm font-semibold text-[#7b4b29]/80 bg-white/55 backdrop-blur rounded-full px-3 py-1">
+            {step.title}
+          </p>
         </div>
       </div>
 
@@ -100,12 +88,12 @@ function StepIllustration({ step, equipment, dropRef, isDropActive, isOver, fill
 
       {/* Corner badge */}
       <div className="absolute top-3 right-3 bg-white/50 backdrop-blur rounded-full px-2 py-0.5 text-[10px] text-[#7b4b29]/60">
-        {step.interactionType === "timer" ? "⏱ จับเวลา" :
-         step.interactionType === "slider" ? "🎚 ปรับได้" :
-         step.interactionType === "choice" ? "✔ เลือก" :
-         step.interactionType === "drag" ? "🖐 ลากวาง" :
-         step.interactionType === "press" ? "💪 กดค้าง" :
-         step.interactionType === "pour" ? "🫗 เทค้าง" : "👆 กด"}
+        {step.interactionType === "timer" ? "จับเวลา" :
+         step.interactionType === "slider" ? "ปรับได้" :
+         step.interactionType === "choice" ? "เลือก" :
+         step.interactionType === "drag" ? "ลากวาง" :
+         step.interactionType === "press" ? "กดค้าง" :
+         step.interactionType === "pour" ? "เทค้าง" : "กด"}
       </div>
     </div>
   );
@@ -115,21 +103,21 @@ function StepIllustration({ step, equipment, dropRef, isDropActive, isOver, fill
 
 const SLIDER_FEEDBACK = {
   coffeeAmount: (pct) =>
-    pct > 0.65 ? { icon: "☕", text: "เข้มจัด" } : pct > 0.35 ? { icon: "☕", text: "สมดุล" } : { icon: "☕", text: "เบา" },
+    pct > 0.65 ? { text: "เข้มจัด" } : pct > 0.35 ? { text: "สมดุล" } : { text: "เบา" },
   waterTemp: (pct) =>
-    pct > 0.65 ? { icon: "🔥", text: "ร้อนมาก" } : pct > 0.35 ? { icon: "🌡️", text: "เหมาะสม" } : { icon: "❄️", text: "อุ่น" },
+    pct > 0.65 ? { text: "ร้อนมาก" } : pct > 0.35 ? { text: "เหมาะสม" } : { text: "อุ่น" },
   milkAmount: (pct) =>
-    pct > 0.65 ? { icon: "🥛", text: "นมเยอะ" } : pct > 0.35 ? { icon: "🥛", text: "กลาง" } : { icon: "💧", text: "นมน้อย" },
+    pct > 0.65 ? { text: "นมเยอะ" } : pct > 0.35 ? { text: "กลาง" } : { text: "นมน้อย" },
   chocolateAmount: (pct) =>
-    pct > 0.65 ? { icon: "🍫", text: "หวานมาก" } : pct > 0.35 ? { icon: "🍫", text: "พอดี" } : { icon: "🍫", text: "ช็อกน้อย" },
+    pct > 0.65 ? { text: "หวานมาก" } : pct > 0.35 ? { text: "พอดี" } : { text: "ช็อกน้อย" },
   waterAmount: (pct) =>
-    pct > 0.65 ? { icon: "💧", text: "น้ำมาก" } : pct > 0.35 ? { icon: "💧", text: "พอดี" } : { icon: "💧", text: "น้ำน้อย" },
+    pct > 0.65 ? { text: "น้ำมาก" } : pct > 0.35 ? { text: "พอดี" } : { text: "น้ำน้อย" },
   waterRatio: (pct) =>
-    pct > 0.65 ? { icon: "💧", text: "เจือจางมาก" } : pct > 0.35 ? { icon: "💧", text: "กลาง" } : { icon: "☕", text: "เข้มกว่า" },
+    pct > 0.65 ? { text: "เจือจางมาก" } : pct > 0.35 ? { text: "กลาง" } : { text: "เข้มกว่า" },
   pourSpeed: (pct) =>
-    pct > 0.65 ? { icon: "💨", text: "เทเร็ว" } : pct > 0.35 ? { icon: "🌊", text: "พอดี" } : { icon: "🐢", text: "เทช้า" },
+    pct > 0.65 ? { text: "เทเร็ว" } : pct > 0.35 ? { text: "พอดี" } : { text: "เทช้า" },
   foamAmount: (pct) =>
-    pct > 0.65 ? { icon: "🫧", text: "ฟองมาก" } : { icon: "🫧", text: "นิดหน่อย" },
+    pct > 0.65 ? { text: "ฟองมาก" } : { text: "นิดหน่อย" },
 };
 
 function SliderInteraction({ step, value, onChange }) {
@@ -151,7 +139,7 @@ function SliderInteraction({ step, value, onChange }) {
       {feedback && (
         <div className="flex justify-center">
           <span className="bg-[#f0e4d0] text-[#5c3a1e] text-xs font-semibold px-3 py-1 rounded-full transition-all duration-300">
-            {feedback.icon} {feedback.text}
+            {feedback.text}
           </span>
         </div>
       )}
@@ -258,7 +246,7 @@ function TimerInteraction({ step, done, onDone }) {
       </div>
 
       <p className="text-sm text-[#5c4033]/70 text-center">
-        {done ? "✅ เสร็จแล้ว!" : started ? `กำลังนับถอยหลัง…` : `รวมเวลา ${step.duration} ${step.unit}`}
+        {done ? "เสร็จแล้ว!" : started ? `กำลังนับถอยหลัง…` : `รวมเวลา ${step.duration} ${step.unit}`}
       </p>
 
       <div className="flex gap-3">
@@ -376,7 +364,7 @@ export default function StepCard({ step, stepNumber, totalSteps, variables, onVa
 
           {/* Hint */}
           <div className="flex items-start gap-2 text-xs text-[#7b4b29]/65 bg-[#fffaf3] rounded-xl px-3 py-2 border border-[#e8c88a]/40">
-            <span className="mt-0.5 flex-none text-sm">💡</span>
+            <Lightbulb className="mt-0.5 flex-none size-3.5" strokeWidth={2} />
             <span>{step.hint}</span>
           </div>
 

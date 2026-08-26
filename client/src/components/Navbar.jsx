@@ -71,6 +71,9 @@ export default function Navbar() {
     const onKey = (e) => {
       if (e.key === "Escape") {
         setShowFloatingNav(false);
+        setShowKnowledgeMenu(false);
+        setShowProfileMenu(false);
+        setShowMenu(false);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -90,6 +93,10 @@ export default function Navbar() {
   const isKnowledgeActive = knowledgeRoutes.some((r) => location.pathname === r);
   const isCoffeeBeanActive = location.pathname === "/coffee_bean";
   const isCoffeeMenuActive = location.pathname === "/coffee_menu";
+
+  // หน้าแรกให้พื้นหลัง navbar โปร่งใส จะได้กลืนไปกับ hero
+  // (พื้นหลังหน้า Home เป็น bg-beige-light สีเดียวกับจุดเริ่มของ gradient ใน hero)
+  const isHome = location.pathname === "/";
 
   // คลาสสำหรับโหมดลอย (fixed) vs ปกติ (relative)
   const wrapperBase = "z-50 relative" ;
@@ -115,12 +122,12 @@ export default function Navbar() {
       <div
         ref={navbarRef}
         style={wrapperStyle}
-        className={`${wrapperBase} ${showFloatingNav ? "animate-slideDown" : ""}`}
+        className={`${wrapperBase} ${showFloatingNav ? "animate-slide-down" : ""}`}
       >
         <header
-          className={`bg-white flex justify-between items-center shadow-lg select-none ${
-            showFloatingNav ? "rounded-b-xl" : ""
-          }`}
+          className={`flex justify-between items-center select-none ${
+            isHome ? "bg-transparent" : "bg-white shadow-lg"
+          } ${showFloatingNav ? "rounded-b-xl" : ""}`}
           style={{ padding: "1rem 1.25rem", height: "100%" }}
         >
           {/* โลโก้ */}
@@ -138,12 +145,15 @@ export default function Navbar() {
                 }`}
                 ref={knowledgeMenuRef}
               >
-                <span
+                <button
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={showKnowledgeMenu}
                   className="cursor-pointer select-none hover:text-light-brown transition duration-300"
                   onClick={() => setShowKnowledgeMenu((prev) => !prev)}
                 >
                   คลังความรู้กาแฟ
-                </span>
+                </button>
                 {showKnowledgeMenu && (
                   <ul className="absolute left-0 z-10 bg-brown shadow-lg mt-2 rounded-md w-60 text-beige text-sm transition duration-300">
                     <li>
@@ -261,13 +271,21 @@ export default function Navbar() {
 
               {/* เมนูโปรไฟล์ */}
               <li className="relative group" ref={profileMenuRef}>
-                <img
-                  src={resolvePhoto(user?.photoURL)}
-                  alt="Profile"
-                  onError={(e) => { e.currentTarget.src = "/coffeebean.png"; }}
-                  className="w-10 h-10 rounded-full cursor-pointer hover:opacity-80 transition duration-300"
+                <button
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded={showProfileMenu}
+                  aria-label="เมนูโปรไฟล์"
+                  className="block rounded-full hover:opacity-80 transition duration-300"
                   onClick={() => setShowProfileMenu((prev) => !prev)}
-                />
+                >
+                  <img
+                    src={resolvePhoto(user?.photoURL)}
+                    alt=""
+                    onError={(e) => { e.currentTarget.src = "/coffeebean.png"; }}
+                    className="w-10 h-10 rounded-full"
+                  />
+                </button>
                 {showProfileMenu && (
                   <ul className="absolute right-0 z-10 bg-brown shadow-lg mt-2 rounded-md w-48 text-beige text-sm transition duration-300">
                     {user ? (
@@ -275,11 +293,14 @@ export default function Navbar() {
                         <li className="p-3 hover:bg-dark-brown transition duration-200">
                           <Link to="/profile">โปรไฟล์ของฉัน</Link>
                         </li>
-                        <li
-                          className="p-3 hover:bg-red-500 transition duration-200 cursor-pointer"
-                          onClick={handleLogout}
-                        >
-                          ออกจากระบบ
+                        <li>
+                          <button
+                            type="button"
+                            className="w-full text-left p-3 hover:bg-red-500 transition duration-200"
+                            onClick={handleLogout}
+                          >
+                            ออกจากระบบ
+                          </button>
                         </li>
                       </>
                     ) : (
@@ -295,7 +316,7 @@ export default function Navbar() {
 
           {/* Mobile Menu Toggle Button */}
           <button
-            className="lg:hidden text-brown focus:outline-none text-2xl"
+            className="lg:hidden text-brown focus:outline-none text-2xl transition-transform duration-200 ease-smooth active:scale-90"
             onClick={() => setShowMenu((prev) => !prev)}
           >
             ☰
@@ -303,7 +324,7 @@ export default function Navbar() {
 
           {/* Mobile Menu */}
           {showMenu && (
-            <div className="absolute top-full left-0 w-full bg-brown shadow-lg p-6 lg:hidden z-50 rounded-b-xl animate-slideDown">
+            <div className="absolute top-full left-0 w-full bg-brown shadow-lg p-6 lg:hidden z-50 rounded-b-xl animate-slide-down">
               <ul className="space-y-4 text-beige">
                 <li>
                   <span className="block text-lg font-semibold">
@@ -400,14 +421,17 @@ export default function Navbar() {
                             โปรไฟล์ของฉัน
                           </Link>
                         </li>
-                        <li
-                          className="cursor-pointer block p-3 hover:bg-red-500 transition duration-200"
-                          onClick={() => {
-                            handleLogout();
-                            setShowMenu(false);
-                          }}
-                        >
-                          ออกจากระบบ
+                        <li>
+                          <button
+                            type="button"
+                            className="w-full text-left block p-3 hover:bg-red-500 transition duration-200"
+                            onClick={() => {
+                              handleLogout();
+                              setShowMenu(false);
+                            }}
+                          >
+                            ออกจากระบบ
+                          </button>
                         </li>
                       </>
                     ) : (

@@ -182,10 +182,10 @@ function CoffeeBeans() {
       <main className="mx-auto max-w-7xl px-4 md:px-8 py-6 w-full">
         {selectedItem ? (
           // -------------------- รายละเอียดสินค้า --------------------
-          <div className="bg-white rounded-2xl shadow p-5 md:p-8">
+          <div className="bg-white rounded-2xl shadow p-5 md:p-8 animate-fade-in-up">
             <button
               onClick={handleBack}
-              className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm hover:bg-black/5 transition mb-4"
+              className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm hover:bg-black/5 hover:-translate-x-0.5 active:scale-95 transition-all duration-200 ease-smooth mb-4"
             >
               ← ย้อนกลับ
             </button>
@@ -277,7 +277,7 @@ function CoffeeBeans() {
                             href={url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="rounded-full bg-[#6f4e37] text-white px-4 py-2 text-sm hover:opacity-90 transition"
+                            className="rounded-full bg-[#6f4e37] text-white px-4 py-2 text-sm shadow-sm transition-all duration-200 ease-smooth hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                           >
                             ซื้อผ่าน {name}
                           </a>
@@ -300,15 +300,15 @@ function CoffeeBeans() {
                   <button
                     key={q.key}
                     onClick={() => handleQuick(q.key)}
-                    className={`group relative overflow-hidden rounded-xl border px-4 py-4 text-left transition
+                    className={`group relative overflow-hidden rounded-xl border px-4 py-4 text-left transition-all duration-200 ease-smooth hover:-translate-y-0.5 active:translate-y-0 active:scale-[.98]
                       ${active
-                        ? "border-[#6f4e37]/40 ring-2 ring-[#6f4e37]/40 bg-black/10"
-                        : "border-black/10 bg-black/5 hover:bg-black/10"}`}
+                        ? "border-[#6f4e37]/40 ring-2 ring-[#6f4e37]/40 bg-black/10 shadow-sm"
+                        : "border-black/10 bg-black/5 hover:bg-black/10 hover:shadow-sm"}`}
                   >
                     <div className="font-semibold text-[#2a1c14]">{q.label}</div>
                     <div className="text-xs text-black/60">{q.sub}</div>
-                    <div className={`absolute right-3 top-1/2 -translate-y-1/2 transition
-                      ${active ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}>
+                    <div className={`absolute right-3 top-1/2 -translate-y-1/2 transition-all duration-200 ease-smooth
+                      ${active ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0"}`}>
                       →
                     </div>
                   </button>
@@ -327,7 +327,7 @@ function CoffeeBeans() {
                   <input
                     type="text"
                     placeholder="พิมพ์ชื่อแบรนด์/รุ่น..."
-                    className="w-full pl-10 pr-3 py-2 rounded-md border border-black/10 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full pl-10 pr-3 py-2 rounded-md border border-black/10 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -348,7 +348,7 @@ function CoffeeBeans() {
                   <select
                     value={activeFilter}
                     onChange={(e) => handleFilterChange(e.target.value)}
-                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>
@@ -373,7 +373,7 @@ function CoffeeBeans() {
                   <select
                     value={roastFilter}
                     onChange={(e) => setRoastFilter(e.target.value)}
-                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
                   >
                     {roastOptions.map((r) => (
                       <option key={r} value={r}>
@@ -417,39 +417,42 @@ function CoffeeBeans() {
             {/* Grid การ์ด */}
             {!loading && <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
               {filteredItems.map((item, index) => {
-              // ------ เพิ่ม: สร้างแท็กไว้แสดงด้านขวาล่าง ------
-              const tagsFromType = Array.isArray(item.type) ? item.type : (item.type ? [item.type] : []);
-              const tagsFromTests = item.tests ? item.tests.split(/\s+/) : []; // เช่น "ขมเข้ม หอม กลมกล่อม"
-              const previewTags = [...tagsFromType, ...tagsFromTests].slice(0, 3); // เอา 2–3 คำพอ
+              const category = Array.isArray(item.type) ? item.type[0] : item.type;
 
               return (
                 <button
                   key={item.id ?? index}
                   type="button"
                   onClick={() => handleItemClick(item)}
-                  className="relative overflow-hidden rounded-2xl bg-white shadow hover:shadow-lg transition text-left w-full"
+                  style={{ animationDelay: `${Math.min(index, 9) * 35}ms` }}
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
                 >
-                  {/* รูป + ชื่อ (คงของเดิมไว้) */}
-                  <div className="h-40 w-full">
-                    <img src={item.img} alt={item.name} className="h-full w-full object-cover" />
-                  </div>
-
-                  {/* แถบไล่สี + ชื่อบนรูป ถ้ามี */}
-                  <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-black/55 to-transparent" />
-                  <div className="absolute left-3 top-3 text-white font-semibold drop-shadow">
-                    {item.name}
+                  {/* รูปสินค้า: พื้นขาวกลืนกับพื้นหลังรูปจริง (รูปส่วนใหญ่ถ่ายบนพื้นขาวอยู่แล้ว) + เส้นคั่นบาง ๆ แทนสีที่ตัดกัน */}
+                  <div className="h-40 w-full shrink-0 bg-white border-b border-black/5 flex items-center justify-center">
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      className="h-full w-full object-contain p-5 transition-transform duration-500 ease-smooth group-hover:scale-105"
+                    />
                   </div>
 
                   {/* เนื้อหาด้านล่างการ์ด */}
-                  <div className="p-4">
-                    {/* คำบรรยายสั้น (คงของเดิมได้) */}
+                  <div className="flex flex-1 flex-col p-4">
+                    <h3 className="min-h-[2.6em] text-[15px] font-semibold leading-snug text-[#2a1c14] line-clamp-2">
+                      {item.name}
+                    </h3>
+
                     {item.tests && (
-                      <p className="text-sm text-neutral-700 line-clamp-1 mb-3">{item.tests}</p>
+                      <p className="mt-1 text-sm text-neutral-500 line-clamp-1">{item.tests}</p>
                     )}
 
-                    {/* แถวล่าง: ราคาซ้าย / แท็กขวา  ——> แทนที่ปุ่ม "ซื้อผ่าน ..." */}
-                    <div className="mt-1 flex items-center justify-between gap-3">
-                      <span className="text-sm text-neutral-500">{item.price}</span>
+                    <div className="mt-auto flex items-center justify-between gap-2 pt-3">
+                      <span className="text-sm font-medium text-[#6f4e37]">{item.price}</span>
+                      {category && (
+                        <span className="rounded-full bg-black/5 px-2.5 py-1 text-[11px] text-black/60">
+                          {category}
+                        </span>
+                      )}
                     </div>
                   </div>
                 </button>

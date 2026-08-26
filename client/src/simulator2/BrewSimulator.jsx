@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Coffee, Flame, Zap, Milk, Droplet, Lightbulb } from "lucide-react";
 import Navbar from "../components/Navbar";
 import FetchError from "../components/FetchError";
 import StepCard from "./StepCard";
@@ -46,7 +47,9 @@ function calcNutrition(menu, variables, nut) {
     b.calories += nut.whipped_cream_per_tbsp.calories * 2;
     b.fat = (b.fat ?? 0) + nut.whipped_cream_per_tbsp.fat * 2;
   }
-  if (variables.waterRatio) b.water = (b.water ?? 30) + 30 * variables.waterRatio;
+  // ปริมาณน้ำที่เทจริงระหว่างชง (เช่น Moka Pot) ให้ผลลัพธ์สะท้อนตามนั้น แทนค่าคงที่ของสูตรเมนู
+  if (variables.waterAmount != null) b.water = variables.waterAmount;
+  else if (variables.waterRatio) b.water = (b.water ?? 30) + 30 * variables.waterRatio;
   return {
     calories: Math.round(b.calories ?? 0),
     caffeine: Math.round(b.caffeine ?? 0),
@@ -142,7 +145,11 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
     <div className="max-w-2xl mx-auto px-4 py-8 space-y-6" style={{ animation: "brewFadeUp 0.5s ease-out both" }}>
       {/* Trophy header */}
       <div className="text-center space-y-1">
-        <div className="text-6xl" style={{ animation: "brewFloat 3s ease-in-out infinite" }}>☕</div>
+        <Coffee
+          className="mx-auto size-14 text-[#7b4b29]"
+          strokeWidth={1.5}
+          style={{ animation: "brewFloat 3s ease-in-out infinite" }}
+        />
         <h1 className="text-2xl font-extrabold text-[#3d2010] mt-2">{menu.nameTh} สำเร็จ!</h1>
         <p className="text-sm text-[#5c4033]/60">ชงด้วย {equipment.nameTh}</p>
       </div>
@@ -163,17 +170,17 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
         <p className="text-sm font-bold text-[#3d2010] mb-4">โภชนาการ (ต่อแก้ว)</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
           {[
-            { label: "แคลอรี่", value: nutrition.calories, unit: "kcal", emoji: "🔥" },
-            { label: "คาเฟอีน", value: nutrition.caffeine, unit: "mg",   emoji: "⚡" },
-            { label: "ไขมัน",   value: nutrition.fat,      unit: "g",    emoji: "🥛" },
-            { label: "น้ำ",     value: nutrition.water,    unit: "ml",   emoji: "💧" },
+            { label: "แคลอรี่", value: nutrition.calories, unit: "kcal", Icon: Flame },
+            { label: "คาเฟอีน", value: nutrition.caffeine, unit: "mg",   Icon: Zap },
+            { label: "ไขมัน",   value: nutrition.fat,      unit: "g",    Icon: Milk },
+            { label: "น้ำ",     value: nutrition.water,    unit: "ml",   Icon: Droplet },
           ].map((item, i) => (
             <div
               key={item.label}
               className="bg-[#f7efe6] rounded-2xl p-3"
               style={{ animation: `brewFadeUp 0.4s ease-out ${i * 0.08}s both` }}
             >
-              <div className="text-xl mb-1">{item.emoji}</div>
+              <item.Icon className="mx-auto size-5 mb-1 text-[#7b4b29]" strokeWidth={1.75} />
               <p className="text-lg font-extrabold text-[#3d2010]">{item.value}</p>
               <p className="text-[10px] text-[#5c4033]/50">{item.unit}</p>
               <p className="text-[10px] text-[#5c4033]/40">{item.label}</p>
@@ -187,7 +194,9 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
         className="bg-[#fff7ec] border border-[#e8c88a] rounded-2xl px-5 py-4 text-sm text-[#7b4b29] leading-relaxed"
         style={{ animation: "brewFadeUp 0.5s ease-out 0.5s both" }}
       >
-        <p className="font-bold mb-1">💡 ครั้งต่อไปลองปรับ:</p>
+        <p className="font-bold mb-1 flex items-center gap-1.5">
+          <Lightbulb className="size-4" strokeWidth={2} /> ครั้งต่อไปลองปรับ:
+        </p>
         <p>{rec}</p>
       </div>
 
@@ -197,7 +206,7 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
         className="w-full py-4 rounded-2xl bg-[#7b4b29] text-white font-extrabold text-base hover:bg-[#5c3a1e] transition shadow-lg active:scale-[.98]"
         style={{ animation: "brewFadeUp 0.5s ease-out 0.6s both" }}
       >
-        ☕ ชงอีกครั้ง
+        ชงอีกครั้ง
       </button>
     </div>
   );
@@ -207,7 +216,7 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
 
 function EquipmentCard({ eq, onSelect, selecting }) {
   const isSelecting = selecting === eq.id;
-  // ถ้ารูปโหลดไม่ขึ้น ให้ตกกลับไปใช้ emoji เหมือนเดิม
+  // ถ้ารูปโหลดไม่ขึ้น ให้ตกกลับไปใช้ไอคอน Coffee แทน
   const [imgFailed, setImgFailed] = useState(false);
   const showImg = !!eq.image && !imgFailed;
   return (
@@ -220,7 +229,10 @@ function EquipmentCard({ eq, onSelect, selecting }) {
           : "ring-black/5 hover:ring-[#7b4b29]/40 hover:shadow-xl hover:scale-[1.01]",
       ].join(" ")}
     >
-      {/* รูปอุปกรณ์จริง */}
+      {/* รูปอุปกรณ์จริง: พื้นครีม+เบลอรูปตัวเองไว้กลืนสีตามที่ user ชอบ
+          รูปต้นฉบับที่ user ส่งมามีขอบขาวเยอะมาก (เนื้อหาจริงเหลือไม่ถึงครึ่งของภาพ) เบลอแล้วเลยได้แต่สีขาว
+          ไม่กลืนกับพื้น แก้ที่ต้นตอโดยครอปขอบขาวส่วนเกินออกจากไฟล์รูปก่อน (เหลือระยะขอบ ~8% พอหายใจ)
+          พอเนื้อหาเต็มเฟรมแล้ว เบลอ/เงาถึงกลืนกับพื้นหลังได้จริง ไม่ใช่กล่องขาวลอยอีก */}
       <div className="relative h-44 bg-gradient-to-br from-[#f0e4d0] to-[#d9c4aa] flex items-center justify-center overflow-hidden">
         <div className="absolute -top-8 -right-8 w-28 h-28 rounded-full bg-white/15" />
         <div className="absolute -bottom-6 -left-6 w-20 h-20 rounded-full bg-white/10" />
@@ -241,22 +253,18 @@ function EquipmentCard({ eq, onSelect, selecting }) {
               alt={eq.nameTh}
               onError={() => setImgFailed(true)}
               className={[
-                "absolute inset-0 w-full h-full object-contain object-center p-2 drop-shadow-lg",
+                "absolute inset-0 w-full h-full object-contain object-center p-3 drop-shadow-lg",
                 "transition-transform duration-500",
                 isSelecting ? "scale-105" : "group-hover:scale-[1.04]",
               ].join(" ")}
             />
-            <span className="absolute bottom-2 left-2.5 text-lg bg-white/70 backdrop-blur rounded-full w-8 h-8 flex items-center justify-center shadow-sm">
-              {eq.emoji}
-            </span>
           </>
         ) : (
-          <span
-            className="text-5xl relative z-10"
+          <Coffee
+            className="size-14 text-[#7b4b29]/50 relative z-10"
+            strokeWidth={1.5}
             style={isSelecting ? { animation: "brewFloat 0.8s ease-in-out" } : {}}
-          >
-            {eq.emoji}
-          </span>
+          />
         )}
         {isSelecting && (
           <div className="absolute inset-0 bg-[#7b4b29]/10 flex items-center justify-center">
@@ -270,8 +278,8 @@ function EquipmentCard({ eq, onSelect, selecting }) {
         <h3 className="font-extrabold text-[#3d2010] text-base">{eq.nameTh}</h3>
         <p className="text-xs text-[#5c4033]/65 leading-relaxed">{eq.description}</p>
         <div className="flex flex-wrap gap-1.5 pt-1">
-          <span className="bg-[#f0e4d0] text-[#5c3a1e] text-[10px] px-2.5 py-0.5 rounded-full font-medium">🌀 {eq.grind}</span>
-          <span className="bg-[#f0e4d0] text-[#5c3a1e] text-[10px] px-2.5 py-0.5 rounded-full font-medium">🌡 {eq.waterTemp}</span>
+          <span className="bg-[#f0e4d0] text-[#5c3a1e] text-[10px] px-2.5 py-0.5 rounded-full font-medium">{eq.grind}</span>
+          <span className="bg-[#f0e4d0] text-[#5c3a1e] text-[10px] px-2.5 py-0.5 rounded-full font-medium">{eq.waterTemp}</span>
         </div>
         <div className="flex items-center gap-1 pt-1">
           <span className="text-[10px] text-[#5c4033]/40">{eq.steps?.length ?? 0} ขั้นตอน</span>
@@ -286,12 +294,6 @@ function EquipmentCard({ eq, onSelect, selecting }) {
 
 // ─── Menu card ────────────────────────────────────────────────────────────────
 
-const MENU_EMOJI = {
-  espresso: "☕",  americano: "🥤",  latte: "🥛",
-  cappuccino: "☕", mocha: "🍫",      macchiato: "☕",
-  drip_coffee: "🫗", french_press_coffee: "🧉", moka_coffee: "☕",
-};
-
 function MenuCard({ menu, onSelect }) {
   return (
     <button
@@ -300,8 +302,8 @@ function MenuCard({ menu, onSelect }) {
     >
       <div className="h-24 bg-gradient-to-br from-[#f0e4d0] to-[#d9c4aa] flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 bg-[#7b4b29]/0 group-hover:bg-[#7b4b29]/5 transition" />
-        <span className="text-4xl" style={{ animation: "brewFloat 4s ease-in-out infinite" }}>
-          {MENU_EMOJI[menu.id] || "☕"}
+        <span className="text-3xl font-extrabold text-[#7b4b29]">
+          {menu.nameTh?.charAt(0)}
         </span>
       </div>
       <div className="p-3">
@@ -330,6 +332,7 @@ export default function BrewSimulator() {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
   const [variables, setVariables] = useState({});
   const [stepDone, setStepDone] = useState(false);
+  const [touchedSteps, setTouchedSteps] = useState(() => new Set()); // คีย์ `${phase}-${idx}` ของขั้นที่ผู้ใช้ปรับค่าจริงแล้ว
   const [selecting, setSelecting] = useState(null); // equipment id being selected (brief animation)
 
   const topRef = useRef(null);
@@ -372,7 +375,10 @@ export default function BrewSimulator() {
     topRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const handleVariableChange = (key, val) => setVariables((p) => ({ ...p, [key]: val }));
+  const handleVariableChange = (key, val) => {
+    setVariables((p) => ({ ...p, [key]: val }));
+    setTouchedSteps((prev) => new Set(prev).add(`${phase}-${currentStepIdx}`));
+  };
 
   const currentSteps =
     phase === "brew_steps"  ? (selectedEquipment?.steps ?? []) :
@@ -391,12 +397,19 @@ export default function BrewSimulator() {
   const isStepReady = useMemo(() => {
     if (!currentStep) return false;
     const t = currentStep.interactionType;
-    // interaction ที่ "ตั้งค่า" ไปต่อได้ทันที ส่วนที่ "ต้องลงมือ" ต้องรอ stepDone
+    // interaction ที่ "ตั้งค่า" ต้องให้ผู้ใช้ปรับค่าจริงอย่างน้อยหนึ่งครั้งก่อน ส่วนที่ "ต้องลงมือ" ต้องรอ stepDone
     const isValueType =
       t === "slider" || t === "choice" || t === "drag" ||
       (t === "pour" && currentStep.max != null);
-    return isValueType ? true : stepDone;
-  }, [currentStep, stepDone]);
+    return isValueType ? touchedSteps.has(`${phase}-${currentStepIdx}`) : stepDone;
+  }, [currentStep, stepDone, touchedSteps, phase, currentStepIdx]);
+
+  const isValueTypeStep = !!currentStep && (
+    currentStep.interactionType === "slider" ||
+    currentStep.interactionType === "choice" ||
+    currentStep.interactionType === "drag" ||
+    (currentStep.interactionType === "pour" && currentStep.max != null)
+  );
 
   const handleNext = () => {
     if (currentStepIdx < currentSteps.length - 1) {
@@ -428,6 +441,7 @@ export default function BrewSimulator() {
     setCurrentStepIdx(0);
     setVariables({});
     setStepDone(false);
+    setTouchedSteps(new Set());
     topRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -490,11 +504,11 @@ export default function BrewSimulator() {
       {phase !== "equipment_select" && (
         <div className="sticky top-0 z-30 bg-[#f3f1ec]/90 backdrop-blur border-b border-black/5 shadow-sm">
           <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
-            <button onClick={handleBack} className="text-[#7b4b29] hover:text-[#3d2010] transition text-sm font-medium flex items-center gap-1">
+            <button onClick={handleBack} className="text-[#7b4b29] hover:text-[#3d2010] transition-all duration-200 ease-smooth hover:-translate-x-0.5 active:scale-95 text-sm font-medium flex items-center gap-1">
               ← ย้อนกลับ
             </button>
             <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden text-xs text-[#5c4033]/50 whitespace-nowrap">
-              <span>{selectedEquipment?.emoji} {selectedEquipment?.nameTh}</span>
+              <span>{selectedEquipment?.nameTh}</span>
               {selectedMenu && <><span>/</span><span>{selectedMenu?.nameTh}</span></>}
             </div>
           </div>
@@ -547,6 +561,11 @@ export default function BrewSimulator() {
                 equipment={selectedEquipment}
               />
             </div>
+
+            {/* คำใบ้ตอนปุ่มถัดไปยังกดไม่ได้ เพราะยังไม่ได้ปรับค่าเลย */}
+            {!isStepReady && isValueTypeStep && (
+              <p className="text-center text-xs text-[#7b4b29]/60">ลองปรับค่าอย่างน้อยหนึ่งครั้งก่อนไปต่อ</p>
+            )}
 
             {/* Next button */}
             <button

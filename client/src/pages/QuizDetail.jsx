@@ -35,7 +35,7 @@ const QuizDetail = () => {
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <div className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
-          <p className="text-dark-brown">กำลังโหลด...</p>
+          <p className="text-dark-brown animate-fade-in">กำลังโหลด...</p>
         </div>
       </div>
     );
@@ -125,7 +125,7 @@ const QuizDetail = () => {
               <div className="mb-6">
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
-                    className="bg-dark-brown h-3 rounded-full"
+                    className="bg-dark-brown h-3 rounded-full transition-[width] duration-500 ease-smooth"
                     style={{ width: `${progressPercent}%` }}
                   ></div>
                 </div>
@@ -134,21 +134,21 @@ const QuizDetail = () => {
                   {quiz.questions.length})
                 </p>
               </div>
-              <div className="mb-4">
+              <div key={currentQuestion} className="mb-4 animate-fade-in-up">
                 <p className="text-lg text-dark-brown">
                   {quiz.questions[currentQuestion].question}
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div key={`opts-${currentQuestion}`} className="grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in-up">
                 {quiz.questions[currentQuestion].options.map(
                   (option, index) => (
                     <button
                       key={index}
                       onClick={() => handleSelect(option)}
-                      className={`p-4 rounded-3xl transition-colors text-left font-medium border bg-white text-dark-brown border-dark-brown ${
+                      className={`p-4 rounded-3xl transition-all duration-200 ease-smooth text-left font-medium border bg-white text-dark-brown border-dark-brown hover:-translate-y-0.5 active:translate-y-0 active:scale-[.98] ${
                         selectedAnswers[currentQuestion] === option
-                          ? "!bg-brown !text-beige"
-                          : "hover:bg-light-brown hover:text-beige"
+                          ? "!bg-brown !text-beige shadow-md"
+                          : "hover:bg-light-brown hover:text-beige hover:shadow-sm"
                       }`}
                     >
                       {option}
@@ -160,7 +160,7 @@ const QuizDetail = () => {
                 {currentQuestion > 0 && (
                   <button
                     onClick={handleBack}
-                    className="bg-dark-brown text-beige py-2 px-4 rounded-3xl hover:bg-brown transition-colors"
+                    className="bg-dark-brown text-beige py-2 px-4 rounded-3xl hover:bg-brown transition-all duration-200 ease-smooth active:scale-95"
                   >
                     ย้อนกลับ
                   </button>
@@ -168,7 +168,7 @@ const QuizDetail = () => {
                 <button
                   onClick={handleNext}
                   disabled={selectedAnswers[currentQuestion] === null}
-                  className="ml-auto bg-dark-brown text-beige py-2 px-4 rounded-3xl hover:bg-brown transition-colors disabled:opacity-50"
+                  className="ml-auto bg-dark-brown text-beige py-2 px-4 rounded-3xl hover:bg-brown transition-all duration-200 ease-smooth active:scale-95 disabled:opacity-50 disabled:active:scale-100"
                 >
                   {currentQuestion === quiz.questions.length - 1
                     ? "ส่งคำตอบ"
@@ -177,7 +177,7 @@ const QuizDetail = () => {
               </div>
             </>
           ) : (
-            <div className="text-center">
+            <div className="text-center animate-fade-in-up">
               <h1 className="text-2xl font-bold text-dark-brown mb-4">
                 คะแนนของคุณ: {score} / {quiz.questions.length} (
                 {Math.round((score / quiz.questions.length) * 100)}%)
@@ -189,7 +189,8 @@ const QuizDetail = () => {
                   return (
                     <div
                       key={idx}
-                      className="mb-6 p-6 border border-gray-300 rounded-3xl bg-white shadow-md"
+                      style={{ animationDelay: `${Math.min(idx, 8) * 60}ms` }}
+                      className="mb-6 p-6 border border-gray-300 rounded-3xl bg-white shadow-md animate-fade-in-up"
                     >
                       <p className="font-bold text-dark-brown text-lg">
                         {idx + 1}. {q.question}
@@ -230,14 +231,14 @@ const QuizDetail = () => {
                 {/* ปุ่มทำแบบทดสอบอีกครั้ง */}
                 <button
                   onClick={() => window.location.reload()}
-                  className="px-6 py-2 bg-light-brown text-beige font-semibold rounded-full shadow-lg hover:shadow-xl hover:bg-brown transition-all duration-300"
+                  className="px-6 py-2 bg-light-brown text-beige font-semibold rounded-full shadow-lg hover:shadow-xl hover:bg-brown hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300 ease-smooth"
                 >
                   ทำแบบทดสอบอีกครั้ง
                 </button>
                 {/* ปุ่มเสร็จสิ้น กลับหน้า /quiz */}
                 <button
                   onClick={() => navigate("/quiz")}
-                  className="px-6 py-2 bg-dark-brown text-beige font-semibold rounded-full shadow-lg hover:shadow-xl hover:bg-brown transition-all duration-300"
+                  className="px-6 py-2 bg-dark-brown text-beige font-semibold rounded-full shadow-lg hover:shadow-xl hover:bg-brown hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-300 ease-smooth"
                 >
                   เสร็จสิ้น
                 </button>

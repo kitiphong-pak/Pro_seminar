@@ -60,7 +60,7 @@
         "flavorImpact": {}
       }
     ],
-    "image": "/simulator/equipment/espresso_machine.jpg"
+    "image": "/simulator/equipment/espresso_machine.png"
   },
   {
     "id": "espresso_manual",
@@ -139,7 +139,7 @@
         "flavorImpact": {}
       }
     ],
-    "image": "/simulator/equipment/espresso_manual.webp"
+    "image": "/simulator/equipment/espresso_manual.png"
   },
   {
     "id": "moka_pot",
@@ -210,7 +210,7 @@
         "flavorImpact": {}
       }
     ],
-    "image": "/simulator/equipment/moka_pot.webp"
+    "image": "/simulator/equipment/moka_pot.png"
   },
   {
     "id": "drip",
@@ -301,7 +301,7 @@
         }
       }
     ],
-    "image": "/simulator/equipment/drip.jpg"
+    "image": "/simulator/equipment/drip.png"
   },
   {
     "id": "french_press",
@@ -374,6 +374,6 @@
         }
       }
     ],
-    "image": "/simulator/equipment/french_press.jpg"
+    "image": "/simulator/equipment/french_press.png"
   }
 ]

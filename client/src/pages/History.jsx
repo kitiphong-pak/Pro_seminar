@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { Coffee } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { updateUserAchievement } from "../api/achievementApi";
@@ -120,7 +121,7 @@ function History() {
               <button
                 key={s.id}
                 onClick={() => scrollToId(s.id)}
-                className="rounded-full border border-[#7b4b29]/30 bg-white/80 backdrop-blur px-4 py-1.5 text-xs md:text-sm text-[#5c4033] hover:bg-[#7b4b29] hover:text-white hover:border-[#7b4b29] transition-all duration-200 shadow-sm"
+                className="rounded-full border border-[#7b4b29]/30 bg-white/80 backdrop-blur px-4 py-1.5 text-xs md:text-sm text-[#5c4033] hover:bg-[#7b4b29] hover:text-white hover:border-[#7b4b29] hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200 ease-smooth shadow-sm"
               >
                 {s.label}
               </button>
@@ -235,7 +236,7 @@ function History() {
         <section id="modern" className="mx-auto max-w-6xl px-4 md:px-8 py-8">
           <div className="rounded-3xl bg-gradient-to-br from-[#3d2010] to-[#6f4e37] p-8 lg:p-10 shadow-xl text-white" data-aos="fade-up">
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">☕</span>
+              <Coffee className="size-7 text-white/80" strokeWidth={1.5} />
               <div>
                 <p className="text-xs uppercase tracking-widest text-white/50">Chapter 05</p>
                 <h2 className="text-xl md:text-2xl font-bold">{modern.title}</h2>

@@ -216,7 +216,7 @@ const CoffeeVariety = () => {
         {/* แผงรายละเอียดสายพันธุ์ย่อย */}
         <div ref={detailRef} className="mt-6">
           {selectedDetail && (
-            <div className="rounded-2xl bg-gradient-to-br from-[#fff8f0] to-white border-l-4 border-[#7b4b29] p-6 shadow-md ring-1 ring-[#7b4b29]/10">
+            <div className="rounded-2xl bg-gradient-to-br from-[#fff8f0] to-white border-l-4 border-[#7b4b29] p-6 shadow-md ring-1 ring-[#7b4b29]/10 animate-fade-in-up">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="uppercase tracking-widest text-[11px] text-[#7b4b29]/60 font-medium">Sub-variety</p>

@@ -13,7 +13,7 @@ const RequireAuth = ({ children }) => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#f3f1ec]">
+      <div className="min-h-screen flex items-center justify-center bg-[#f3f1ec] animate-fade-in">
         <div className="flex flex-col items-center gap-3">
           <div className="h-10 w-10 rounded-full border-4 border-[#7b4b29]/30 border-t-[#7b4b29] animate-spin" />
           <p className="text-[#7b4b29] text-sm">กำลังตรวจสอบสิทธิ์...</p>

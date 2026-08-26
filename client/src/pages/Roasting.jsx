@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { Lightbulb } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { updateUserAchievement } from "../api/achievementApi";
 import { useAuth } from "../contexts/AuthContext";
@@ -95,7 +96,7 @@ const CoffeeInfo = () => {
                 key={label}
                 onClick={() => setSelectedRoast(label)}
                 className={[
-                  "shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-all",
+                  "shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ease-smooth",
                   active
                     ? "bg-[#5c3a1e] text-white border-[#5c3a1e] shadow"
                     : "bg-white text-[#3d2010] border-black/10 hover:border-[#7b4b29]/40 hover:bg-[#f7efe6]",
@@ -112,15 +113,15 @@ const CoffeeInfo = () => {
 
       {/* Content */}
       <main className="max-w-5xl mx-auto px-4 py-8 pb-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div key={selectedRoast} className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start animate-fade-in-up">
 
           {/* รูป */}
           <figure className="lg:col-span-5">
-            <div className="rounded-2xl overflow-hidden shadow-lg aspect-[4/3]">
+            <div className="rounded-2xl overflow-hidden shadow-lg aspect-[4/3] group">
               <img
                 src={data.img}
                 alt={selectedRoast}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
               />
             </div>
           </figure>
@@ -133,8 +134,8 @@ const CoffeeInfo = () => {
               <h2 className="text-2xl font-bold text-[#3d2010]">{selectedRoast}</h2>
               <div className="flex flex-wrap gap-2 mt-2">
                 <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">{data.alias}</span>
-                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">🌡️ {data.temperature}</span>
-                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">⚡ คาเฟอีน{data.caffeineLevel}</span>
+                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">{data.temperature}</span>
+                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">คาเฟอีน{data.caffeineLevel}</span>
               </div>
             </div>
 
@@ -231,9 +232,12 @@ const CoffeeInfo = () => {
         </div>
 
         {/* เคล็ดลับ */}
-        <div className="mt-6 rounded-xl bg-[#fff7ec] border border-[#e8c88a] p-4 text-sm text-[#7b4b29]">
-          <span className="font-semibold">💡 เคล็ดลับ: </span>
-          เลือกระดับคั่วให้เข้ากับวิธีชง คั่วอ่อนเหมาะกับดริปที่เน้นกลิ่นผลไม้ ส่วนคั่วเข้มเหมาะกับเอสเปรสโซหรือเมนูนมที่ต้องการบอดี้ชัด
+        <div className="mt-6 flex items-start gap-2 rounded-xl bg-[#fff7ec] border border-[#e8c88a] p-4 text-sm text-[#7b4b29]">
+          <Lightbulb className="mt-0.5 flex-none size-4" strokeWidth={2} />
+          <p>
+            <span className="font-semibold">เคล็ดลับ: </span>
+            เลือกระดับคั่วให้เข้ากับวิธีชง คั่วอ่อนเหมาะกับดริปที่เน้นกลิ่นผลไม้ ส่วนคั่วเข้มเหมาะกับเอสเปรสโซหรือเมนูนมที่ต้องการบอดี้ชัด
+          </p>
         </div>
       </main>
 

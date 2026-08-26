@@ -85,6 +85,45 @@
   input[type="range"]:active { cursor: grabbing; }
 }
 
+/* =========================================================
+   MOTION — ทรานซิชันพื้นฐานทั่วเว็บ ให้ทุกอย่างขยับลื่นไหลเป็นมาตรฐานเดียวกัน
+   ตั้งใจใช้เฉพาะ transition-colors/opacity/box-shadow ที่นี่ — ไม่แตะ
+   transform เป็นค่า global เพราะ Brew Simulator มี element ที่ตำแหน่ง
+   ถูกลาก/อัปเดตด้วย JS ทุกเฟรม (ช้อนที่ลากตาม pointer, เกจวัดแรง) การใส่
+   transition ที่ transform ระดับ global จะทำให้สิ่งเหล่านั้นขยับ "หน่วง"
+   ตามหลังนิ้ว/เมาส์แทนที่จะเกาะตำแหน่งจริงทันที — เอฟเฟกต์ hover:scale จึง
+   ประกาศ transition-transform เฉพาะจุดที่ใช้แทน
+   ========================================================= */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  button, a[href], summary, [role="button"], [role="tab"] {
+    transition-property: color, background-color, border-color, box-shadow, opacity;
+    transition-duration: 200ms;
+    transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* วงแหวน focus ที่เห็นชัดเฉพาะตอนใช้คีย์บอร์ด — ไม่โผล่ตอนคลิกเมาส์ */
+  :focus-visible {
+    outline: 2px solid #7b4b29;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* ผู้ใช้ที่ตั้งค่าระบบให้ลดอนิเมชัน — ตัดทุกการขยับออกให้หมด */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
 @keyframes brewFloat {
   0%, 100% { transform: translateY(0px) rotate(0deg); }
   50%       { transform: translateY(-10px) rotate(2deg); }

@@ -1,4 +1,5 @@
 ﻿import { useState, useEffect, useRef } from "react";
+import { Coffee } from "lucide-react";
 import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import BackToTop from "../components/BackToTop";
@@ -34,20 +35,6 @@ function CoffeeBeans() {
     const offset = -70;
     const y = mainRef.current.getBoundingClientRect().top + window.pageYOffset + offset;
     window.scrollTo({ top: y, behavior: "smooth" });
-  };
-
-  // เอา tests/type มาทำ tag สั้น ๆ
-  const getTags = (item) => {
-    const t = Array.isArray(item.type)
-      ? item.type
-      : item.type
-      ? [item.type]
-      : [];
-    const tests = (item.tests || "")
-      .split(/[,\s]+/)
-      .filter(Boolean);
-    const unique = [...new Set([...t, ...tests])];
-    return unique.slice(0, 3);
   };
 
   // init จาก state หรือ ?item=
@@ -149,12 +136,12 @@ function CoffeeBeans() {
       <main ref={mainRef} className="flex-1 lg:p-6 sm:p-0">
         {/* =============== DETAIL VIEW =============== */}
         {selectedItem ? (
-          <div className="bg-white rounded-2xl shadow-md p-5 md:p-6">
+          <div className="bg-white rounded-2xl shadow-md p-5 md:p-6 animate-fade-in-up">
             {/* แถบปุ่มหลักของหน้า — ย้อนกลับ + ลองชง อยู่กล่องเดียวกัน */}
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#faf6f3] ring-1 ring-black/5 px-3 py-3 sm:px-4">
               <button
                 onClick={handleBack}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[#6f4e37]/25 bg-white px-4 py-2 text-sm font-medium text-[#6f4e37] transition hover:bg-[#6f4e37] hover:text-white"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#6f4e37]/25 bg-white px-4 py-2 text-sm font-medium text-[#6f4e37] transition-all duration-200 ease-smooth hover:bg-[#6f4e37] hover:text-white active:scale-95"
               >
                 <span aria-hidden="true">←</span>
                 ย้อนกลับ
@@ -166,9 +153,9 @@ function CoffeeBeans() {
                 </span>
                 <button
                   onClick={handleTryIt}
-                  className="inline-flex items-center gap-2 rounded-full bg-[#6f4e37] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#6f4e37]/25 transition hover:bg-[#5b3f2c] hover:shadow-xl active:scale-[.98]"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#6f4e37] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#6f4e37]/25 transition-all duration-200 ease-smooth hover:bg-[#5b3f2c] hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[.98]"
                 >
-                  <span aria-hidden="true">☕</span>
+                  <Coffee className="size-4" aria-hidden="true" strokeWidth={2} />
                   ลองชงเมนูนี้
                 </button>
               </div>
@@ -286,7 +273,7 @@ function CoffeeBeans() {
           </div>
         ) : (
           /* =============== LIST VIEW =============== */
-          <section className="rounded-2xl bg-white shadow-md transition hover:shadow-lg">
+          <section className="rounded-2xl bg-white shadow-md animate-fade-in">
             <div className="p-4 md:p-6 lg:p-7">
 
               {/* Heading + Reset */}
@@ -300,7 +287,7 @@ function CoffeeBeans() {
                 {hasActive && (
                   <button
                     onClick={clearAll}
-                    className="text-sm rounded-full border border-black/10 px-3 py-1.5 text-[#2a1c14] hover:bg-black/5"
+                    className="text-sm rounded-full border border-black/10 px-3 py-1.5 text-[#2a1c14] transition-colors duration-200 hover:bg-black/5"
                   >
                     ล้างทั้งหมด
                   </button>
@@ -317,7 +304,7 @@ function CoffeeBeans() {
                       type="text"
                       placeholder="ค้นหาเมนู..."
                       className="w-full rounded-full border border-black/10 bg-black/5 pl-10 pr-10 py-2.5
-                                 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]/30"
+                                 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]/30"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       aria-label="ค้นหาเมนู"
@@ -340,7 +327,7 @@ function CoffeeBeans() {
                         aria-label="ล้างคำค้นหา"
                         onClick={() => setSearchTerm("")}
                         className="absolute right-2 top-1/2 -translate-y-1/2 grid place-items-center
-                                   h-7 w-7 rounded-full text-neutral-500 hover:bg-black/10"
+                                   h-7 w-7 rounded-full text-neutral-500 transition-all duration-150 hover:bg-black/10 active:scale-90"
                       >
                         ×
                       </button>
@@ -349,7 +336,7 @@ function CoffeeBeans() {
 
                   {/* Suggestion */}
                   <button
-                    className="rounded-full bg-[#b5835a] px-4 py-2 text-white hover:opacity-90 shadow-sm self-end sm:self-auto"
+                    className="rounded-full bg-[#b5835a] px-4 py-2 text-white shadow-sm self-end sm:self-auto transition-all duration-200 ease-smooth hover:opacity-90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                     onClick={() => navigate("/suggestion")}
                   >
                     แนะนำกาแฟที่คุณต้องชอบ
@@ -363,7 +350,7 @@ function CoffeeBeans() {
                       <button
                         key={f}
                         onClick={() => handleFilterChange(f)}
-                        className={`shrink-0 rounded-full border px-4 py-1.5 text-sm transition
+                        className={`shrink-0 rounded-full border px-4 py-1.5 text-sm transition-all duration-200 ease-smooth active:scale-95
                           ${
                             activeFilter === f
                               ? "bg-[#6f4e37] text-white border-[#6f4e37] shadow"
@@ -381,63 +368,52 @@ function CoffeeBeans() {
               {loading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
                   {[...Array(6)].map((_, i) => (
-                    <div key={i} className="rounded-2xl bg-[#e0d8ce] animate-pulse h-56" />
+                    <div key={i} className="rounded-2xl bg-[#e0d8ce] animate-pulse h-72" />
                   ))}
                 </div>
               ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
                 {filteredItems.map((item, idx) => {
-                  const tags = getTags(item);
+                  const tag = Array.isArray(item.type) ? item.type[0] : item.type;
                   return (
                     <button
                       key={idx}
                       type="button"
                       onClick={() => handleItemClick(item)}
-                      className="group relative overflow-hidden rounded-2xl bg-white shadow hover:shadow-xl transition text-left w-full"
+                      style={{ animationDelay: `${Math.min(idx, 8) * 40}ms` }}
+                      className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
                     >
-                      {/* รูป */}
-                      <div className="relative h-44 w-full">
+                      {/* รูป: ไม่มีตัวหนังสือทับแล้ว (ชื่อเมนูย้ายไปอยู่ใต้รูปแทน อ่านง่ายกว่าเดิมที่ทับกับรูปที่มีรายละเอียดเยอะ)
+                          cafeid ไม่เอามาโชว์ในการ์ดแล้ว เพราะเนื้อหาจริงคือสูตรส่วนผสม (ประโยคยาว) ไม่ใช่ป้ายสั้น ๆ ไปแสดงละเอียดในหน้าดูเมนูแทน */}
+                      <div className="h-44 w-full shrink-0 overflow-hidden">
                         <img
                           src={item.img}
                           alt={item.name}
-                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          className="h-full w-full object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                        {item.cafeid && (
-                          <span className="absolute left-3 top-3 rounded-full bg-white/85 px-2.5 py-1 text-[11px] text-neutral-800">
-                            {item.cafeid}
-                          </span>
-                        )}
-                        <div className="absolute bottom-3 left-3 right-3 text-white drop-shadow">
-                          <h3 className="font-semibold leading-tight line-clamp-2">
-                            {item.name}
-                          </h3>
-                        </div>
                       </div>
 
                       {/* เนื้อหาล่างการ์ด */}
-                      <div className="p-4">
+                      <div className="flex flex-1 flex-col p-4">
+                        <h3 className="min-h-[2.6em] text-[15px] font-semibold leading-snug text-[#2a1c14] line-clamp-2">
+                          {item.name}
+                        </h3>
+
                         {item.tests && (
-                          <p className="text-sm text-neutral-700 line-clamp-1 mb-3">
+                          <p className="mt-1 text-sm text-neutral-500 line-clamp-1">
                             {item.tests}
                           </p>
                         )}
 
-                        <div className="mt-1 flex items-center justify-between gap-3">
+                        <div className="mt-auto flex items-center justify-between gap-2 pt-3">
                           <span className="text-xs text-neutral-500">
                             {item.calories || ""}
                           </span>
-
-                          <div className="flex flex-wrap justify-end gap-2">
-                            {tags.map((t, i) => (
-                              <span
-                                key={`${t}-${i}`}
-                                className="rounded-full border border-[#6f4e37]/25 bg-[#6f4e37]/5 px-2.5 py-1 text-[11px] text-[#6f4e37]"
-                              >
-                                {t}
-                              </span>
-                            ))}
-                          </div>
+                          {tag && (
+                            <span className="rounded-full border border-[#6f4e37]/25 bg-[#6f4e37]/5 px-2.5 py-1 text-[11px] text-[#6f4e37]">
+                              {tag}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </button>

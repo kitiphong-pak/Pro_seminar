@@ -1,4 +1,5 @@
 ﻿import { useEffect, useState, useRef } from "react";
+import { AlertTriangle, Map as MapIcon } from "lucide-react";
 import L from "leaflet";
 import "../assets/css/country.css";
 import "leaflet/dist/leaflet.css";
@@ -10,7 +11,6 @@ function Home() {
   const mapContainerRef = useRef(null); // Ref for the map container (div#map)
   const coffeeIndexRef = useRef({}); // stores normalized-key lookup, always up to date
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [showSearch, setShowSearch] = useState(true); // state สำหรับควบคุมการแสดง search-container
   const [dataError, setDataError] = useState(false);
 
   // Fetch country data and build coffeeIndexRef
@@ -57,10 +57,32 @@ function Home() {
   useEffect(() => {
     if (mapRef.current !== null) return; // Prevent re-initializing the map
 
+    /* คำนวณ minZoom จากความกว้างจริงของกล่องแผนที่ — กันไม่ให้จอกว้างกว่าโลกที่
+       zoom นั้น (Leaflet จะเรนเดอร์โลกซ้ำมาเติมพื้นที่ว่างถ้าปล่อยให้ zoom ต่ำเกินไป)
+       256px = ความกว้างไทล์ที่ zoom 0 ตามสเปกของ Leaflet/Web Mercator */
+    const computeMinZoom = () => {
+      const w = mapContainerRef.current?.clientWidth || 1024;
+      return Math.max(2, Math.ceil(Math.log2(w / 256)));
+    };
+    const initialMinZoom = computeMinZoom();
+
     const map = L.map(mapContainerRef.current, {
       attributionControl: false,
-    }).setView([20, 0], 2);
+      minZoom: initialMinZoom,
+      // ขอบเขตแบบ Web Mercator (±85.0511°) กันแพนเลยขั้วโลกจนภาพบิด
+      maxBounds: [[-85.06, -180], [85.06, 180]],
+      maxBoundsViscosity: 1.0,
+      worldCopyJump: false,
+    }).setView([20, 0], initialMinZoom);
     mapRef.current = map;
+
+    // จอถูกปรับขนาด (เช่น หมุนมือถือ/ย่อ-ขยายหน้าต่าง) — คำนวณ minZoom ใหม่กันโลกซ้ำโผล่มาอีก
+    const handleResize = () => {
+      const nextMinZoom = computeMinZoom();
+      map.setMinZoom(nextMinZoom);
+      if (map.getZoom() < nextMinZoom) map.setZoom(nextMinZoom);
+    };
+    window.addEventListener("resize", handleResize);
 
     L.tileLayer(
       "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
@@ -73,34 +95,32 @@ function Home() {
     let currentLayer = null; // Store the currently clicked country layer
     let geojson = null; // Store the GeoJSON data for search functionality
 
-    // การ์ดข้อมูลถิ่นกำเนิด/สายพันธุ์ของประเทศนั้น ๆ
+    // การ์ดข้อมูลถิ่นกำเนิด/สายพันธุ์ของประเทศนั้น ๆ — ไม่ใช้ emoji แล้ว (ดู feedback_icons)
     const ROLE_LABEL = {
-      birthplace: { text: "ถิ่นกำเนิดสายพันธุ์", bg: "rgba(245,222,179,0.28)", icon: "\u{1F331}" },
-      producer:   { text: "ประเทศผู้ปลูก",      bg: "rgba(255,255,255,0.16)", icon: "\u{1F33E}" },
-      consumer:   { text: "วัฒนธรรมการดื่ม",    bg: "rgba(255,255,255,0.12)", icon: "\u2615" },
+      birthplace: { text: "ถิ่นกำเนิดสายพันธุ์", cls: "wc-role--birthplace" },
+      producer:   { text: "ประเทศผู้ปลูก",      cls: "wc-role--producer" },
+      consumer:   { text: "วัฒนธรรมการดื่ม",    cls: "wc-role--consumer" },
     };
 
-    const card = (iconEmoji, title, bodyHtml) => `
-      <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(210,180,140,0.25);border-radius:0.75rem;padding:1rem;backdrop-filter:blur(4px)">
-        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
-          <span style="font-size:1rem">${iconEmoji}</span>
-          <b style="color:#f5deb3;font-size:0.85rem">${title}</b>
+    // iconSrc เป็น null ได้ — การ์ดข้อมูลถิ่นกำเนิดไม่มีไฟล์ไอคอนเฉพาะ ใช้หัวข้อตัวหนาล้วนแทน
+    const card = (iconSrc, title, bodyHtml) => `
+      <div class="wc-card">
+        <div class="wc-card-head">
+          ${iconSrc ? `<img src="${iconSrc}" alt="" class="wc-card-icon" />` : ""}
+          <b class="wc-card-title">${title}</b>
         </div>
         ${bodyHtml}
       </div>`;
 
     const chips = (arr, strong) =>
-      `<div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.25rem">${(arr || [])
-        .map(
-          (x) =>
-            `<span style="background:rgba(245,222,179,${strong ? "0.28" : "0.15"});color:#f5deb3;border:1px solid rgba(245,222,179,0.3);border-radius:9999px;padding:0.2rem 0.7rem;font-size:0.76rem">${x}</span>`
-        )
+      `<div class="wc-chip-row">${(arr || [])
+        .map((x) => `<span class="wc-chip${strong ? " wc-chip--strong" : ""}">${x}</span>`)
         .join("")}</div>`;
 
     const factRow = (label, value) =>
-      `<div style="display:flex;justify-content:space-between;gap:0.75rem;padding:0.3rem 0;border-bottom:1px dashed rgba(245,222,179,0.18)">
-         <span style="color:#f5deb3;opacity:.75;font-size:0.78rem">${label}</span>
-         <span style="color:#f5f5dc;font-size:0.8rem;text-align:right">${value}</span>
+      `<div class="wc-fact-row">
+         <span class="wc-fact-label">${label}</span>
+         <span class="wc-fact-value">${value}</span>
        </div>`;
 
     function originCards(info) {
@@ -112,12 +132,11 @@ function Home() {
       // สายพันธุ์ที่ปลูก
       if (!isConsumer && (o.species || []).length) {
         html += card(
-          "\u{1F9EC}",
+          null,
           "สายพันธุ์ที่ปลูก",
           chips(o.species, true) +
             ((o.cultivars || []).length
-              ? `<div style="margin-top:0.6rem;color:#f5deb3;opacity:.7;font-size:0.74rem">สายพันธุ์ย่อยเด่น</div>` +
-                chips(o.cultivars, false)
+              ? `<div class="wc-subtitle">สายพันธุ์ย่อยเด่น</div>` + chips(o.cultivars, false)
               : "")
         );
       }
@@ -125,7 +144,7 @@ function Home() {
       // ข้อมูลการเพาะปลูก
       if (!isConsumer) {
         html += card(
-          "\u{1F5FB}",
+          null,
           "ข้อมูลการเพาะปลูก",
           `<div>${factRow("ความสูง", o.altitude || "—")}${factRow("ฤดูเก็บเกี่ยว", o.harvest || "—")}${factRow("การแปรรูป", (o.process || []).join(" · ") || "—")}</div>`
         );
@@ -133,15 +152,15 @@ function Home() {
 
       // โน้ตรสชาติ
       if ((o.flavor || []).length) {
-        html += card(isConsumer ? "\u2615" : "\u{1F35E}", isConsumer ? "รสชาติที่นิยม" : "โน้ตรสชาติเด่น", chips(o.flavor, false));
+        html += card(null, isConsumer ? "รสชาติที่นิยม" : "โน้ตรสชาติเด่น", chips(o.flavor, false));
       }
 
       // เกร็ดถิ่นกำเนิด
       if (o.note) {
         html += card(
-          "\u{1F4DC}",
+          null,
           o.role === "birthplace" ? "เกร็ดถิ่นกำเนิด" : "เกร็ดน่ารู้",
-          `<p style="color:#f5f5dc;font-size:0.85rem;line-height:1.6;margin:0">${o.note}</p>`
+          `<p class="wc-note">${o.note}</p>`
         );
       }
       return html;
@@ -171,7 +190,7 @@ function Home() {
         infoEl.innerHTML = "";
         resetHighlight();       // คืนสีประเทศที่เลือกไว้
         currentLayer = null;
-        setSelectedCountry(null);
+        setSelectedCountry(null); // แสดง placeholder กลับมา (ดู JSX: div นี้แยกจาก #info)
       });
     }
 
@@ -212,46 +231,30 @@ function Home() {
 
       const infoEl = document.getElementById("info");
       if (!infoEl) return; // กัน element หาย
+      setSelectedCountry(rawName); // ซ่อน placeholder (ดู JSX: div นั้นแยกจาก #info)
 
       if (info) {
         infoEl.innerHTML = `
           <div class="wc-panel" data-open="true">
-            <button type="button" class="wc-head" aria-expanded="true">
-              <span class="wc-globe">🌍</span>
-              <h2 class="wc-name">${rawName}</h2>
-              ${
-                info.origin && ROLE_LABEL[info.origin.role]
-                  ? `<span class="wc-role" style="background:${ROLE_LABEL[info.origin.role].bg}">${ROLE_LABEL[info.origin.role].icon} ${ROLE_LABEL[info.origin.role].text}</span>`
-                  : ""
-              }
-              <span class="wc-caret" aria-hidden="true">▾</span>
-            </button>
-            <button type="button" class="wc-close" aria-label="ปิดข้อมูลประเทศ">✕</button>
+            <div class="wc-topbar">
+              <button type="button" class="wc-head" aria-expanded="true">
+                <div class="wc-titles">
+                  <h2 class="wc-name">${rawName}</h2>
+                  ${
+                    info.origin && ROLE_LABEL[info.origin.role]
+                      ? `<span class="wc-role ${ROLE_LABEL[info.origin.role].cls}">${ROLE_LABEL[info.origin.role].text}</span>`
+                      : ""
+                  }
+                </div>
+                <span class="wc-caret" aria-hidden="true">▾</span>
+              </button>
+              <button type="button" class="wc-close" aria-label="ปิดข้อมูลประเทศ">✕</button>
+            </div>
             <div class="wc-body">
-            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem">
-              <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(210,180,140,0.25);border-radius:0.75rem;padding:1rem;backdrop-filter:blur(4px)">
-                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
-                  <img src="/world/info.png" alt="" style="width:20px;height:20px" />
-                  <b style="color:#f5deb3;font-size:0.85rem">ข้อมูลเพิ่มเติม</b>
-                </div>
-                <p style="color:#f5f5dc;font-size:0.875rem;line-height:1.6;margin:0">${info.description}</p>
-              </div>
-              <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(210,180,140,0.25);border-radius:0.75rem;padding:1rem;backdrop-filter:blur(4px)">
-                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
-                  <img src="/world/map.png" alt="" style="width:20px;height:20px" />
-                  <b style="color:#f5deb3;font-size:0.85rem">ภูมิภาคที่ปลูกกาแฟ</b>
-                </div>
-                <p style="color:#f5f5dc;font-size:0.875rem;line-height:1.6;margin:0">${info.cultivation}</p>
-              </div>
-              <div style="background:rgba(255,255,255,0.08);border:1px solid rgba(210,180,140,0.25);border-radius:0.75rem;padding:1rem;backdrop-filter:blur(4px)">
-                <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.5rem">
-                  <img src="/world/bean.png" alt="" style="width:20px;height:20px" />
-                  <b style="color:#f5deb3;font-size:0.85rem">กาแฟที่มีความโดดเด่น</b>
-                </div>
-                <div style="display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.25rem">
-                  ${(info.specialties || []).map(s => `<span style="background:rgba(245,222,179,0.2);color:#f5deb3;border:1px solid rgba(245,222,179,0.3);border-radius:9999px;padding:0.2rem 0.75rem;font-size:0.78rem">${s}</span>`).join("")}
-                </div>
-              </div>
+            <div class="wc-grid">
+              ${card("/world/info.png", "ข้อมูลเพิ่มเติม", `<p class="wc-card-text">${info.description}</p>`)}
+              ${card("/world/map.png", "ภูมิภาคที่ปลูกกาแฟ", `<p class="wc-card-text">${info.cultivation}</p>`)}
+              ${card("/world/bean.png", "กาแฟที่มีความโดดเด่น", chips(info.specialties, false))}
               ${originCards(info)}
             </div>
             </div>
@@ -260,14 +263,17 @@ function Home() {
       } else {
         infoEl.innerHTML = `
           <div class="wc-panel" data-open="true">
-            <button type="button" class="wc-head" aria-expanded="true">
-              <span class="wc-globe">🌍</span>
-              <h2 class="wc-name">${rawName}</h2>
-              <span class="wc-caret" aria-hidden="true">▾</span>
-            </button>
-            <button type="button" class="wc-close" aria-label="ปิดข้อมูลประเทศ">✕</button>
+            <div class="wc-topbar">
+              <button type="button" class="wc-head" aria-expanded="true">
+                <div class="wc-titles">
+                  <h2 class="wc-name">${rawName}</h2>
+                </div>
+                <span class="wc-caret" aria-hidden="true">▾</span>
+              </button>
+              <button type="button" class="wc-close" aria-label="ปิดข้อมูลประเทศ">✕</button>
+            </div>
             <div class="wc-body">
-              <p style="color:#f5deb3;opacity:0.7;font-style:italic;margin:0">ยังไม่มีข้อมูลกาแฟสำหรับประเทศนี้ในระบบ</p>
+              <p class="wc-empty">ยังไม่มีข้อมูลกาแฟสำหรับประเทศนี้ในระบบ</p>
             </div>
           </div>
         `;
@@ -392,6 +398,7 @@ function Home() {
     // Cleanup on component unmount
     return () => {
       cancelled = true;
+      window.removeEventListener("resize", handleResize);
       searchBtn?.removeEventListener("click", searchCountry);
       searchInputEl?.removeEventListener("input", suggestCountries);
       if (mapRef.current) {
@@ -401,21 +408,6 @@ function Home() {
     };
   }, []); // Run this effect once when the component mounts
 
-  // useEffect สำหรับตรวจจับการ scroll เพื่อควบคุมการแสดง search-container
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY === 0) {
-        setShowSearch(true);
-      } else {
-        setShowSearch(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div className="min-h-screen bg-[#f3f1ec]">
       <Navbar />
@@ -423,7 +415,7 @@ function Home() {
       {/* Error banner — แผนที่ยังใช้ได้ แต่ข้อมูลกาแฟไม่โหลด */}
       {dataError && (
         <div className="flex items-center gap-3 bg-red-50 border border-red-200 text-red-700 px-4 py-3 text-sm">
-          <span>⚠️</span>
+          <AlertTriangle className="flex-none size-4" strokeWidth={2} />
           <span>โหลดข้อมูลกาแฟไม่สำเร็จ คลิกประเทศจะไม่แสดงข้อมูล</span>
           <button
             onClick={() => {
@@ -436,48 +428,65 @@ function Home() {
                 })
                 .catch(() => setDataError(true));
             }}
-            className="ml-auto underline font-semibold"
+            className="ml-auto underline font-semibold transition-opacity duration-150 hover:opacity-70"
           >
             ลองใหม่
           </button>
         </div>
       )}
 
-      {/* Map */}
-      <div
-        ref={mapContainerRef}
-        id="map"
-        style={{ zIndex: 0, position: "relative" }}
-      />
-
-      {/* Info panel */}
-      <div id="info" className="info-container">
-        {!selectedCountry && (
-          <div className="flex items-center gap-4 py-6 px-4">
-            <span className="text-3xl">🗺️</span>
-            <div>
-              <p className="font-semibold text-[#5c4033]">คลิกที่ประเทศบนแผนที่เพื่อดูข้อมูลกาแฟ</p>
-              <p className="text-sm text-[#5c4033]/60 mt-0.5">มีข้อมูลกาแฟจาก 48 ประเทศทั่วโลก</p>
-            </div>
+      <div className="mx-auto max-w-7xl px-4 md:px-8 py-5">
+        {/* แถบค้นหา — อยู่ในเนื้อหาปกติ ไม่ลอยทับแผนที่แล้ว จึงไม่ชนปุ่ม +/- ของแผนที่ */}
+        <div className="mb-4 flex items-center gap-2 rounded-2xl bg-white p-2 shadow-sm ring-1 ring-black/5">
+          <div className="relative flex-1">
+            <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7b4b29]/50">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8" />
+                <line x1="21" y1="21" x2="16.65" y2="16.65" />
+              </svg>
+            </span>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="ค้นหาประเทศ เช่น Ethiopia, Brazil..."
+              className="w-full rounded-xl border border-black/10 bg-[#faf7f2] py-2.5 pl-10 pr-3 text-sm text-[#2a1c14] outline-none transition-shadow duration-200 focus:border-[#7b4b29]/40 focus:ring-2 focus:ring-[#7b4b29]/15"
+            />
+            <ul
+              id="suggestions"
+              className="absolute left-0 right-0 top-full z-[1001] mt-1.5 hidden max-h-48 overflow-y-auto rounded-xl border border-black/10 bg-white py-1 shadow-lg"
+            />
           </div>
-        )}
-      </div>
+          <button
+            id="search-button"
+            className="shrink-0 rounded-xl bg-[#2a1c14] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 ease-smooth hover:bg-[#7b4b29] hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+          >
+            ค้นหา
+          </button>
+        </div>
 
-      {/* Search container */}
-      <div
-        id="search-container"
-        style={{
-          top: showSearch ? undefined : "-140px",
-          transition: "top 0.3s ease",
-        }}
-      >
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Search for a country..."
-        />
-        <ul id="suggestions" />
-        <button id="search-button">Search</button>
+        {/* แผนที่ + ข้อมูลประเทศ — วางข้างกันบนจอกว้าง ไม่ต้องเลื่อนลงไปอ่าน */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-4 items-start">
+          <div
+            ref={mapContainerRef}
+            id="map"
+            className="h-[380px] sm:h-[440px] lg:h-[560px] w-full rounded-2xl shadow-md overflow-hidden"
+            style={{ zIndex: 0, position: "relative" }}
+          />
+
+          <div className="lg:sticky lg:top-20 lg:h-[560px] lg:overflow-y-auto rounded-2xl">
+            {/* placeholder เป็น React element แยกต่างหาก เพราะ #info ข้างล่างถูกเขียนทับด้วย innerHTML ตรง ๆ นอกการควบคุมของ React */}
+            {!selectedCountry && (
+              <div className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-black/5 animate-fade-in">
+                <MapIcon className="size-8 flex-none text-[#7b4b29]/50" strokeWidth={1.5} />
+                <div>
+                  <p className="font-semibold text-[#5c4033]">คลิกที่ประเทศบนแผนที่เพื่อดูข้อมูลกาแฟ</p>
+                  <p className="text-sm text-[#5c4033]/60 mt-0.5">มีข้อมูลกาแฟจาก 48 ประเทศทั่วโลก</p>
+                </div>
+              </div>
+            )}
+            <div id="info" className="info-container" />
+          </div>
+        </div>
       </div>
     </div>
   );

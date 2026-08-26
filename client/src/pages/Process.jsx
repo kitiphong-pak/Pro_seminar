@@ -185,21 +185,21 @@ function Process() {
         <div className="mb-7 flex items-center justify-center gap-3" data-aos="fade-up">
           <button
             onClick={() => goStep(-1)}
-            className="flex items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-[#2a1c14] hover:bg-[#f7efe6] hover:border-[#7b4b29]/30 transition-all duration-200 shadow-sm"
+            className="flex items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-[#2a1c14] hover:bg-[#f7efe6] hover:border-[#7b4b29]/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200 ease-smooth shadow-sm"
           >
             <span className="text-base">←</span> ย้อนกลับ
           </button>
           <span className="text-xs text-black/30 hidden md:block">หรือกดแป้น ← →</span>
           <button
             onClick={() => goStep(1)}
-            className="flex items-center gap-2 rounded-full bg-[#6f4e37] text-white px-5 py-2.5 text-sm font-medium hover:bg-[#5c3a1e] transition-all duration-200 shadow-md"
+            className="flex items-center gap-2 rounded-full bg-[#6f4e37] text-white px-5 py-2.5 text-sm font-medium hover:bg-[#5c3a1e] hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-95 transition-all duration-200 ease-smooth shadow-md"
           >
             ถัดไป <span className="text-base">→</span>
           </button>
         </div>
 
         {/* การ์ดเนื้อหา */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch" data-aos="fade-up">
+        <section key={selectedIcon} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch animate-fade-in-up">
           {/* รูป */}
           <figure className="lg:col-span-6">
             <div className="relative h-full w-full min-h-[300px] rounded-2xl overflow-hidden shadow-xl ring-1 ring-black/5">

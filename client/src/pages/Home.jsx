@@ -12,6 +12,7 @@ const Home = () => {
   const navigate = useNavigate();
   const { user, isLoading: loading } = useAuth();
   const scrollerRef = useRef(null);
+  const nextSectionRef = useRef(null);
 
   const goMenuItem = (name) => {
     navigate(MENU_PATH, { state: { name } });
@@ -38,10 +39,19 @@ const Home = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  // กดที่ปุ่ม "เลื่อนลง" ใต้ hero แล้วพาไป section ถัดไป
+  const goNextSection = () => {
+    nextSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   const scrollByCards = (dir = 1) => {
     const el = scrollerRef.current;
-    if (!el) return;
-    const step = window.innerWidth < 768 ? 240 : 320;
+    const card = el?.firstElementChild;
+    if (!el || !card) return;
+    // วัดระยะต่อการ์ดจาก DOM จริง (ความกว้างการ์ด + gap) แทนการ hardcode
+    // ถ้าเลื่อนไม่พอดีช่อง scroll-snap จะกระชากกลับ ทำให้ดูสะดุด
+    const gap = parseFloat(getComputedStyle(el).columnGap) || 0;
+    const step = card.getBoundingClientRect().width + gap;
     el.scrollBy({ left: dir * step, behavior: "smooth" });
   };
 
@@ -49,14 +59,15 @@ const Home = () => {
     AOS.init({ duration: 1000, once: true, easing: "ease-in-out", offset: 100 });
     const t = setTimeout(() => AOS.refresh(), 300);
     const el = scrollerRef.current;
-    if (!el) return;
-    const prevent = (e) => e.preventDefault();
-    el.addEventListener("wheel", prevent, { passive: false });
-    el.addEventListener("touchmove", prevent, { passive: false });
+    // กันแค่การเลื่อนแนวนอนด้วยล้อ/trackpad ให้ใช้ปุ่มลูกศรเป็นหลักตามเดิม
+    // ส่วนการเลื่อนแนวตั้งปล่อยผ่าน หน้าเว็บจะได้เลื่อนได้ตอนเมาส์อยู่เหนือสไลด์
+    const onWheel = (e) => {
+      if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) e.preventDefault();
+    };
+    el?.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       clearTimeout(t);
-      el.removeEventListener("wheel", prevent);
-      el.removeEventListener("touchmove", prevent);
+      el?.removeEventListener("wheel", onWheel);
     };
   }, []);
 
@@ -164,18 +175,25 @@ const Home = () => {
             ))}
           </div>
 
-          {/* Scroll cue — mouse indicator */}
-          <div className="mt-12 flex flex-col items-center gap-2.5">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-brown/35">เลื่อนลง</span>
-            <span className="relative flex h-9 w-5 justify-center rounded-full border border-brown/20 pt-2">
-              <span className="h-1.5 w-1 rounded-full bg-brown/40 animate-bounce" />
+          {/* Scroll cue — mouse indicator (กดได้ พาไป section ถัดไป) */}
+          <button
+            type="button"
+            onClick={goNextSection}
+            aria-label="เลื่อนลงไปยังส่วนถัดไป"
+            className="group mt-12 flex flex-col items-center gap-2.5 rounded-full px-4 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brown/30"
+          >
+            <span className="text-[10px] uppercase tracking-[0.25em] text-brown/35 transition-colors duration-300 group-hover:text-brown/70">
+              เลื่อนลง
             </span>
-          </div>
+            <span className="relative flex h-9 w-5 justify-center rounded-full border border-brown/20 pt-2 transition-colors duration-300 group-hover:border-brown/50">
+              <span className="h-1.5 w-1 rounded-full bg-brown/40 animate-bounce transition-colors duration-300 group-hover:bg-brown/70" />
+            </span>
+          </button>
         </div>
       </section>
 
       {/* ─── Knowledge Showcase ───────────────────────────────────── */}
-      <section className="relative isolate select-none" data-aos="fade-up">
+      <section ref={nextSectionRef} className="relative isolate select-none" data-aos="fade-up">
         <img
           src="/home1.jpg"
           alt=""
@@ -213,7 +231,7 @@ const Home = () => {
                     <Link
                       key={index}
                       to={card.path}
-                      className="group relative w-[200px] md:w-[240px] shrink-0 snap-center rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]"
+                      className="group relative w-[200px] md:w-[240px] shrink-0 snap-start rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.25)] transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(0,0,0,0.35)]"
                       data-aos="fade-up"
                       data-aos-delay={index * 100}
                     >
@@ -321,15 +339,6 @@ const Home = () => {
                   ถ้าเริ่มต้นใหม่ ลองกาแฟสดแบบ &quot;ดริป/เฟรนช์เพรส&quot; ก่อน ใช้อุปกรณ์น้อยและราคาย่อมเยา
                 </p>
               </div>
-
-              <div className="mt-6 flex flex-wrap gap-3 justify-center lg:justify-start">
-                <button
-                  className="rounded-full bg-brown text-beige px-5 py-3 text-sm font-semibold shadow hover:bg-dark-brown transition"
-                  onClick={coffeeClick}
-                >
-                  อ่านเพิ่มเติม
-                </button>
-              </div>
             </div>
           </div>
         </div>
@@ -380,12 +389,6 @@ const Home = () => {
             >
               ลองชงกาแฟเลย
               <span className="inline-block ml-1.5 transition-transform duration-300 group-hover:translate-x-1">→</span>
-            </button>
-            <button
-              onClick={handleClick}
-              className="rounded-full border border-beige/30 text-beige px-7 py-3.5 text-sm font-semibold hover:bg-beige/10 hover:border-beige/50 transition-all duration-300 ease-out"
-            >
-              ดูเมนูทั้งหมด
             </button>
           </div>
         </div>
@@ -440,7 +443,7 @@ const Home = () => {
               </p>
               <div className="mt-4 flex flex-wrap justify-center lg:justify-start">
                 <button
-                  className="rounded-full bg-dark-brown text-beige px-5 py-3 text-sm font-semibold shadow hover:bg-brown transition"
+                  className="rounded-full bg-dark-brown text-beige px-5 py-3 text-sm font-semibold shadow transition-all duration-200 ease-smooth hover:bg-brown hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                   onClick={handleClick}
                 >
                   ค้นหาเมนูทั้งหมด
