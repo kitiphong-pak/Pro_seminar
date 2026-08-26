@@ -105,6 +105,17 @@
     transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  /* สลับ light/dark ให้พื้นหลัง/ตัวอักษรไล่สีนุ่ม ๆ แทนการกระพริบเปลี่ยนทันที
+     พื้นหลัง body เป็น fallback กันจอโล่งตอนหน้าไหนยังไม่ได้ทำ dark: ครบ (ทยอยทำทีละหน้า) */
+  body {
+    background-color: #f3f1ec;
+    transition: background-color 250ms cubic-bezier(0.22, 1, 0.36, 1), color 250ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  [data-theme="dark"] body {
+    background-color: #20170e;
+    color: #efdfc3;
+  }
+
   /* วงแหวน focus ที่เห็นชัดเฉพาะตอนใช้คีย์บอร์ด — ไม่โผล่ตอนคลิกเมาส์ */
   :focus-visible {
     outline: 2px solid #7b4b29;

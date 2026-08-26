@@ -47,7 +47,7 @@ const CoffeeInfo = () => {
   }, [uid]);
 
   if (error) return (
-    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
@@ -56,17 +56,17 @@ const CoffeeInfo = () => {
   );
 
   if (loading) return (
-    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <div className="space-y-4 w-full max-w-3xl px-4">
-          <div className="h-8 rounded-xl bg-[#e0d8ce] animate-pulse w-1/3 mx-auto" />
+          <div className="h-8 rounded-xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse w-1/3 mx-auto" />
           <div className="flex gap-3 justify-center">
-            {[...Array(4)].map((_, i) => <div key={i} className="h-10 w-32 rounded-full bg-[#e0d8ce] animate-pulse" />)}
+            {[...Array(4)].map((_, i) => <div key={i} className="h-10 w-32 rounded-full bg-[#e0d8ce] dark:bg-white/10 animate-pulse" />)}
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="h-64 rounded-2xl bg-[#e0d8ce] animate-pulse" />
-            <div className="h-64 rounded-2xl bg-[#e0d8ce] animate-pulse" />
+            <div className="h-64 rounded-2xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse" />
+            <div className="h-64 rounded-2xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse" />
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@ const CoffeeInfo = () => {
   );
 
   return (
-    <div className="bg-[#f3f1ec] min-h-screen">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen">
       <Navbar />
 
       {/* HERO */}
@@ -85,7 +85,7 @@ const CoffeeInfo = () => {
       </header>
 
       {/* Tabs */}
-      <div className="sticky top-0 z-10 bg-[#f3f1ec]/95 backdrop-blur border-b border-black/10 shadow-sm">
+      <div className="sticky top-0 z-10 bg-[#f3f1ec]/95 dark:bg-[#2b2015]/95 backdrop-blur border-b border-black/10 dark:border-white/10 shadow-sm">
         <div className="max-w-5xl mx-auto py-3">
           <div className="-mx-0 overflow-x-auto">
           <div className="px-4 flex gap-2 whitespace-nowrap">
@@ -98,8 +98,8 @@ const CoffeeInfo = () => {
                 className={[
                   "shrink-0 px-4 py-2 rounded-full text-sm font-medium border transition-all duration-200 ease-smooth",
                   active
-                    ? "bg-[#5c3a1e] text-white border-[#5c3a1e] shadow"
-                    : "bg-white text-[#3d2010] border-black/10 hover:border-[#7b4b29]/40 hover:bg-[#f7efe6]",
+                    ? "bg-[#5c3a1e] dark:bg-beige text-white dark:text-dark-brown border-[#5c3a1e] dark:border-beige shadow"
+                    : "bg-white dark:bg-white/5 text-[#3d2010] dark:text-brown-superlight border-black/10 dark:border-brown-superlight/20 hover:border-[#7b4b29]/40 dark:hover:border-beige/40 hover:bg-[#f7efe6] dark:hover:bg-white/10",
                 ].join(" ")}
               >
                 {label}
@@ -131,55 +131,55 @@ const CoffeeInfo = () => {
 
             {/* ชื่อ + chips */}
             <div>
-              <h2 className="text-2xl font-bold text-[#3d2010]">{selectedRoast}</h2>
+              <h2 className="text-2xl font-bold text-[#3d2010] dark:text-brown-superlight">{selectedRoast}</h2>
               <div className="flex flex-wrap gap-2 mt-2">
-                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">{data.alias}</span>
-                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">{data.temperature}</span>
-                <span className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">คาเฟอีน{data.caffeineLevel}</span>
+                <span className="rounded-full bg-[#f0e4d0] dark:bg-white/10 text-[#5c3a1e] dark:text-beige text-xs px-3 py-1">{data.alias}</span>
+                <span className="rounded-full bg-[#f0e4d0] dark:bg-white/10 text-[#5c3a1e] dark:text-beige text-xs px-3 py-1">{data.temperature}</span>
+                <span className="rounded-full bg-[#f0e4d0] dark:bg-white/10 text-[#5c3a1e] dark:text-beige text-xs px-3 py-1">คาเฟอีน{data.caffeineLevel}</span>
               </div>
             </div>
 
             {/* Roast Meter */}
             <div>
-              <p className="text-xs font-semibold text-[#5c4033]/60 uppercase tracking-wider mb-2">ระดับการคั่ว</p>
+              <p className="text-xs font-semibold text-[#5c4033]/60 dark:text-brown-superlight/60 uppercase tracking-wider mb-2">ระดับการคั่ว</p>
               <div className="relative h-3 w-full rounded-full bg-gradient-to-r from-[#e8d5b0] via-[#9b6035] to-[#2a1208]">
                 <span
                   className="absolute top-1/2 -translate-y-1/2 h-5 w-5 rounded-full bg-white shadow ring-2 ring-[#7b4b29]/30 transition-[left] duration-500"
                   style={{ left: `calc(${meterValue}% - 10px)` }}
                 />
               </div>
-              <div className="grid grid-cols-4 text-[10px] text-[#5c4033]/40 mt-1">
+              <div className="grid grid-cols-4 text-[10px] text-[#5c4033]/40 dark:text-brown-superlight/40 mt-1">
                 <span>Light</span><span className="text-center">Med-Light</span><span className="text-center">Medium</span><span className="text-right">Dark</span>
               </div>
             </div>
 
             {/* Flavor Profile */}
-            <div className="bg-white rounded-xl p-4 shadow-sm">
-              <p className="text-xs font-semibold text-[#5c4033]/60 uppercase tracking-wider mb-3">Flavor Profile</p>
+            <div className="bg-white dark:bg-[#2b2015] rounded-xl p-4 shadow-sm">
+              <p className="text-xs font-semibold text-[#5c4033]/60 dark:text-brown-superlight/60 uppercase tracking-wider mb-3">Flavor Profile</p>
               {[
                 { label: "ความเปรี้ยว", value: data.acidity },
                 { label: "บอดี้",        value: data.body },
                 { label: "กลิ่นหอม",    value: data.aroma },
               ].map(({ label, value }) => (
                 <div key={label} className="flex items-center gap-3 mb-2 last:mb-0">
-                  <span className="text-xs text-[#5c4033]/70 w-20 shrink-0">{label}</span>
-                  <div className="flex-1 h-2 rounded-full bg-[#ede5d8]">
+                  <span className="text-xs text-[#5c4033]/70 dark:text-brown-superlight/70 w-20 shrink-0">{label}</span>
+                  <div className="flex-1 h-2 rounded-full bg-[#ede5d8] dark:bg-white/10">
                     <div
                       className="h-2 rounded-full bg-[#7b4b29] transition-[width] duration-500"
                       style={{ width: `${(value / 5) * 100}%` }}
                     />
                   </div>
-                  <span className="text-xs text-[#5c4033]/40 w-6 text-right">{value}/5</span>
+                  <span className="text-xs text-[#5c4033]/40 dark:text-brown-superlight/40 w-6 text-right">{value}/5</span>
                 </div>
               ))}
             </div>
 
             {/* รสชาติ */}
             <div>
-              <p className="text-sm font-semibold text-[#3d2010] mb-2">รสชาติ</p>
+              <p className="text-sm font-semibold text-[#3d2010] dark:text-brown-superlight mb-2">รสชาติ</p>
               <ul className="space-y-1">
                 {data.taste.map((t, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-[#2a1c14]/80">
+                  <li key={i} className="flex items-start gap-2 text-sm text-[#2a1c14]/80 dark:text-brown-superlight/80">
                     <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#c47a3a] shrink-0" />{t}
                   </li>
                 ))}
@@ -188,10 +188,10 @@ const CoffeeInfo = () => {
 
             {/* ลักษณะ */}
             <div>
-              <p className="text-sm font-semibold text-[#3d2010] mb-2">ลักษณะ</p>
+              <p className="text-sm font-semibold text-[#3d2010] dark:text-brown-superlight mb-2">ลักษณะ</p>
               <ul className="space-y-1">
                 {data.characteristics.map((c, i) => (
-                  <li key={i} className="flex items-start gap-2 text-sm text-[#2a1c14]/80">
+                  <li key={i} className="flex items-start gap-2 text-sm text-[#2a1c14]/80 dark:text-brown-superlight/80">
                     <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-[#7b4b29] shrink-0" />{c}
                   </li>
                 ))}
@@ -200,16 +200,16 @@ const CoffeeInfo = () => {
 
             {/* เหมาะกับ */}
             <div>
-              <p className="text-sm font-semibold text-[#3d2010] mb-1">เหมาะกับ</p>
-              <p className="text-sm text-[#2a1c14]/75 leading-6">{data.suitableFor}</p>
+              <p className="text-sm font-semibold text-[#3d2010] dark:text-brown-superlight mb-1">เหมาะกับ</p>
+              <p className="text-sm text-[#2a1c14]/75 dark:text-brown-superlight/75 leading-6">{data.suitableFor}</p>
             </div>
 
             {/* แหล่งกาแฟ */}
             <div>
-              <p className="text-sm font-semibold text-[#3d2010] mb-2">แหล่งกาแฟที่เหมาะ</p>
+              <p className="text-sm font-semibold text-[#3d2010] dark:text-brown-superlight mb-2">แหล่งกาแฟที่เหมาะ</p>
               <div className="flex flex-wrap gap-2">
                 {(data.origins ?? []).map((o) => (
-                  <span key={o} className="rounded-full bg-[#f0e4d0] text-[#5c3a1e] text-xs px-3 py-1">
+                  <span key={o} className="rounded-full bg-[#f0e4d0] dark:bg-white/10 text-[#5c3a1e] dark:text-beige text-xs px-3 py-1">
                     {o}
                   </span>
                 ))}
@@ -218,10 +218,10 @@ const CoffeeInfo = () => {
 
             {/* วิธีชง */}
             <div>
-              <p className="text-sm font-semibold text-[#3d2010] mb-2">วิธีชงที่แนะนำ</p>
+              <p className="text-sm font-semibold text-[#3d2010] dark:text-brown-superlight mb-2">วิธีชงที่แนะนำ</p>
               <div className="flex flex-wrap gap-2">
                 {recommendBrews.map((b) => (
-                  <span key={b} className="rounded-full bg-[#3d2010] text-white text-sm px-4 py-1.5">
+                  <span key={b} className="rounded-full bg-[#3d2010] dark:bg-beige text-white dark:text-dark-brown text-sm px-4 py-1.5">
                     {b}
                   </span>
                 ))}
@@ -232,7 +232,7 @@ const CoffeeInfo = () => {
         </div>
 
         {/* เคล็ดลับ */}
-        <div className="mt-6 flex items-start gap-2 rounded-xl bg-[#fff7ec] border border-[#e8c88a] p-4 text-sm text-[#7b4b29]">
+        <div className="mt-6 flex items-start gap-2 rounded-xl bg-[#fff7ec] dark:bg-white/5 border border-[#e8c88a] dark:border-beige/30 p-4 text-sm text-[#7b4b29] dark:text-beige">
           <Lightbulb className="mt-0.5 flex-none size-4" strokeWidth={2} />
           <p>
             <span className="font-semibold">เคล็ดลับ: </span>

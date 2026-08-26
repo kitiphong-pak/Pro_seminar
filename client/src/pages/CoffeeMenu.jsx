@@ -106,7 +106,7 @@ function CoffeeBeans() {
   };
 
   if (error) return (
-    <div className="flex flex-col min-h-screen bg-[#f3f1ec]">
+    <div className="flex flex-col min-h-screen bg-[#f3f1ec] dark:bg-dark-brown">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
@@ -115,7 +115,7 @@ function CoffeeBeans() {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f3f1ec]">
+    <div className="flex flex-col min-h-screen bg-[#f3f1ec] dark:bg-dark-brown">
       <Navbar />
       <BackToTop />
 
@@ -136,19 +136,19 @@ function CoffeeBeans() {
       <main ref={mainRef} className="flex-1 lg:p-6 sm:p-0">
         {/* =============== DETAIL VIEW =============== */}
         {selectedItem ? (
-          <div className="bg-white rounded-2xl shadow-md p-5 md:p-6 animate-fade-in-up">
+          <div className="bg-white dark:bg-[#2b2015] rounded-2xl shadow-md p-5 md:p-6 animate-fade-in-up">
             {/* แถบปุ่มหลักของหน้า — ย้อนกลับ + ลองชง อยู่กล่องเดียวกัน */}
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#faf6f3] ring-1 ring-black/5 px-3 py-3 sm:px-4">
+            <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#faf6f3] dark:bg-white/5 ring-1 ring-black/5 dark:ring-brown-superlight/10 px-3 py-3 sm:px-4">
               <button
                 onClick={handleBack}
-                className="inline-flex items-center gap-1.5 rounded-full border border-[#6f4e37]/25 bg-white px-4 py-2 text-sm font-medium text-[#6f4e37] transition-all duration-200 ease-smooth hover:bg-[#6f4e37] hover:text-white active:scale-95"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#6f4e37]/25 dark:border-beige/30 bg-white dark:bg-transparent px-4 py-2 text-sm font-medium text-[#6f4e37] dark:text-beige transition-all duration-200 ease-smooth hover:bg-[#6f4e37] dark:hover:bg-beige hover:text-white dark:hover:text-dark-brown active:scale-95"
               >
                 <span aria-hidden="true">←</span>
                 ย้อนกลับ
               </button>
 
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span className="hidden sm:inline text-sm text-neutral-500">
+                <span className="hidden sm:inline text-sm text-neutral-500 dark:text-brown-superlight/60">
                   เปิดแบบจำลองการชงแบบทีละขั้นตอน
                 </span>
                 <button
@@ -189,33 +189,33 @@ function CoffeeBeans() {
                     selectedItem.type.map((t, i) => (
                       <span
                         key={i}
-                        className="rounded-full border border-[#2a1c14]/15 bg-white px-3 py-1 text-xs text-[#2a1c14]"
+                        className="rounded-full border border-[#2a1c14]/15 dark:border-brown-superlight/20 bg-white dark:bg-white/5 px-3 py-1 text-xs text-[#2a1c14] dark:text-brown-superlight"
                       >
                         {t}
                       </span>
                     ))}
                   {!Array.isArray(selectedItem.type) && selectedItem.type && (
-                    <span className="rounded-full border border-[#2a1c14]/15 bg-white px-3 py-1 text-xs text-[#2a1c14]">
+                    <span className="rounded-full border border-[#2a1c14]/15 dark:border-brown-superlight/20 bg-white dark:bg-white/5 px-3 py-1 text-xs text-[#2a1c14] dark:text-brown-superlight">
                       {selectedItem.type}
                     </span>
                   )}
                   {selectedItem.caffeine && (
-                    <span className="rounded-full bg-[#f1e9e2] px-3 py-1 text-xs text-[#2a1c14]">
+                    <span className="rounded-full bg-[#f1e9e2] dark:bg-white/10 px-3 py-1 text-xs text-[#2a1c14] dark:text-brown-superlight">
                       คาเฟอีน: {selectedItem.caffeine}
                     </span>
                   )}
                   {selectedItem.calories && (
-                    <span className="rounded-full bg-[#f1e9e2] px-3 py-1 text-xs text-[#2a1c14]">
+                    <span className="rounded-full bg-[#f1e9e2] dark:bg-white/10 px-3 py-1 text-xs text-[#2a1c14] dark:text-brown-superlight">
                       แคลอรี่: {selectedItem.calories}
                     </span>
                   )}
                 </div>
 
                 <section>
-                  <h2 className="text-lg md:text-xl font-bold text-[#2a1c14]">
+                  <h2 className="text-lg md:text-xl font-bold text-[#2a1c14] dark:text-brown-superlight">
                     รายละเอียดเมนู
                   </h2>
-                  <p className="mt-2 text-neutral-700 leading-relaxed">
+                  <p className="mt-2 text-neutral-700 dark:text-brown-superlight/80 leading-relaxed">
                     {selectedItem.details}
                   </p>
                 </section>
@@ -223,21 +223,21 @@ function CoffeeBeans() {
                 {(selectedItem.tests || selectedItem.cafeid) && (
                   <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {selectedItem.tests && (
-                      <div className="rounded-xl bg-[#faf6f3] p-4">
-                        <h3 className="font-semibold text-[#2a1c14]">
+                      <div className="rounded-xl bg-[#faf6f3] dark:bg-white/5 p-4">
+                        <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">
                           โปรไฟล์รสชาติ
                         </h3>
-                        <p className="text-neutral-700 mt-1">
+                        <p className="text-neutral-700 dark:text-brown-superlight/80 mt-1">
                           {selectedItem.tests}
                         </p>
                       </div>
                     )}
                     {selectedItem.cafeid && (
-                      <div className="rounded-xl bg-[#faf6f3] p-4">
-                        <h3 className="font-semibold text-[#2a1c14]">
+                      <div className="rounded-xl bg-[#faf6f3] dark:bg-white/5 p-4">
+                        <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">
                           ระดับความเข้ม
                         </h3>
-                        <p className="text-neutral-700 mt-1">
+                        <p className="text-neutral-700 dark:text-brown-superlight/80 mt-1">
                           {selectedItem.cafeid}
                         </p>
                       </div>
@@ -247,20 +247,20 @@ function CoffeeBeans() {
 
                 <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h3 className="font-semibold text-[#2a1c14]">
+                    <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">
                       วัตถุดิบในการทำ
                     </h3>
-                    <ol className="mt-2 list-decimal pl-5 space-y-1 text-neutral-700">
+                    <ol className="mt-2 list-decimal pl-5 space-y-1 text-neutral-700 dark:text-brown-superlight/80">
                       {selectedItem.ingredients?.map((ing, i) => (
                         <li key={i}>{ing}</li>
                       ))}
                     </ol>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-[#2a1c14]">
+                    <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">
                       ขั้นตอนการทำ
                     </h3>
-                    <ol className="mt-2 list-decimal pl-5 space-y-1 text-neutral-700">
+                    <ol className="mt-2 list-decimal pl-5 space-y-1 text-neutral-700 dark:text-brown-superlight/80">
                       {selectedItem.stepsAll?.map((st, i) => (
                         <li key={i}>{st}</li>
                       ))}
@@ -273,21 +273,21 @@ function CoffeeBeans() {
           </div>
         ) : (
           /* =============== LIST VIEW =============== */
-          <section className="rounded-2xl bg-white shadow-md animate-fade-in">
+          <section className="rounded-2xl bg-white dark:bg-[#2b2015] shadow-md animate-fade-in">
             <div className="p-4 md:p-6 lg:p-7">
 
               {/* Heading + Reset */}
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-[#2a1c14]">
+                <h2 className="text-lg font-semibold text-[#2a1c14] dark:text-brown-superlight">
                   เมนูกาแฟทั้งหมด
-                  <span className="ml-2 text-sm text-neutral-500">
+                  <span className="ml-2 text-sm text-neutral-500 dark:text-brown-superlight/50">
                     (พบ {filteredItems.length} เมนู)
                   </span>
                 </h2>
                 {hasActive && (
                   <button
                     onClick={clearAll}
-                    className="text-sm rounded-full border border-black/10 px-3 py-1.5 text-[#2a1c14] transition-colors duration-200 hover:bg-black/5"
+                    className="text-sm rounded-full border border-black/10 dark:border-brown-superlight/20 px-3 py-1.5 text-[#2a1c14] dark:text-brown-superlight transition-colors duration-200 hover:bg-black/5 dark:hover:bg-white/10"
                   >
                     ล้างทั้งหมด
                   </button>
@@ -303,15 +303,15 @@ function CoffeeBeans() {
                     <input
                       type="text"
                       placeholder="ค้นหาเมนู..."
-                      className="w-full rounded-full border border-black/10 bg-black/5 pl-10 pr-10 py-2.5
-                                 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]/30"
+                      className="w-full rounded-full border border-black/10 dark:border-brown-superlight/20 bg-black/5 dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight pl-10 pr-10 py-2.5
+                                 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]/30 dark:focus:ring-beige/40"
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       aria-label="ค้นหาเมนู"
                     />
                     {/* icon search */}
                     <svg
-                      className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-500"
+                      className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-neutral-500 dark:text-brown-superlight/50"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -327,7 +327,7 @@ function CoffeeBeans() {
                         aria-label="ล้างคำค้นหา"
                         onClick={() => setSearchTerm("")}
                         className="absolute right-2 top-1/2 -translate-y-1/2 grid place-items-center
-                                   h-7 w-7 rounded-full text-neutral-500 transition-all duration-150 hover:bg-black/10 active:scale-90"
+                                   h-7 w-7 rounded-full text-neutral-500 dark:text-brown-superlight/60 transition-all duration-150 hover:bg-black/10 dark:hover:bg-white/10 active:scale-90"
                       >
                         ×
                       </button>
@@ -354,7 +354,7 @@ function CoffeeBeans() {
                           ${
                             activeFilter === f
                               ? "bg-[#6f4e37] text-white border-[#6f4e37] shadow"
-                              : "bg-white text-[#2a1c14] border-black/10 hover:bg-black/5"
+                              : "bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight border-black/10 dark:border-brown-superlight/20 hover:bg-black/5 dark:hover:bg-white/10"
                           }`}
                       >
                         {f}
@@ -368,7 +368,7 @@ function CoffeeBeans() {
               {loading ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
                   {[...Array(6)].map((_, i) => (
-                    <div key={i} className="rounded-2xl bg-[#e0d8ce] animate-pulse h-72" />
+                    <div key={i} className="rounded-2xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse h-72" />
                   ))}
                 </div>
               ) : (
@@ -381,7 +381,7 @@ function CoffeeBeans() {
                       type="button"
                       onClick={() => handleItemClick(item)}
                       style={{ animationDelay: `${Math.min(idx, 8) * 40}ms` }}
-                      className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
+                      className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white dark:bg-[#2b2015] shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
                     >
                       {/* รูป: ไม่มีตัวหนังสือทับแล้ว (ชื่อเมนูย้ายไปอยู่ใต้รูปแทน อ่านง่ายกว่าเดิมที่ทับกับรูปที่มีรายละเอียดเยอะ)
                           cafeid ไม่เอามาโชว์ในการ์ดแล้ว เพราะเนื้อหาจริงคือสูตรส่วนผสม (ประโยคยาว) ไม่ใช่ป้ายสั้น ๆ ไปแสดงละเอียดในหน้าดูเมนูแทน */}
@@ -395,22 +395,22 @@ function CoffeeBeans() {
 
                       {/* เนื้อหาล่างการ์ด */}
                       <div className="flex flex-1 flex-col p-4">
-                        <h3 className="min-h-[2.6em] text-[15px] font-semibold leading-snug text-[#2a1c14] line-clamp-2">
+                        <h3 className="min-h-[2.6em] text-[15px] font-semibold leading-snug text-[#2a1c14] dark:text-brown-superlight line-clamp-2">
                           {item.name}
                         </h3>
 
                         {item.tests && (
-                          <p className="mt-1 text-sm text-neutral-500 line-clamp-1">
+                          <p className="mt-1 text-sm text-neutral-500 dark:text-brown-superlight/60 line-clamp-1">
                             {item.tests}
                           </p>
                         )}
 
                         <div className="mt-auto flex items-center justify-between gap-2 pt-3">
-                          <span className="text-xs text-neutral-500">
+                          <span className="text-xs text-neutral-500 dark:text-brown-superlight/50">
                             {item.calories || ""}
                           </span>
                           {tag && (
-                            <span className="rounded-full border border-[#6f4e37]/25 bg-[#6f4e37]/5 px-2.5 py-1 text-[11px] text-[#6f4e37]">
+                            <span className="rounded-full border border-[#6f4e37]/25 dark:border-beige/30 bg-[#6f4e37]/5 dark:bg-beige/10 px-2.5 py-1 text-[11px] text-[#6f4e37] dark:text-beige">
                               {tag}
                             </span>
                           )}

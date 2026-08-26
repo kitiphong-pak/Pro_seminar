@@ -1,5 +1,8 @@
 // tailwind.config.js (ESM)
 export default {
+  // สลับ dark mode ด้วย [data-theme="dark"] บน <html> (ตั้งค่าใน ThemeContext.jsx)
+  // ไม่ใช้ prefers-color-scheme เพราะค่าเริ่มต้นต้องเป็น light เสมอ ต้องกดสลับเองเท่านั้น
+  darkMode: ["selector", '[data-theme="dark"]'],
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   safelist: ["hover:bg-light-brown", "hover:text-beige"],
   theme: {

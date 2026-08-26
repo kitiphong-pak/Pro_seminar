@@ -87,13 +87,13 @@ export function DragDoseInteraction({ step, value, onChange, dropRef, onDragStat
   return (
     <div className="space-y-4">
       <div className="flex items-end justify-center gap-1">
-        <span className="text-4xl font-extrabold text-[#3d2010] tabular-nums leading-none">
+        <span className="text-4xl font-extrabold text-[#3d2010] dark:text-brown-superlight tabular-nums leading-none">
           {fmt(value, stepSize)}
         </span>
-        <span className="text-sm text-[#5c4033]/60 mb-1">{unit}</span>
+        <span className="text-sm text-[#5c4033]/60 dark:text-brown-superlight/60 mb-1">{unit}</span>
       </div>
 
-      <p className="text-center text-xs text-[#7b4b29]/70">
+      <p className="text-center text-xs text-[#7b4b29]/70 dark:text-beige/70">
         ลากช้อนไปใส่อุปกรณ์ทางซ้าย ครั้งละ {perScoop} {unit}
       </p>
 
@@ -113,16 +113,16 @@ export function DragDoseInteraction({ step, value, onChange, dropRef, onDragStat
           className={[
             "select-none w-28 h-24 rounded-2xl border-2 border-dashed",
             "flex flex-col items-center justify-center gap-1",
-            "bg-[#fffaf3] border-[#c9a274] cursor-grab active:cursor-grabbing",
-            drag ? "opacity-30" : "hover:bg-[#f7efe6]",
+            "bg-[#fffaf3] dark:bg-white/5 border-[#c9a274] dark:border-beige/40 cursor-grab active:cursor-grabbing",
+            drag ? "opacity-30" : "hover:bg-[#f7efe6] dark:hover:bg-white/10",
           ].join(" ")}
           style={{
             touchAction: "none",
             animation: drag ? undefined : "brewFloat 2.6s ease-in-out infinite",
           }}
         >
-          <ScoopIcon className="w-8 h-8 text-[#7b4b29]" />
-          <span className="text-[10px] text-[#7b4b29]/70">
+          <ScoopIcon className="w-8 h-8 text-[#7b4b29] dark:text-beige" />
+          <span className="text-[10px] text-[#7b4b29]/70 dark:text-beige/70">
             {drag ? (over ? "ปล่อยเลย!" : "ลากไปที่อุปกรณ์") : "← ลากไปทางซ้าย"}
           </span>
         </div>
@@ -164,7 +164,7 @@ export function DragDoseInteraction({ step, value, onChange, dropRef, onDragStat
         <button
           type="button"
           onClick={() => onChange(min)}
-          className="flex-none text-xs text-[#7b4b29]/70 hover:text-[#7b4b29] underline"
+          className="flex-none text-xs text-[#7b4b29]/70 dark:text-beige/70 hover:text-[#7b4b29] dark:hover:text-beige underline"
         >
           เทออก
         </button>
@@ -254,12 +254,12 @@ export function PressInteraction({ step, done, onDone }) {
     ? { text: "เบาไป น้ำจะไหลเร็วและรสชืด ลองใหม่อีกครั้ง", cls: "text-amber-700" }
     : verdict === "hard"
     ? { text: "แน่นไป น้ำผ่านยากและจะขม ลองใหม่อีกครั้ง", cls: "text-amber-700" }
-    : { text: "กดค้างไว้ แล้วปล่อยเมื่อแรงเข้าโซนเขียว", cls: "text-[#7b4b29]/70" };
+    : { text: "กดค้างไว้ แล้วปล่อยเมื่อแรงเข้าโซนเขียว", cls: "text-[#7b4b29]/70 dark:text-beige/70" };
 
   return (
     <div className="flex flex-col items-center gap-4">
       {/* เกจวัดแรง */}
-      <div className="relative w-full h-9 rounded-full bg-[#eee6dc] overflow-hidden ring-1 ring-black/5">
+      <div className="relative w-full h-9 rounded-full bg-[#eee6dc] dark:bg-white/10 overflow-hidden ring-1 ring-black/5 dark:ring-brown-superlight/10">
         <div
           className="absolute inset-y-0 bg-green-400/25 border-x-2 border-green-500/50"
           style={{ left: `${TARGET_LO}%`, width: `${TARGET_HI - TARGET_LO}%` }}
@@ -269,7 +269,7 @@ export function PressInteraction({ step, done, onDone }) {
           style={{ width: `${force}%` }}
         />
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-xs font-bold text-[#3d2010] tabular-nums drop-shadow-sm">
+          <span className="text-xs font-bold text-[#3d2010] dark:text-brown-superlight tabular-nums drop-shadow-sm">
             {Math.round(force)}%
           </span>
         </div>
@@ -381,14 +381,14 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="flex items-end justify-center gap-1">
-        <span className="text-4xl font-extrabold text-[#3d2010] tabular-nums leading-none">
+        <span className="text-4xl font-extrabold text-[#3d2010] dark:text-brown-superlight tabular-nums leading-none">
           {hasVar ? fmt(level, stepSize) : `${Math.round(pct * 100)}`}
         </span>
-        <span className="text-sm text-[#5c4033]/60 mb-1">{hasVar ? unit : "%"}</span>
+        <span className="text-sm text-[#5c4033]/60 dark:text-brown-superlight/60 mb-1">{hasVar ? unit : "%"}</span>
       </div>
 
       {/* แก้ว + ของเหลว */}
-      <div className="relative w-24 h-28 rounded-b-3xl rounded-t-lg border-4 border-[#d8cdc0] bg-white/70 overflow-hidden">
+      <div className="relative w-24 h-28 rounded-b-3xl rounded-t-lg border-4 border-[#d8cdc0] dark:border-white/20 bg-white/70 dark:bg-white/5 overflow-hidden">
         <div
           className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#4b2f1a] via-[#7b4b29] to-[#a9713f]"
           style={{ height: `${pct * 100}%`, transition: pouring ? "none" : "height .3s ease-out" }}
@@ -400,7 +400,7 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
         )}
       </div>
 
-      <p className="text-xs text-center text-[#7b4b29]/70 h-8">
+      <p className="text-xs text-center text-[#7b4b29]/70 dark:text-beige/70 h-8">
         {done
           ? "✓ เทเรียบร้อย"
           : pouring
@@ -434,7 +434,7 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
           <button
             type="button"
             onClick={() => { levelRef.current = min; setLevel(min); startRef.current = { t: performance.now(), level: min }; if (hasVar) onChange(min); }}
-            className="flex-none text-xs text-[#7b4b29]/70 hover:text-[#7b4b29] underline"
+            className="flex-none text-xs text-[#7b4b29]/70 dark:text-beige/70 hover:text-[#7b4b29] dark:hover:text-beige underline"
           >
             เทออก
           </button>

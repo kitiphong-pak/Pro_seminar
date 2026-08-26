@@ -80,7 +80,7 @@ function SimProgress({ steps, currentIdx }) {
   if (!steps.length) return null;
   return (
     <div className="relative flex items-start justify-between max-w-2xl mx-auto px-2">
-      <div className="absolute top-4 left-6 right-6 h-0.5 bg-[#e0d8ce]" />
+      <div className="absolute top-4 left-6 right-6 h-0.5 bg-[#e0d8ce] dark:bg-white/10" />
       <div
         className="absolute top-4 left-6 h-0.5 bg-gradient-to-r from-[#7b4b29] to-[#c47a3a] transition-[width] duration-500"
         style={{ width: `calc(${steps.length > 1 ? (currentIdx / (steps.length - 1)) * 100 : 0}% - ${steps.length > 1 ? 48 / steps.length : 0}px)` }}
@@ -93,14 +93,14 @@ function SimProgress({ steps, currentIdx }) {
             <div className={[
               "w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all duration-300",
               done   ? "bg-[#7b4b29] border-[#7b4b29] text-white scale-95" :
-              active ? "bg-white border-[#7b4b29] text-[#7b4b29] ring-4 ring-[#7b4b29]/20 scale-110 shadow-sm" :
-                       "bg-white border-[#e0d8ce] text-[#c5bab3]",
+              active ? "bg-white dark:bg-[#2b2015] border-[#7b4b29] dark:border-beige text-[#7b4b29] dark:text-beige ring-4 ring-[#7b4b29]/20 dark:ring-beige/20 scale-110 shadow-sm" :
+                       "bg-white dark:bg-[#2b2015] border-[#e0d8ce] dark:border-white/10 text-[#c5bab3] dark:text-brown-superlight/30",
             ].join(" ")}>
               {done ? "✓" : i + 1}
             </div>
             <span className={[
               "text-[9px] text-center leading-tight max-w-[44px]",
-              active ? "text-[#7b4b29] font-bold" : "text-[#c5bab3]",
+              active ? "text-[#7b4b29] dark:text-beige font-bold" : "text-[#c5bab3] dark:text-brown-superlight/30",
             ].join(" ")}>
               {step.title.length > 10 ? step.title.slice(0, 10) + "…" : step.title}
             </span>
@@ -121,8 +121,8 @@ function FlavorBar({ label, value, color, delayMs }) {
   }, [delayMs]);
   return (
     <div className="flex items-center gap-3">
-      <span className="text-sm text-[#5c4033]/70 w-24 shrink-0">{label}</span>
-      <div className="flex-1 h-3 rounded-full bg-[#f0e8df] overflow-hidden">
+      <span className="text-sm text-[#5c4033]/70 dark:text-brown-superlight/70 w-24 shrink-0">{label}</span>
+      <div className="flex-1 h-3 rounded-full bg-[#f0e8df] dark:bg-white/10 overflow-hidden">
         <div
           className="h-full rounded-full"
           style={{
@@ -150,15 +150,15 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
           strokeWidth={1.5}
           style={{ animation: "brewFloat 3s ease-in-out infinite" }}
         />
-        <h1 className="text-2xl font-extrabold text-[#3d2010] mt-2">{menu.nameTh} สำเร็จ!</h1>
-        <p className="text-sm text-[#5c4033]/60">ชงด้วย {equipment.nameTh}</p>
+        <h1 className="text-2xl font-extrabold text-[#3d2010] dark:text-brown-superlight mt-2">{menu.nameTh} สำเร็จ!</h1>
+        <p className="text-sm text-[#5c4033]/60 dark:text-brown-superlight/60">ชงด้วย {equipment.nameTh}</p>
       </div>
 
       {/* Flavor profile */}
-      <div className="bg-white rounded-3xl shadow-md ring-1 ring-black/5 p-6 space-y-4">
+      <div className="bg-white dark:bg-[#2b2015] rounded-3xl shadow-md ring-1 ring-black/5 dark:ring-brown-superlight/10 p-6 space-y-4">
         <div className="flex items-center gap-2 mb-1">
-          <span className="text-sm font-bold text-[#3d2010]">Flavor Profile</span>
-          <span className="text-[10px] text-[#5c4033]/40 bg-[#f0e8df] px-2 py-0.5 rounded-full">คะแนน 0–5</span>
+          <span className="text-sm font-bold text-[#3d2010] dark:text-brown-superlight">Flavor Profile</span>
+          <span className="text-[10px] text-[#5c4033]/40 dark:text-brown-superlight/40 bg-[#f0e8df] dark:bg-white/10 px-2 py-0.5 rounded-full">คะแนน 0–5</span>
         </div>
         {FLAVOR_META.map(({ key, label, color }, i) => (
           <FlavorBar key={key} label={label} value={flavor[key] ?? 0} color={color} delayMs={i * 120} />
@@ -166,8 +166,8 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
       </div>
 
       {/* Nutrition */}
-      <div className="bg-white rounded-3xl shadow-md ring-1 ring-black/5 p-6">
-        <p className="text-sm font-bold text-[#3d2010] mb-4">โภชนาการ (ต่อแก้ว)</p>
+      <div className="bg-white dark:bg-[#2b2015] rounded-3xl shadow-md ring-1 ring-black/5 dark:ring-brown-superlight/10 p-6">
+        <p className="text-sm font-bold text-[#3d2010] dark:text-brown-superlight mb-4">โภชนาการ (ต่อแก้ว)</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
           {[
             { label: "แคลอรี่", value: nutrition.calories, unit: "kcal", Icon: Flame },
@@ -177,13 +177,13 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
           ].map((item, i) => (
             <div
               key={item.label}
-              className="bg-[#f7efe6] rounded-2xl p-3"
+              className="bg-[#f7efe6] dark:bg-white/5 rounded-2xl p-3"
               style={{ animation: `brewFadeUp 0.4s ease-out ${i * 0.08}s both` }}
             >
-              <item.Icon className="mx-auto size-5 mb-1 text-[#7b4b29]" strokeWidth={1.75} />
-              <p className="text-lg font-extrabold text-[#3d2010]">{item.value}</p>
-              <p className="text-[10px] text-[#5c4033]/50">{item.unit}</p>
-              <p className="text-[10px] text-[#5c4033]/40">{item.label}</p>
+              <item.Icon className="mx-auto size-5 mb-1 text-[#7b4b29] dark:text-beige" strokeWidth={1.75} />
+              <p className="text-lg font-extrabold text-[#3d2010] dark:text-brown-superlight">{item.value}</p>
+              <p className="text-[10px] text-[#5c4033]/50 dark:text-brown-superlight/50">{item.unit}</p>
+              <p className="text-[10px] text-[#5c4033]/40 dark:text-brown-superlight/40">{item.label}</p>
             </div>
           ))}
         </div>
@@ -191,7 +191,7 @@ function ResultScreen({ equipment, menu, flavor, nutrition, onRestart }) {
 
       {/* Recommendation */}
       <div
-        className="bg-[#fff7ec] border border-[#e8c88a] rounded-2xl px-5 py-4 text-sm text-[#7b4b29] leading-relaxed"
+        className="bg-[#fff7ec] dark:bg-white/5 border border-[#e8c88a] dark:border-beige/30 rounded-2xl px-5 py-4 text-sm text-[#7b4b29] dark:text-beige leading-relaxed"
         style={{ animation: "brewFadeUp 0.5s ease-out 0.5s both" }}
       >
         <p className="font-bold mb-1 flex items-center gap-1.5">
@@ -223,10 +223,10 @@ function EquipmentCard({ eq, onSelect, selecting }) {
     <button
       onClick={() => onSelect(eq)}
       className={[
-        "group bg-white rounded-3xl shadow-md ring-1 text-left overflow-hidden transition-all duration-300 active:scale-[.97]",
+        "group bg-white dark:bg-[#2b2015] rounded-3xl shadow-md ring-1 text-left overflow-hidden transition-all duration-300 active:scale-[.97]",
         isSelecting
-          ? "ring-[#7b4b29] shadow-xl scale-[1.03] bg-[#fdf7f2]"
-          : "ring-black/5 hover:ring-[#7b4b29]/40 hover:shadow-xl hover:scale-[1.01]",
+          ? "ring-[#7b4b29] dark:ring-beige shadow-xl scale-[1.03] bg-[#fdf7f2] dark:bg-white/10"
+          : "ring-black/5 dark:ring-brown-superlight/10 hover:ring-[#7b4b29]/40 dark:hover:ring-beige/40 hover:shadow-xl hover:scale-[1.01]",
       ].join(" ")}
     >
       {/* รูปอุปกรณ์จริง: พื้นครีม+เบลอรูปตัวเองไว้กลืนสีตามที่ user ชอบ
@@ -275,16 +275,16 @@ function EquipmentCard({ eq, onSelect, selecting }) {
 
       {/* Info */}
       <div className="p-4 space-y-2">
-        <h3 className="font-extrabold text-[#3d2010] text-base">{eq.nameTh}</h3>
-        <p className="text-xs text-[#5c4033]/65 leading-relaxed">{eq.description}</p>
+        <h3 className="font-extrabold text-[#3d2010] dark:text-brown-superlight text-base">{eq.nameTh}</h3>
+        <p className="text-xs text-[#5c4033]/65 dark:text-brown-superlight/65 leading-relaxed">{eq.description}</p>
         <div className="flex flex-wrap gap-1.5 pt-1">
-          <span className="bg-[#f0e4d0] text-[#5c3a1e] text-[10px] px-2.5 py-0.5 rounded-full font-medium">{eq.grind}</span>
-          <span className="bg-[#f0e4d0] text-[#5c3a1e] text-[10px] px-2.5 py-0.5 rounded-full font-medium">{eq.waterTemp}</span>
+          <span className="bg-[#f0e4d0] dark:bg-white/10 text-[#5c3a1e] dark:text-beige text-[10px] px-2.5 py-0.5 rounded-full font-medium">{eq.grind}</span>
+          <span className="bg-[#f0e4d0] dark:bg-white/10 text-[#5c3a1e] dark:text-beige text-[10px] px-2.5 py-0.5 rounded-full font-medium">{eq.waterTemp}</span>
         </div>
         <div className="flex items-center gap-1 pt-1">
-          <span className="text-[10px] text-[#5c4033]/40">{eq.steps?.length ?? 0} ขั้นตอน</span>
+          <span className="text-[10px] text-[#5c4033]/40 dark:text-brown-superlight/40">{eq.steps?.length ?? 0} ขั้นตอน</span>
           {eq.resultType === "espresso" && (
-            <span className="ml-auto text-[10px] bg-[#3d2010] text-white px-2 py-0.5 rounded-full">เมนูต่อยอดได้</span>
+            <span className="ml-auto text-[10px] bg-[#3d2010] dark:bg-beige text-white dark:text-dark-brown px-2 py-0.5 rounded-full">เมนูต่อยอดได้</span>
           )}
         </div>
       </div>
@@ -295,21 +295,51 @@ function EquipmentCard({ eq, onSelect, selecting }) {
 // ─── Menu card ────────────────────────────────────────────────────────────────
 
 function MenuCard({ menu, onSelect }) {
+  const [imgFailed, setImgFailed] = useState(false);
+  const showImg = !!menu.image && !imgFailed;
   return (
     <button
       onClick={() => onSelect(menu)}
-      className="bg-white rounded-2xl shadow ring-1 ring-black/5 overflow-hidden text-left hover:ring-[#7b4b29]/40 hover:shadow-md transition-all active:scale-[.97] group"
+      className="bg-white dark:bg-[#2b2015] rounded-2xl shadow ring-1 ring-black/5 dark:ring-brown-superlight/10 overflow-hidden text-left hover:ring-[#7b4b29]/40 dark:hover:ring-beige/40 hover:shadow-md transition-all active:scale-[.97] group"
     >
       <div className="h-24 bg-gradient-to-br from-[#f0e4d0] to-[#d9c4aa] flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-[#7b4b29]/0 group-hover:bg-[#7b4b29]/5 transition" />
-        <span className="text-3xl font-extrabold text-[#7b4b29]">
-          {menu.nameTh?.charAt(0)}
-        </span>
+        <div className="absolute inset-0 bg-[#7b4b29]/0 group-hover:bg-[#7b4b29]/5 transition z-10" />
+        {showImg ? (
+          menu.imageFit === "contain" ? (
+            <>
+              {/* รูปอุปกรณ์ (ไม่ใช่รูปเครื่องดื่มจริง) เป็นแนวตั้งมี headroom เยอะ
+                  ใช้ contain + ฉากหลังเบลอเหมือน EquipmentCard กัน crop หัวตัดท้าย */}
+              <img
+                src={menu.image}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-lg scale-125 opacity-40"
+              />
+              <img
+                src={menu.image}
+                alt={menu.nameTh}
+                onError={() => setImgFailed(true)}
+                className="absolute inset-0 w-full h-full object-contain p-2 drop-shadow transition-transform duration-500 group-hover:scale-105"
+              />
+            </>
+          ) : (
+            <img
+              src={menu.image}
+              alt={menu.nameTh}
+              onError={() => setImgFailed(true)}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.06]"
+            />
+          )
+        ) : (
+          <span className="text-3xl font-extrabold text-[#7b4b29]">
+            {menu.nameTh?.charAt(0)}
+          </span>
+        )}
       </div>
       <div className="p-3">
-        <p className="font-bold text-[#3d2010] text-sm">{menu.nameTh}</p>
+        <p className="font-bold text-[#3d2010] dark:text-brown-superlight text-sm">{menu.nameTh}</p>
         {menu.addOnSteps?.length > 0 && (
-          <p className="text-[10px] text-[#5c4033]/45 mt-0.5">+{menu.addOnSteps.length} ขั้นตอนเพิ่ม</p>
+          <p className="text-[10px] text-[#5c4033]/45 dark:text-brown-superlight/45 mt-0.5">+{menu.addOnSteps.length} ขั้นตอนเพิ่ม</p>
         )}
       </div>
     </button>
@@ -464,13 +494,13 @@ export default function BrewSimulator() {
   }, [selectedMenu, variables, nutritionData]);
 
   if (loading) return (
-    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <div className="space-y-4 w-full max-w-lg px-4">
-          <div className="h-5 rounded-full bg-[#e0d8ce] animate-pulse w-1/2 mx-auto" />
+          <div className="h-5 rounded-full bg-[#e0d8ce] dark:bg-white/10 animate-pulse w-1/2 mx-auto" />
           <div className="grid grid-cols-2 gap-4">
-            {[...Array(4)].map((_, i) => <div key={i} className="h-48 rounded-3xl bg-[#e0d8ce] animate-pulse" />)}
+            {[...Array(4)].map((_, i) => <div key={i} className="h-48 rounded-3xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse" />)}
           </div>
         </div>
       </div>
@@ -478,7 +508,7 @@ export default function BrewSimulator() {
   );
 
   if (error) return (
-    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
@@ -487,7 +517,7 @@ export default function BrewSimulator() {
   );
 
   return (
-    <div className="bg-[#f3f1ec] min-h-screen" ref={topRef}>
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen" ref={topRef}>
       <Navbar />
 
       {/* ── Hero ─────────────────────────────────────────────────── */}
@@ -502,12 +532,12 @@ export default function BrewSimulator() {
 
       {/* ── Phase breadcrumb ──────────────────────────────────────── */}
       {phase !== "equipment_select" && (
-        <div className="sticky top-0 z-30 bg-[#f3f1ec]/90 backdrop-blur border-b border-black/5 shadow-sm">
+        <div className="sticky top-0 z-30 bg-[#f3f1ec]/90 dark:bg-dark-brown/90 backdrop-blur border-b border-black/5 dark:border-white/10 shadow-sm">
           <div className="max-w-3xl mx-auto px-4 py-3 flex items-center gap-3">
-            <button onClick={handleBack} className="text-[#7b4b29] hover:text-[#3d2010] transition-all duration-200 ease-smooth hover:-translate-x-0.5 active:scale-95 text-sm font-medium flex items-center gap-1">
+            <button onClick={handleBack} className="text-[#7b4b29] dark:text-beige hover:text-[#3d2010] dark:hover:text-brown-superlight transition-all duration-200 ease-smooth hover:-translate-x-0.5 active:scale-95 text-sm font-medium flex items-center gap-1">
               ← ย้อนกลับ
             </button>
-            <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden text-xs text-[#5c4033]/50 whitespace-nowrap">
+            <div className="flex-1 min-w-0 flex items-center gap-2 overflow-hidden text-xs text-[#5c4033]/50 dark:text-brown-superlight/50 whitespace-nowrap">
               <span>{selectedEquipment?.nameTh}</span>
               {selectedMenu && <><span>/</span><span>{selectedMenu?.nameTh}</span></>}
             </div>
@@ -521,8 +551,8 @@ export default function BrewSimulator() {
         {phase === "equipment_select" && (
           <div className="space-y-6" style={{ animation: "brewFadeUp 0.4s ease-out both" }}>
             <div className="text-center">
-              <h2 className="text-xl font-bold text-[#3d2010]">เลือกอุปกรณ์ที่จะใช้ชง</h2>
-              <p className="text-sm text-[#5c4033]/60 mt-1">แต่ละอุปกรณ์ให้รสชาติที่แตกต่างกัน</p>
+              <h2 className="text-xl font-bold text-[#3d2010] dark:text-brown-superlight">เลือกอุปกรณ์ที่จะใช้ชง</h2>
+              <p className="text-sm text-[#5c4033]/60 dark:text-brown-superlight/60 mt-1">แต่ละอุปกรณ์ให้รสชาติที่แตกต่างกัน</p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {equipmentList.map((eq) => (
@@ -537,7 +567,7 @@ export default function BrewSimulator() {
           <div className="space-y-5">
             {/* Phase label */}
             <div className="text-center">
-              <span className="bg-[#3d2010] text-white text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
+              <span className="bg-[#3d2010] dark:bg-beige text-white dark:text-dark-brown text-[10px] uppercase tracking-widest px-3 py-1 rounded-full">
                 {phase === "brew_steps" ? `ระดับ 1: ชง ${selectedEquipment?.nameTh}` : `ระดับ 2: ทำ ${selectedMenu?.nameTh}`}
               </span>
             </div>
@@ -564,7 +594,7 @@ export default function BrewSimulator() {
 
             {/* คำใบ้ตอนปุ่มถัดไปยังกดไม่ได้ เพราะยังไม่ได้ปรับค่าเลย */}
             {!isStepReady && isValueTypeStep && (
-              <p className="text-center text-xs text-[#7b4b29]/60">ลองปรับค่าอย่างน้อยหนึ่งครั้งก่อนไปต่อ</p>
+              <p className="text-center text-xs text-[#7b4b29]/60 dark:text-beige/60">ลองปรับค่าอย่างน้อยหนึ่งครั้งก่อนไปต่อ</p>
             )}
 
             {/* Next button */}
@@ -575,7 +605,7 @@ export default function BrewSimulator() {
                 "w-full py-4 rounded-2xl text-base font-extrabold transition-all duration-300",
                 isStepReady
                   ? "bg-gradient-to-r from-[#7b4b29] to-[#a0622a] text-white shadow-lg hover:shadow-xl active:scale-[.98]"
-                  : "bg-[#e0d8ce] text-[#c5bab3] cursor-not-allowed",
+                  : "bg-[#e0d8ce] dark:bg-white/10 text-[#c5bab3] dark:text-brown-superlight/30 cursor-not-allowed",
               ].join(" ")}
               style={isStepReady ? { animation: "brewPulseRing 3s ease-in-out infinite" } : {}}
             >
@@ -592,9 +622,9 @@ export default function BrewSimulator() {
         {phase === "menu_select" && (
           <div className="space-y-6" style={{ animation: "brewFadeUp 0.4s ease-out both" }}>
             <div className="text-center">
-              <p className="text-xs text-[#5c4033]/50 uppercase tracking-widest mb-1">ระดับ 2</p>
-              <h2 className="text-xl font-bold text-[#3d2010]">เลือกเมนูที่จะทำ</h2>
-              <p className="text-sm text-[#5c4033]/50 mt-1">Espresso ที่ชงแล้วรองรับเมนูเหล่านี้</p>
+              <p className="text-xs text-[#5c4033]/50 dark:text-brown-superlight/50 uppercase tracking-widest mb-1">ระดับ 2</p>
+              <h2 className="text-xl font-bold text-[#3d2010] dark:text-brown-superlight">เลือกเมนูที่จะทำ</h2>
+              <p className="text-sm text-[#5c4033]/50 dark:text-brown-superlight/50 mt-1">Espresso ที่ชงแล้วรองรับเมนูเหล่านี้</p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {menuList.map((menu) => (

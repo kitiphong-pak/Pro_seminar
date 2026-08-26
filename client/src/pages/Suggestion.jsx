@@ -213,7 +213,7 @@ export default function Suggestion() {
   const handleViewDetails = (item) => navigate("/coffee_menu", { state: item });
 
   return (
-    <div className="min-h-screen bg-[#f3f1ec] flex flex-col">
+    <div className="min-h-screen bg-[#f3f1ec] dark:bg-dark-brown flex flex-col">
       <Navbar />
       <BackToTop />
 
@@ -230,18 +230,18 @@ export default function Suggestion() {
       </header>
 
       <main className="mx-auto max-w-5xl px-4 py-10 flex-1 w-full">
-        <div className="relative rounded-3xl bg-white/90 backdrop-blur shadow-[0_20px_60px_rgba(0,0,0,0.12)] p-6 md:p-8">
+        <div className="relative rounded-3xl bg-white/90 dark:bg-[#2b2015]/95 backdrop-blur shadow-[0_20px_60px_rgba(0,0,0,0.12)] p-6 md:p-8">
 
           {/* Stepper + Progress */}
           {!result && (
             <>
               <div className="mb-6">
-                <div className="flex items-center justify-between text-xs text-neutral-600">
+                <div className="flex items-center justify-between text-xs text-neutral-600 dark:text-brown-superlight/60">
                   {Array.from({ length: maxSteps }).map((_, i) => (
-                    <span key={i} className={`h-2 flex-1 mx-1 rounded-full transition-colors duration-300 ${i < stepsDone ? "bg-[#6f4e37]" : "bg-neutral-200"}`} />
+                    <span key={i} className={`h-2 flex-1 mx-1 rounded-full transition-colors duration-300 ${i < stepsDone ? "bg-[#6f4e37]" : "bg-neutral-200 dark:bg-white/10"}`} />
                   ))}
                 </div>
-                <div className="mt-2 text-sm text-neutral-600">
+                <div className="mt-2 text-sm text-neutral-600 dark:text-brown-superlight/60">
                   ขั้นตอนที่ {Math.min(stepsDone, maxSteps)} / {maxSteps}
                 </div>
               </div>
@@ -250,7 +250,7 @@ export default function Suggestion() {
               {Object.keys(answers).length > 0 && (
                 <div className="mb-5 flex flex-wrap gap-2">
                   {Object.entries(answers).map(([k, v], idx) => (
-                    <span key={idx} className="rounded-full border border-[#6f4e37]/25 bg-[#6f4e37]/5 px-3 py-1 text-xs text-[#2a1c14] animate-fade-in">
+                    <span key={idx} className="rounded-full border border-[#6f4e37]/25 dark:border-beige/30 bg-[#6f4e37]/5 dark:bg-beige/10 px-3 py-1 text-xs text-[#2a1c14] dark:text-beige animate-fade-in">
                       {k}: <span className="font-semibold">{v}</span>
                     </span>
                   ))}
@@ -262,7 +262,7 @@ export default function Suggestion() {
           {/* คำถาม & ตัวเลือก */}
           {!result ? (
             <div key={currentNode?.question ?? "no-question"}>
-              <h2 className="text-center text-2xl md:text-3xl font-bold text-[#2a1c14] animate-fade-in-up">
+              <h2 className="text-center text-2xl md:text-3xl font-bold text-[#2a1c14] dark:text-brown-superlight animate-fade-in-up">
                 {currentNode ? currentNode.question : "กรุณาตอบคำถาม"}
               </h2>
 
@@ -277,11 +277,11 @@ export default function Suggestion() {
                         className={`group rounded-2xl border px-4 py-4 text-left transition-all duration-200 ease-smooth active:scale-[.98]
                           ${active
                             ? "border-[#6f4e37] bg-[#6f4e37] text-white shadow-md scale-[1.02]"
-                            : "border-black/10 bg-white text-[#2a1c14] hover:bg-black/5 hover:-translate-y-0.5 hover:shadow-sm"}`}
+                            : "border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight hover:bg-black/5 dark:hover:bg-white/10 hover:-translate-y-0.5 hover:shadow-sm"}`}
                       >
                         <span className="block font-semibold">{op.label}</span>
                         {op.next?.result && (
-                          <span className={`mt-1 block text-xs ${active ? "text-white/90" : "text-neutral-500"}`}>
+                          <span className={`mt-1 block text-xs ${active ? "text-white/90" : "text-neutral-500 dark:text-brown-superlight/50"}`}>
                             ผลลัพธ์ปลายทาง: {op.next.result}
                           </span>
                         )}
@@ -296,7 +296,7 @@ export default function Suggestion() {
                   {path.length > 0 && (
                     <button
                       onClick={handleBack}
-                      className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm text-[#2a1c14] transition-all duration-200 ease-smooth hover:bg-black/5 active:scale-95"
+                      className="rounded-full border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 px-5 py-2 text-sm text-[#2a1c14] dark:text-brown-superlight transition-all duration-200 ease-smooth hover:bg-black/5 dark:hover:bg-white/10 active:scale-95"
                     >
                       ย้อนกลับ
                     </button>
@@ -305,7 +305,7 @@ export default function Suggestion() {
                 <div className="ml-auto flex gap-2">
                   <button
                     onClick={resetAll}
-                    className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm text-[#2a1c14] transition-all duration-200 ease-smooth hover:bg-black/5 active:scale-95"
+                    className="rounded-full border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 px-5 py-2 text-sm text-[#2a1c14] dark:text-brown-superlight transition-all duration-200 ease-smooth hover:bg-black/5 dark:hover:bg-white/10 active:scale-95"
                   >
                     เริ่มใหม่
                   </button>
@@ -313,7 +313,7 @@ export default function Suggestion() {
                     onClick={handleNextOption}
                     disabled={!currentSelection}
                     className={`rounded-full px-6 py-2 text-sm font-semibold text-white shadow transition-all duration-200 ease-smooth
-                      ${currentSelection ? "bg-[#6f4e37] hover:opacity-90 hover:-translate-y-0.5 active:translate-y-0 active:scale-95" : "bg-neutral-400 cursor-not-allowed"}`}
+                      ${currentSelection ? "bg-[#6f4e37] hover:opacity-90 hover:-translate-y-0.5 active:translate-y-0 active:scale-95" : "bg-neutral-400 dark:bg-white/10 cursor-not-allowed"}`}
                   >
                     ถัดไป
                   </button>
@@ -323,7 +323,7 @@ export default function Suggestion() {
           ) : (
             // ---------- ผลลัพธ์ ----------
             <div className="text-center animate-fade-in-up">
-              <h2 className="text-2xl md:text-3xl font-bold text-[#2a1c14]">กาแฟที่แนะนำสำหรับคุณ</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-[#2a1c14] dark:text-brown-superlight">กาแฟที่แนะนำสำหรับคุณ</h2>
 
               {menuError && (
                 <div className="mt-4">
@@ -352,25 +352,25 @@ export default function Suggestion() {
 
                 {/* รายละเอียด */}
                 <article className="lg:col-span-7 text-left">
-                  <div className="rounded-xl bg-[#faf6f3] p-4">
-                    <h3 className="font-semibold text-[#2a1c14]">รายละเอียด</h3>
-                    <p className="mt-1 text-neutral-700">
+                  <div className="rounded-xl bg-[#faf6f3] dark:bg-white/5 p-4">
+                    <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">รายละเอียด</h3>
+                    <p className="mt-1 text-neutral-700 dark:text-brown-superlight/80">
                       {recommendedItem?.details || "ไม่มีข้อมูล"}
                     </p>
                   </div>
 
                   <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div className="rounded-xl border border-black/10 bg-white p-4">
-                      <div className="text-xs text-neutral-500">ระดับความเข้ม</div>
-                      <div className="mt-1 font-semibold text-[#2a1c14]">{recommendedItem?.cafeid || "-"}</div>
+                    <div className="rounded-xl border border-black/10 dark:border-brown-superlight/15 bg-white dark:bg-white/5 p-4">
+                      <div className="text-xs text-neutral-500 dark:text-brown-superlight/50">ระดับความเข้ม</div>
+                      <div className="mt-1 font-semibold text-[#2a1c14] dark:text-brown-superlight">{recommendedItem?.cafeid || "-"}</div>
                     </div>
-                    <div className="rounded-xl border border-black/10 bg-white p-4">
-                      <div className="text-xs text-neutral-500">คาเฟอีน</div>
-                      <div className="mt-1 font-semibold text-[#2a1c14]">{recommendedItem?.caffeine || "-"}</div>
+                    <div className="rounded-xl border border-black/10 dark:border-brown-superlight/15 bg-white dark:bg-white/5 p-4">
+                      <div className="text-xs text-neutral-500 dark:text-brown-superlight/50">คาเฟอีน</div>
+                      <div className="mt-1 font-semibold text-[#2a1c14] dark:text-brown-superlight">{recommendedItem?.caffeine || "-"}</div>
                     </div>
-                    <div className="rounded-xl border border-black/10 bg-white p-4">
-                      <div className="text-xs text-neutral-500">แคลอรี่</div>
-                      <div className="mt-1 font-semibold text-[#2a1c14]">{recommendedItem?.calories || "-"}</div>
+                    <div className="rounded-xl border border-black/10 dark:border-brown-superlight/15 bg-white dark:bg-white/5 p-4">
+                      <div className="text-xs text-neutral-500 dark:text-brown-superlight/50">แคลอรี่</div>
+                      <div className="mt-1 font-semibold text-[#2a1c14] dark:text-brown-superlight">{recommendedItem?.calories || "-"}</div>
                     </div>
                   </div>
 
@@ -380,7 +380,7 @@ export default function Suggestion() {
                       {getTagsFromItem(recommendedItem).map((t, i) => (
                         <span
                           key={`${t}-${i}`}
-                          className="rounded-full border border-[#6f4e37]/25 bg-[#6f4e37]/5 px-2.5 py-1 text-[11px] text-[#6f4e37]"
+                          className="rounded-full border border-[#6f4e37]/25 dark:border-beige/30 bg-[#6f4e37]/5 dark:bg-beige/10 px-2.5 py-1 text-[11px] text-[#6f4e37] dark:text-beige"
                         >
                           {t}
                         </span>
@@ -399,7 +399,7 @@ export default function Suggestion() {
                     )}
                     <button
                       onClick={resetAll}
-                      className="rounded-full border border-black/10 bg-white px-6 py-3 text-sm text-[#2a1c14] transition-all duration-200 ease-smooth hover:bg-black/5 active:scale-95"
+                      className="rounded-full border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 px-6 py-3 text-sm text-[#2a1c14] dark:text-brown-superlight transition-all duration-200 ease-smooth hover:bg-black/5 dark:hover:bg-white/10 active:scale-95"
                     >
                       เลือกใหม่
                     </button>
@@ -410,14 +410,14 @@ export default function Suggestion() {
               {/* เมนูใกล้เคียง */}
               {relatedItems.length > 0 && (
                 <div className="mt-10 text-left">
-                  <h3 className="text-lg md:text-xl font-bold text-[#2a1c14] mb-3">เมนูใกล้เคียง</h3>
+                  <h3 className="text-lg md:text-xl font-bold text-[#2a1c14] dark:text-brown-superlight mb-3">เมนูใกล้เคียง</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {relatedItems.map((it, i) => (
                       <button
                         key={`${it.name}-${i}`}
                         type="button"
                         style={{ animationDelay: `${i * 60}ms` }}
-                        className="group relative overflow-hidden rounded-2xl bg-white shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
+                        className="group relative overflow-hidden rounded-2xl bg-white dark:bg-[#2b2015] shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
                         onClick={() => it && handleViewDetails(it)}
                       >
                         <div className="relative h-40 w-full">
@@ -438,7 +438,7 @@ export default function Suggestion() {
                         </div>
                         <div className="p-3 flex flex-wrap justify-end gap-2">
                           {getTagsFromItem(it).map((t, idx) => (
-                            <span key={`${t}-${idx}`} className="rounded-full border border-[#6f4e37]/25 bg-[#6f4e37]/5 px-2 py-0.5 text-[10px] text-[#6f4e37]">
+                            <span key={`${t}-${idx}`} className="rounded-full border border-[#6f4e37]/25 dark:border-beige/30 bg-[#6f4e37]/5 dark:bg-beige/10 px-2 py-0.5 text-[10px] text-[#6f4e37] dark:text-beige">
                               {t}
                             </span>
                           ))}

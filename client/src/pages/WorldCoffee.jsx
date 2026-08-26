@@ -409,7 +409,7 @@ function Home() {
   }, []); // Run this effect once when the component mounts
 
   return (
-    <div className="min-h-screen bg-[#f3f1ec]">
+    <div className="min-h-screen bg-[#f3f1ec] dark:bg-dark-brown">
       <Navbar />
 
       {/* Error banner — แผนที่ยังใช้ได้ แต่ข้อมูลกาแฟไม่โหลด */}
@@ -437,9 +437,9 @@ function Home() {
 
       <div className="mx-auto max-w-7xl px-4 md:px-8 py-5">
         {/* แถบค้นหา — อยู่ในเนื้อหาปกติ ไม่ลอยทับแผนที่แล้ว จึงไม่ชนปุ่ม +/- ของแผนที่ */}
-        <div className="mb-4 flex items-center gap-2 rounded-2xl bg-white p-2 shadow-sm ring-1 ring-black/5">
+        <div className="mb-4 flex items-center gap-2 rounded-2xl bg-white dark:bg-[#2b2015] p-2 shadow-sm ring-1 ring-black/5 dark:ring-brown-superlight/10">
           <div className="relative flex-1">
-            <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7b4b29]/50">
+            <span className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-[#7b4b29]/50 dark:text-beige/50">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="8" />
                 <line x1="21" y1="21" x2="16.65" y2="16.65" />
@@ -449,16 +449,16 @@ function Home() {
               type="text"
               id="search-input"
               placeholder="ค้นหาประเทศ เช่น Ethiopia, Brazil..."
-              className="w-full rounded-xl border border-black/10 bg-[#faf7f2] py-2.5 pl-10 pr-3 text-sm text-[#2a1c14] outline-none transition-shadow duration-200 focus:border-[#7b4b29]/40 focus:ring-2 focus:ring-[#7b4b29]/15"
+              className="w-full rounded-xl border border-black/10 dark:border-brown-superlight/20 bg-[#faf7f2] dark:bg-white/5 py-2.5 pl-10 pr-3 text-sm text-[#2a1c14] dark:text-brown-superlight outline-none transition-shadow duration-200 focus:border-[#7b4b29]/40 dark:focus:border-beige/40 focus:ring-2 focus:ring-[#7b4b29]/15 dark:focus:ring-beige/15"
             />
             <ul
               id="suggestions"
-              className="absolute left-0 right-0 top-full z-[1001] mt-1.5 hidden max-h-48 overflow-y-auto rounded-xl border border-black/10 bg-white py-1 shadow-lg"
+              className="absolute left-0 right-0 top-full z-[1001] mt-1.5 hidden max-h-48 overflow-y-auto rounded-xl border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-[#2b2015] py-1 shadow-lg"
             />
           </div>
           <button
             id="search-button"
-            className="shrink-0 rounded-xl bg-[#2a1c14] px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200 ease-smooth hover:bg-[#7b4b29] hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+            className="shrink-0 rounded-xl bg-[#2a1c14] dark:bg-beige px-5 py-2.5 text-sm font-semibold text-white dark:text-dark-brown transition-all duration-200 ease-smooth hover:bg-[#7b4b29] dark:hover:bg-brown-superlight hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
           >
             ค้นหา
           </button>
@@ -476,11 +476,11 @@ function Home() {
           <div className="lg:sticky lg:top-20 lg:h-[560px] lg:overflow-y-auto rounded-2xl">
             {/* placeholder เป็น React element แยกต่างหาก เพราะ #info ข้างล่างถูกเขียนทับด้วย innerHTML ตรง ๆ นอกการควบคุมของ React */}
             {!selectedCountry && (
-              <div className="flex items-center gap-4 rounded-2xl bg-white p-5 shadow-md ring-1 ring-black/5 animate-fade-in">
-                <MapIcon className="size-8 flex-none text-[#7b4b29]/50" strokeWidth={1.5} />
+              <div className="flex items-center gap-4 rounded-2xl bg-white dark:bg-[#2b2015] p-5 shadow-md ring-1 ring-black/5 dark:ring-brown-superlight/10 animate-fade-in">
+                <MapIcon className="size-8 flex-none text-[#7b4b29]/50 dark:text-beige/50" strokeWidth={1.5} />
                 <div>
-                  <p className="font-semibold text-[#5c4033]">คลิกที่ประเทศบนแผนที่เพื่อดูข้อมูลกาแฟ</p>
-                  <p className="text-sm text-[#5c4033]/60 mt-0.5">มีข้อมูลกาแฟจาก 48 ประเทศทั่วโลก</p>
+                  <p className="font-semibold text-[#5c4033] dark:text-brown-superlight">คลิกที่ประเทศบนแผนที่เพื่อดูข้อมูลกาแฟ</p>
+                  <p className="text-sm text-[#5c4033]/60 dark:text-brown-superlight/60 mt-0.5">มีข้อมูลกาแฟจาก 48 ประเทศทั่วโลก</p>
                 </div>
               </div>
             )}

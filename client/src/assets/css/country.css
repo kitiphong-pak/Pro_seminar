@@ -14,6 +14,16 @@
     padding-left: 18px;
 }
 
+/* dark mode: [data-theme="dark"] ตั้งบน <html> ผ่าน ThemeContext ไฟล์นี้เป็น CSS ธรรมดา
+   ไม่ผ่าน Tailwind เลยต้อง override ตรง ๆ ไม่ใช้ dark: prefix */
+[data-theme="dark"] #suggestions li {
+    color: #efdfc3;
+}
+
+[data-theme="dark"] #suggestions li:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
 /* =========================================================
    กล่องข้อมูลประเทศบนหน้าแผนที่ — พับเก็บได้เพื่อเลือกประเทศอื่นต่อ
    ========================================================= */

@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Sun, Moon } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
+import { useTheme } from "../contexts/ThemeContext";
 
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
 const resolvePhoto = (url) => {
@@ -28,6 +30,7 @@ export default function Navbar() {
 
   const location = useLocation();
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   // ปิดเมนูเมื่อคลิกนอก
   useEffect(() => {
@@ -126,18 +129,18 @@ export default function Navbar() {
       >
         <header
           className={`flex justify-between items-center select-none ${
-            isHome ? "bg-transparent" : "bg-white shadow-lg"
+            isHome ? "bg-transparent" : "bg-white dark:bg-[#2b2015] shadow-lg"
           } ${showFloatingNav ? "rounded-b-xl" : ""}`}
           style={{ padding: "1rem 1.25rem", height: "100%" }}
         >
           {/* โลโก้ */}
-          <div className="font-main font-bold text-brown text-3xl md:text-2xl lg:text-3xl leading-none">
+          <div className="font-main font-bold text-brown dark:text-[#efdfc3] text-3xl md:text-2xl lg:text-3xl leading-none">
             <Link to="/">Coffee Bean Fusion</Link>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden lg:flex items-center space-x-6 ">
-            <ul className="flex items-center space-x-12 text-brown">
+            <ul className="flex items-center space-x-12 text-brown dark:text-[#efdfc3]">
               {/* คลังความรู้กาแฟ */}
               <li
                 className={`relative group ${
@@ -269,6 +272,18 @@ export default function Navbar() {
                 <Link to="/coffee_menu">เมนูกาแฟ</Link>
               </li>
 
+              {/* สลับโหมดสว่าง/มืด */}
+              <li>
+                <button
+                  type="button"
+                  aria-label={theme === "dark" ? "สลับเป็นโหมดสว่าง" : "สลับเป็นโหมดมืด"}
+                  onClick={toggleTheme}
+                  className="grid place-items-center w-9 h-9 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition duration-200 active:scale-90"
+                >
+                  {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+                </button>
+              </li>
+
               {/* เมนูโปรไฟล์ */}
               <li className="relative group" ref={profileMenuRef}>
                 <button
@@ -314,13 +329,23 @@ export default function Navbar() {
             </ul>
           </div>
 
-          {/* Mobile Menu Toggle Button */}
-          <button
-            className="lg:hidden text-brown focus:outline-none text-2xl transition-transform duration-200 ease-smooth active:scale-90"
-            onClick={() => setShowMenu((prev) => !prev)}
-          >
-            ☰
-          </button>
+          {/* Mobile: สลับธีม + Toggle Button */}
+          <div className="flex items-center gap-3 lg:hidden">
+            <button
+              type="button"
+              aria-label={theme === "dark" ? "สลับเป็นโหมดสว่าง" : "สลับเป็นโหมดมืด"}
+              onClick={toggleTheme}
+              className="grid place-items-center w-9 h-9 rounded-full text-brown dark:text-[#efdfc3] hover:bg-black/5 dark:hover:bg-white/10 transition duration-200 active:scale-90"
+            >
+              {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+            </button>
+            <button
+              className="text-brown dark:text-[#efdfc3] focus:outline-none text-2xl transition-transform duration-200 ease-smooth active:scale-90"
+              onClick={() => setShowMenu((prev) => !prev)}
+            >
+              ☰
+            </button>
+          </div>
 
           {/* Mobile Menu */}
           {showMenu && (

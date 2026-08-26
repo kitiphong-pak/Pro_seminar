@@ -71,7 +71,7 @@ function Process() {
   }, [goStep]);
 
   if (error) return (
-    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
@@ -80,7 +80,7 @@ function Process() {
   );
 
   if (loading) return (
-    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="h-[34vh] animate-pulse bg-gray-300" />
       <div className="mx-auto max-w-7xl w-full px-4 md:px-8 py-8 space-y-6">
@@ -99,7 +99,7 @@ function Process() {
   const progressPct = icons.length > 1 ? (currentIndex / (icons.length - 1)) * 100 : 0;
 
   return (
-    <div className="bg-[#f3f1ec]">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown">
       <Navbar />
       <BackToTop />
 
@@ -124,7 +124,7 @@ function Process() {
         {/* STEP INDICATOR */}
         <section className="relative mb-8" data-aos="fade-up">
           {/* เส้นพื้นหลัง — top ปรับตามขนาดปุ่ม (mobile=20px, sm+=28px) */}
-          <div className="absolute left-1/2 top-[20px] sm:top-[28px] -translate-x-1/2 h-1.5 w-full max-w-3xl bg-black/10 rounded-full overflow-hidden">
+          <div className="absolute left-1/2 top-[20px] sm:top-[28px] -translate-x-1/2 h-1.5 w-full max-w-3xl bg-black/10 dark:bg-white/10 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-[#6f4e37] to-[#c47a3a] rounded-full transition-[width] duration-500"
               style={{ width: `${progressPct}%` }}
@@ -143,10 +143,10 @@ function Process() {
                     className={[
                       "relative grid place-items-center size-10 sm:size-14 rounded-full border-2 transition-all duration-200 shadow-sm",
                       isActive
-                        ? "bg-white border-[#6f4e37] ring-2 sm:ring-4 ring-[#6f4e37]/25 scale-110 shadow-md"
+                        ? "bg-white dark:bg-[#2b2015] border-[#6f4e37] dark:border-beige ring-2 sm:ring-4 ring-[#6f4e37]/25 dark:ring-beige/25 scale-110 shadow-md"
                         : isDone
-                        ? "bg-[#6f4e37]/10 border-[#6f4e37]/50 hover:border-[#6f4e37]"
-                        : "bg-white/90 border-black/10 hover:border-[#6f4e37]/40",
+                        ? "bg-[#6f4e37]/10 dark:bg-beige/10 border-[#6f4e37]/50 dark:border-beige/50 hover:border-[#6f4e37] dark:hover:border-beige"
+                        : "bg-white/90 dark:bg-white/5 border-black/10 dark:border-brown-superlight/20 hover:border-[#6f4e37]/40 dark:hover:border-beige/40",
                     ].join(" ")}
                     aria-current={isActive ? "step" : undefined}
                     aria-label={icon.alt}
@@ -157,7 +157,7 @@ function Process() {
                     <span
                       className={[
                         "absolute -top-1 -right-1 h-4 w-4 sm:h-5 sm:w-5 rounded-full text-[9px] sm:text-[10px] flex items-center justify-center font-bold shadow",
-                        isActive ? "bg-[#6f4e37] text-white" : "bg-gray-100 text-gray-500",
+                        isActive ? "bg-[#6f4e37] dark:bg-beige text-white dark:text-dark-brown" : "bg-gray-100 dark:bg-white/10 text-gray-500 dark:text-brown-superlight/50",
                       ].join(" ")}
                     >
                       {idx + 1}
@@ -166,7 +166,7 @@ function Process() {
                   <span
                     className={[
                       "text-[10px] sm:text-[11px] md:text-xs text-center max-w-[52px] sm:max-w-[64px] leading-tight",
-                      isActive ? "text-[#6f4e37] font-bold" : "text-black/50",
+                      isActive ? "text-[#6f4e37] dark:text-beige font-bold" : "text-black/50 dark:text-brown-superlight/50",
                     ].join(" ")}
                   >
                     {icon.alt}
@@ -176,7 +176,7 @@ function Process() {
             })}
           </ul>
 
-          <div className="mt-3 text-center text-xs text-black/50 font-medium">
+          <div className="mt-3 text-center text-xs text-black/50 dark:text-brown-superlight/50 font-medium">
             ขั้นตอน {currentIndex + 1} / {icons.length}
           </div>
         </section>
@@ -185,11 +185,11 @@ function Process() {
         <div className="mb-7 flex items-center justify-center gap-3" data-aos="fade-up">
           <button
             onClick={() => goStep(-1)}
-            className="flex items-center gap-2 rounded-full border border-black/10 bg-white px-5 py-2.5 text-sm font-medium text-[#2a1c14] hover:bg-[#f7efe6] hover:border-[#7b4b29]/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200 ease-smooth shadow-sm"
+            className="flex items-center gap-2 rounded-full border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 px-5 py-2.5 text-sm font-medium text-[#2a1c14] dark:text-brown-superlight hover:bg-[#f7efe6] dark:hover:bg-white/10 hover:border-[#7b4b29]/30 dark:hover:border-beige/30 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 transition-all duration-200 ease-smooth shadow-sm"
           >
             <span className="text-base">←</span> ย้อนกลับ
           </button>
-          <span className="text-xs text-black/30 hidden md:block">หรือกดแป้น ← →</span>
+          <span className="text-xs text-black/30 dark:text-brown-superlight/30 hidden md:block">หรือกดแป้น ← →</span>
           <button
             onClick={() => goStep(1)}
             className="flex items-center gap-2 rounded-full bg-[#6f4e37] text-white px-5 py-2.5 text-sm font-medium hover:bg-[#5c3a1e] hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 active:scale-95 transition-all duration-200 ease-smooth shadow-md"
@@ -216,27 +216,27 @@ function Process() {
 
           {/* ข้อความ */}
           <article className="lg:col-span-6">
-            <div className="h-full bg-white rounded-2xl shadow-md ring-1 ring-black/5 p-6 flex flex-col">
+            <div className="h-full bg-white dark:bg-[#2b2015] rounded-2xl shadow-md ring-1 ring-black/5 dark:ring-brown-superlight/10 p-6 flex flex-col">
               <div className="flex items-center gap-3 mb-4">
-                <span className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br from-[#f7efe6] to-[#ede0d0] text-[#6f4e37] font-bold text-lg shadow-sm">
+                <span className="flex items-center justify-center h-10 w-10 rounded-xl bg-gradient-to-br from-[#f7efe6] to-[#ede0d0] dark:from-white/10 dark:to-white/5 text-[#6f4e37] dark:text-beige font-bold text-lg shadow-sm">
                   {currentIndex + 1}
                 </span>
-                <div className="border-l-4 border-[#6f4e37] pl-4">
-                  <p className="text-[10px] uppercase tracking-widest text-[#6f4e37]/60">Step {currentIndex + 1}</p>
-                  <h2 className="text-xl md:text-2xl font-bold text-[#2a1c14]">{active.alt}</h2>
+                <div className="border-l-4 border-[#6f4e37] dark:border-beige pl-4">
+                  <p className="text-[10px] uppercase tracking-widest text-[#6f4e37]/60 dark:text-beige/60">Step {currentIndex + 1}</p>
+                  <h2 className="text-xl md:text-2xl font-bold text-[#2a1c14] dark:text-brown-superlight">{active.alt}</h2>
                 </div>
               </div>
-              <p className="leading-8 text-neutral-700 flex-1">{active.content}</p>
+              <p className="leading-8 text-neutral-700 dark:text-brown-superlight/80 flex-1">{active.content}</p>
 
               {/* mini progress dots */}
-              <div className="mt-6 pt-4 border-t border-gray-100 flex gap-1.5">
+              <div className="mt-6 pt-4 border-t border-gray-100 dark:border-white/10 flex gap-1.5">
                 {icons.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => { setSelectedIcon(icons[i].name); }}
                     className={[
                       "h-1.5 rounded-full transition-all duration-300",
-                      i === currentIndex ? "bg-[#6f4e37] w-6" : i < currentIndex ? "bg-[#6f4e37]/40 w-3" : "bg-gray-200 w-3",
+                      i === currentIndex ? "bg-[#6f4e37] dark:bg-beige w-6" : i < currentIndex ? "bg-[#6f4e37]/40 dark:bg-beige/40 w-3" : "bg-gray-200 dark:bg-white/10 w-3",
                     ].join(" ")}
                     aria-label={`ขั้นที่ ${i + 1}`}
                   />

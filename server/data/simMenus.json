@@ -3,6 +3,7 @@
     "id": "espresso",
     "nameTh": "Espresso",
     "requiresEspresso": true,
+    "image": "/menu/espresso.jpg",
     "addOnSteps": [],
     "flavorBase": {
       "sweetness": 1,
@@ -22,6 +23,7 @@
     "id": "americano",
     "nameTh": "Americano",
     "requiresEspresso": true,
+    "image": "/menu/americano.webp",
     "addOnSteps": [
       {
         "id": "add_water",
@@ -60,6 +62,7 @@
     "id": "latte",
     "nameTh": "Latte",
     "requiresEspresso": true,
+    "image": "/menu/latte.webp",
     "addOnSteps": [
       {
         "id": "steam_milk",
@@ -128,6 +131,7 @@
     "id": "cappuccino",
     "nameTh": "Cappuccino",
     "requiresEspresso": true,
+    "image": "/menu/Cappuccino.jpeg",
     "addOnSteps": [
       {
         "id": "steam_foam",
@@ -186,6 +190,7 @@
     "id": "mocha",
     "nameTh": "Mocha",
     "requiresEspresso": true,
+    "image": "/menu/Mocha.jpg",
     "addOnSteps": [
       {
         "id": "add_chocolate",
@@ -265,6 +270,7 @@
     "id": "macchiato",
     "nameTh": "Macchiato",
     "requiresEspresso": true,
+    "image": "/menu/Macchiato.jpg",
     "addOnSteps": [
       {
         "id": "add_foam",
@@ -302,6 +308,8 @@
     "id": "drip_coffee",
     "nameTh": "Drip Coffee",
     "requiresEspresso": false,
+    "image": "/simulator/equipment/drip.png",
+    "imageFit": "contain",
     "addOnSteps": [],
     "flavorBase": {
       "sweetness": 2,
@@ -321,6 +329,8 @@
     "id": "french_press_coffee",
     "nameTh": "French Press Coffee",
     "requiresEspresso": false,
+    "image": "/simulator/equipment/french_press.png",
+    "imageFit": "contain",
     "addOnSteps": [],
     "flavorBase": {
       "sweetness": 2,
@@ -340,6 +350,8 @@
     "id": "moka_coffee",
     "nameTh": "Moka Pot Coffee",
     "requiresEspresso": false,
+    "image": "/simulator/equipment/moka_pot.png",
+    "imageFit": "contain",
     "addOnSteps": [],
     "flavorBase": {
       "sweetness": 1,

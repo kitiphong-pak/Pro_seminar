@@ -63,7 +63,7 @@ const CoffeeVariety = () => {
   }, [uid]);
 
   if (error) return (
-    <div className="bg-[#fcfaf7] min-h-screen flex flex-col">
+    <div className="bg-[#fcfaf7] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
@@ -72,9 +72,9 @@ const CoffeeVariety = () => {
   );
 
   if (loading) return (
-    <div className="bg-[#fcfaf7] text-gray-800 font-sans min-h-screen flex flex-col">
+    <div className="bg-[#fcfaf7] dark:bg-dark-brown text-gray-800 font-sans min-h-screen flex flex-col">
       <Navbar />
-      <div className="h-[40vh] animate-pulse bg-gray-300" />
+      <div className="h-[40vh] animate-pulse bg-gray-300 dark:bg-white/10" />
       <div className="mx-auto max-w-7xl w-full px-4 md:px-8 py-8 space-y-6">
         <div className="flex gap-2 justify-center">
           {[...Array(4)].map((_, i) => <SkeletonBlock key={i} className="h-9 w-28" />)}
@@ -94,7 +94,7 @@ const CoffeeVariety = () => {
   const selectedDetail = current?.subVarieties?.find((s) => s.name === selectedSubVariety);
 
   return (
-    <div className="bg-[#fcfaf7] text-gray-800 font-sans">
+    <div className="bg-[#fcfaf7] dark:bg-dark-brown text-gray-800 font-sans">
       <Navbar />
 
       {/* HERO */}
@@ -114,7 +114,7 @@ const CoffeeVariety = () => {
       </header>
 
       {/* Tabs สายพันธุ์ */}
-      <div className="sticky top-0 z-20 bg-white/80 backdrop-blur border-b border-gray-100 shadow-sm">
+      <div className="sticky top-0 z-20 bg-white/80 dark:bg-[#2b2015]/90 backdrop-blur border-b border-gray-100 dark:border-white/10 shadow-sm">
         <div className="mx-auto max-w-7xl py-3">
           <div className="overflow-x-auto">
             <div className="px-4 md:px-8 flex gap-2 whitespace-nowrap md:flex-wrap md:whitespace-normal md:justify-start">
@@ -131,8 +131,8 @@ const CoffeeVariety = () => {
                     className={[
                       "shrink-0 px-5 py-2 rounded-full text-sm font-semibold border transition-all duration-200 shadow-sm",
                       active
-                        ? "bg-[#2a1c14] text-white border-[#2a1c14] shadow-md scale-105"
-                        : "bg-white text-[#2a1c14] border-[#2a1c14]/20 hover:bg-[#f7efe6] hover:border-[#7b4b29]/40",
+                        ? "bg-[#2a1c14] dark:bg-beige text-white dark:text-dark-brown border-[#2a1c14] dark:border-beige shadow-md scale-105"
+                        : "bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight border-[#2a1c14]/20 dark:border-brown-superlight/20 hover:bg-[#f7efe6] dark:hover:bg-white/10 hover:border-[#7b4b29]/40 dark:hover:border-beige/40",
                     ].join(" ")}
                   >
                     {variety}
@@ -159,15 +159,15 @@ const CoffeeVariety = () => {
           </figure>
 
           <article className="lg:col-span-7">
-            <div className="h-full bg-white rounded-2xl shadow-md ring-1 ring-black/5 p-6 flex flex-col">
-              <div className="border-l-4 border-[#7b4b29] pl-4 mb-4">
-                <h2 className="text-2xl md:text-3xl font-bold text-[#7b4b29]">{current.title}</h2>
+            <div className="h-full bg-white dark:bg-[#2b2015] rounded-2xl shadow-md ring-1 ring-black/5 dark:ring-brown-superlight/10 p-6 flex flex-col">
+              <div className="border-l-4 border-[#7b4b29] dark:border-beige pl-4 mb-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-[#7b4b29] dark:text-beige">{current.title}</h2>
               </div>
-              <p className="text-gray-700 leading-8 text-justify indent-8 flex-1">{current.description}</p>
-              <div className="mt-5 flex flex-wrap gap-2 pt-4 border-t border-gray-100">
-                <span className="rounded-full bg-[#f7efe6] text-[#7b4b29] text-xs px-3 py-1 font-medium">ลักษณะเด่น</span>
-                <span className="rounded-full bg-[#f0eadc] text-[#7b4b29] text-xs px-3 py-1 font-medium">พื้นที่ปลูก</span>
-                <span className="rounded-full bg-[#eee6d9] text-[#7b4b29] text-xs px-3 py-1 font-medium">ระดับคาเฟอีน</span>
+              <p className="text-gray-700 dark:text-brown-superlight/80 leading-8 text-justify indent-8 flex-1">{current.description}</p>
+              <div className="mt-5 flex flex-wrap gap-2 pt-4 border-t border-gray-100 dark:border-white/10">
+                <span className="rounded-full bg-[#f7efe6] dark:bg-white/10 text-[#7b4b29] dark:text-beige text-xs px-3 py-1 font-medium">ลักษณะเด่น</span>
+                <span className="rounded-full bg-[#f0eadc] dark:bg-white/10 text-[#7b4b29] dark:text-beige text-xs px-3 py-1 font-medium">พื้นที่ปลูก</span>
+                <span className="rounded-full bg-[#eee6d9] dark:bg-white/10 text-[#7b4b29] dark:text-beige text-xs px-3 py-1 font-medium">ระดับคาเฟอีน</span>
               </div>
             </div>
           </article>
@@ -175,8 +175,8 @@ const CoffeeVariety = () => {
 
         {/* สายพันธุ์ย่อย */}
         <div className="mt-12 text-center">
-          <span className="inline-block rounded-full bg-[#7b4b29]/10 text-[#7b4b29] text-xs font-medium px-4 py-1 mb-3 tracking-widest uppercase">Sub-varieties</span>
-          <h3 className="text-xl md:text-2xl font-bold text-[#7b4b29]">
+          <span className="inline-block rounded-full bg-[#7b4b29]/10 dark:bg-beige/10 text-[#7b4b29] dark:text-beige text-xs font-medium px-4 py-1 mb-3 tracking-widest uppercase">Sub-varieties</span>
+          <h3 className="text-xl md:text-2xl font-bold text-[#7b4b29] dark:text-beige">
             สายพันธุ์ย่อยของ {current.title}
           </h3>
           <div className="mx-auto mt-2 h-1 w-12 bg-gradient-to-r from-[#7b4b29] to-[#c47a3a] rounded-full" />
@@ -191,8 +191,8 @@ const CoffeeVariety = () => {
                 key={sub.name}
                 onClick={() => handleSubVarietyClick(sub.name)}
                 className={[
-                  "group text-left bg-white rounded-2xl border p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 focus:outline-none",
-                  active ? "border-[#7b4b29] ring-2 ring-[#7b4b29]/20" : "border-gray-200 hover:border-[#7b4b29]/30",
+                  "group text-left bg-white dark:bg-[#2b2015] rounded-2xl border p-5 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-200 focus:outline-none",
+                  active ? "border-[#7b4b29] dark:border-beige ring-2 ring-[#7b4b29]/20 dark:ring-beige/20" : "border-gray-200 dark:border-white/10 hover:border-[#7b4b29]/30 dark:hover:border-beige/30",
                 ].join(" ")}
                 aria-expanded={active}
               >
@@ -201,9 +201,9 @@ const CoffeeVariety = () => {
                     {sub.name[0]}
                   </div>
                   <div className="min-w-0">
-                    <h4 className="text-base font-bold text-[#7b4b29] group-hover:text-[#5c3a1e] transition-colors">{sub.name}</h4>
-                    <p className="mt-1 text-sm text-gray-600 line-clamp-3 leading-relaxed">{sub.description}</p>
-                    <span className="mt-2 inline-flex items-center gap-1 text-xs text-[#7b4b29] opacity-60 group-hover:opacity-100 transition-opacity">
+                    <h4 className="text-base font-bold text-[#7b4b29] dark:text-beige group-hover:text-[#5c3a1e] dark:group-hover:text-beige/80 transition-colors">{sub.name}</h4>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-brown-superlight/60 line-clamp-3 leading-relaxed">{sub.description}</p>
+                    <span className="mt-2 inline-flex items-center gap-1 text-xs text-[#7b4b29] dark:text-beige opacity-60 group-hover:opacity-100 transition-opacity">
                       อ่านรายละเอียด <span className="text-base leading-none">→</span>
                     </span>
                   </div>
@@ -216,20 +216,20 @@ const CoffeeVariety = () => {
         {/* แผงรายละเอียดสายพันธุ์ย่อย */}
         <div ref={detailRef} className="mt-6">
           {selectedDetail && (
-            <div className="rounded-2xl bg-gradient-to-br from-[#fff8f0] to-white border-l-4 border-[#7b4b29] p-6 shadow-md ring-1 ring-[#7b4b29]/10 animate-fade-in-up">
+            <div className="rounded-2xl bg-gradient-to-br from-[#fff8f0] to-white dark:from-[#2b2015] dark:to-[#20170e] border-l-4 border-[#7b4b29] dark:border-beige p-6 shadow-md ring-1 ring-[#7b4b29]/10 dark:ring-beige/10 animate-fade-in-up">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="uppercase tracking-widest text-[11px] text-[#7b4b29]/60 font-medium">Sub-variety</p>
-                  <h4 className="text-2xl font-bold text-[#2a1c14] mt-1">{selectedDetail.name}</h4>
+                  <p className="uppercase tracking-widest text-[11px] text-[#7b4b29]/60 dark:text-beige/60 font-medium">Sub-variety</p>
+                  <h4 className="text-2xl font-bold text-[#2a1c14] dark:text-brown-superlight mt-1">{selectedDetail.name}</h4>
                 </div>
                 <button
                   onClick={() => setSelectedSubVariety("")}
-                  className="shrink-0 rounded-full bg-[#f7efe6] border border-[#7b4b29]/20 px-4 py-1.5 text-sm text-[#7b4b29] hover:bg-[#7b4b29] hover:text-white transition-all duration-200"
+                  className="shrink-0 rounded-full bg-[#f7efe6] dark:bg-white/10 border border-[#7b4b29]/20 dark:border-beige/30 px-4 py-1.5 text-sm text-[#7b4b29] dark:text-beige hover:bg-[#7b4b29] dark:hover:bg-beige hover:text-white dark:hover:text-dark-brown transition-all duration-200"
                 >
                   ✕ ปิด
                 </button>
               </div>
-              <p className="mt-4 text-gray-700 leading-8">{selectedDetail.description}</p>
+              <p className="mt-4 text-gray-700 dark:text-brown-superlight/80 leading-8">{selectedDetail.description}</p>
             </div>
           )}
         </div>

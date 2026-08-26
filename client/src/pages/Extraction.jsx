@@ -79,7 +79,7 @@ function Extraction() {
   }, [methods]);
 
   if (error) return (
-    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
@@ -88,15 +88,15 @@ function Extraction() {
   );
 
   if (loading) return (
-    <div className="bg-[#f3f1ec] min-h-screen flex flex-col">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <div className="space-y-4 w-full max-w-4xl px-4">
-          <div className="h-8 rounded-xl bg-[#e0d8ce] animate-pulse w-1/4" />
+          <div className="h-8 rounded-xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse w-1/4" />
           {[...Array(3)].map((_, i) => (
             <div key={i} className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <div className="h-52 rounded-2xl bg-[#e0d8ce] animate-pulse" />
-              <div className="h-52 rounded-2xl bg-[#e0d8ce] animate-pulse" />
+              <div className="h-52 rounded-2xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse" />
+              <div className="h-52 rounded-2xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse" />
             </div>
           ))}
         </div>
@@ -105,7 +105,7 @@ function Extraction() {
   );
 
   return (
-    <div className="bg-[#f3f1ec] min-h-screen">
+    <div className="bg-[#f3f1ec] dark:bg-dark-brown min-h-screen">
       <Navbar />
       <BackToTop />
 
@@ -132,8 +132,8 @@ function Extraction() {
 
         {/* Sidebar – desktop */}
         <aside className="hidden lg:block">
-          <div className="sticky top-20 rounded-2xl border border-black/5 bg-white shadow">
-            <div className="px-4 py-3 border-b text-sm font-semibold text-[#2a1c14]">
+          <div className="sticky top-20 rounded-2xl border border-black/5 dark:border-brown-superlight/10 bg-white dark:bg-[#2b2015] shadow">
+            <div className="px-4 py-3 border-b dark:border-white/10 text-sm font-semibold text-[#2a1c14] dark:text-brown-superlight">
               สารบัญวิธีชง
             </div>
             <nav className="p-2">
@@ -144,8 +144,8 @@ function Extraction() {
                       onClick={() => scrollToId(m.id)}
                       className={`w-full text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 ease-smooth ${
                         activeId === m.id
-                          ? "bg-[#2a1c14] text-white shadow-sm"
-                          : "text-[#2a1c14] hover:bg-black/5 hover:pl-4"
+                          ? "bg-[#2a1c14] dark:bg-beige text-white dark:text-dark-brown shadow-sm"
+                          : "text-[#2a1c14] dark:text-brown-superlight hover:bg-black/5 dark:hover:bg-white/10 hover:pl-4"
                       }`}
                     >
                       {m.title}
@@ -182,11 +182,11 @@ function Extraction() {
                     </div>
                   </figure>
                   <article className={`lg:col-span-6 ${isRight ? "order-1 lg:order-2" : ""}`}>
-                    <div className="h-full bg-white rounded-2xl shadow p-6 flex flex-col transition-shadow duration-300 hover:shadow-lg">
-                      <h2 className="text-xl md:text-2xl font-bold mb-4 text-[#2a1c14]">
+                    <div className="h-full bg-white dark:bg-[#2b2015] rounded-2xl shadow p-6 flex flex-col transition-shadow duration-300 hover:shadow-lg">
+                      <h2 className="text-xl md:text-2xl font-bold mb-4 text-[#2a1c14] dark:text-brown-superlight">
                         {m.title}
                       </h2>
-                      <p className="text-gray-700 leading-relaxed flex-1">{m.description}</p>
+                      <p className="text-gray-700 dark:text-brown-superlight/80 leading-relaxed flex-1">{m.description}</p>
                     </div>
                   </article>
                 </div>
@@ -195,7 +195,7 @@ function Extraction() {
           })}
 
           {/* อ้างอิง */}
-          <div className="pt-2 text-sm text-[#2a1c14]/80">
+          <div className="pt-2 text-sm text-[#2a1c14]/80 dark:text-brown-superlight/60">
             ที่มา :{" "}
             <a
               className="underline decoration-dotted hover:opacity-80"
@@ -212,7 +212,7 @@ function Extraction() {
       {/* ปุ่มสารบัญ – มือถือ */}
       <button
         onClick={() => setTocOpen(true)}
-        className="lg:hidden fixed right-4 bottom-4 z-30 rounded-full bg-[#2a1c14] text-white px-4 py-3 shadow-lg transition-all duration-200 ease-smooth hover:bg-black hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+        className="lg:hidden fixed right-4 bottom-4 z-30 rounded-full bg-[#2a1c14] dark:bg-beige text-white dark:text-dark-brown px-4 py-3 shadow-lg transition-all duration-200 ease-smooth hover:bg-black dark:hover:bg-brown-superlight hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
         aria-label="สารบัญ"
       >
         สารบัญ
@@ -225,23 +225,23 @@ function Extraction() {
             className="absolute inset-0 bg-black/40 animate-fade-in"
             onClick={() => setTocOpen(false)}
           />
-          <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white shadow-xl p-4 animate-fade-in-up">
+          <div className="absolute bottom-0 left-0 right-0 rounded-t-2xl bg-white dark:bg-[#2b2015] shadow-xl p-4 animate-fade-in-up">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-semibold text-[#2a1c14]">สารบัญวิธีชง</span>
+              <span className="text-sm font-semibold text-[#2a1c14] dark:text-brown-superlight">สารบัญวิธีชง</span>
               <button
-                className="text-sm text-[#2a1c14]/70 px-2 py-1 rounded-md transition-colors duration-150 hover:bg-black/5 hover:text-[#2a1c14]"
+                className="text-sm text-[#2a1c14]/70 dark:text-brown-superlight/70 px-2 py-1 rounded-md transition-colors duration-150 hover:bg-black/5 dark:hover:bg-white/10 hover:text-[#2a1c14] dark:hover:text-brown-superlight"
                 onClick={() => setTocOpen(false)}
               >
                 ปิด
               </button>
             </div>
-            <div className="grid grid-cols-1 divide-y">
+            <div className="grid grid-cols-1 divide-y dark:divide-white/10">
               {methods.map((m) => (
                 <button
                   key={m.id}
                   onClick={() => scrollToId(m.id)}
-                  className={`w-full text-left py-3 text-sm transition-colors duration-150 hover:text-[#2a1c14] ${
-                    activeId === m.id ? "text-[#2a1c14] font-semibold" : "text-neutral-700"
+                  className={`w-full text-left py-3 text-sm transition-colors duration-150 hover:text-[#2a1c14] dark:hover:text-brown-superlight ${
+                    activeId === m.id ? "text-[#2a1c14] dark:text-beige font-semibold" : "text-neutral-700 dark:text-brown-superlight/60"
                   }`}
                 >
                   {m.title}

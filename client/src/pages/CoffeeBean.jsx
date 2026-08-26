@@ -145,7 +145,7 @@ function CoffeeBeans() {
   };
 
   if (error) return (
-    <div className="min-h-screen bg-[#f3f1ec] flex flex-col">
+    <div className="min-h-screen bg-[#f3f1ec] dark:bg-dark-brown flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
@@ -154,7 +154,7 @@ function CoffeeBeans() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f3f1ec] flex flex-col">
+    <div className="min-h-screen bg-[#f3f1ec] dark:bg-dark-brown flex flex-col">
       <Navbar />
       <BackToTop />
 
@@ -182,10 +182,10 @@ function CoffeeBeans() {
       <main className="mx-auto max-w-7xl px-4 md:px-8 py-6 w-full">
         {selectedItem ? (
           // -------------------- รายละเอียดสินค้า --------------------
-          <div className="bg-white rounded-2xl shadow p-5 md:p-8 animate-fade-in-up">
+          <div className="bg-white dark:bg-[#2b2015] rounded-2xl shadow p-5 md:p-8 animate-fade-in-up">
             <button
               onClick={handleBack}
-              className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm hover:bg-black/5 hover:-translate-x-0.5 active:scale-95 transition-all duration-200 ease-smooth mb-4"
+              className="rounded-full border border-black/10 dark:border-brown-superlight/15 bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight px-4 py-2 text-sm hover:bg-black/5 dark:hover:bg-white/10 hover:-translate-x-0.5 active:scale-95 transition-all duration-200 ease-smooth mb-4"
             >
               ← ย้อนกลับ
             </button>
@@ -204,7 +204,7 @@ function CoffeeBeans() {
 
               {/* เนื้อหา */}
               <div className="lg:col-span-7">
-                <h2 className="text-2xl md:text-3xl font-bold text-[#2a1c14]">
+                <h2 className="text-2xl md:text-3xl font-bold text-[#2a1c14] dark:text-brown-superlight">
                   {selectedItem.name}
                 </h2>
 
@@ -218,22 +218,22 @@ function CoffeeBeans() {
                     .map((t) => (
                       <span
                         key={t}
-                        className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-xs text-[#2a1c14]"
+                        className="rounded-full border border-black/10 dark:border-brown-superlight/15 bg-black/5 dark:bg-white/5 px-3 py-1 text-xs text-[#2a1c14] dark:text-brown-superlight"
                       >
                         {t}
                       </span>
                     ))}
                   {selectedItem.roast && (
-                    <span className="rounded-full border border-[#6f4e37]/20 bg-[#6f4e37]/10 px-3 py-1 text-xs text-[#6f4e37]">
+                    <span className="rounded-full border border-[#6f4e37]/20 dark:border-beige/25 bg-[#6f4e37]/10 dark:bg-beige/10 px-3 py-1 text-xs text-[#6f4e37] dark:text-beige">
                       {selectedItem.roast}
                     </span>
                   )}
                 </div>
 
-                <div className="mt-6 space-y-5 text-neutral-800 leading-relaxed">
+                <div className="mt-6 space-y-5 text-neutral-800 dark:text-brown-superlight/90 leading-relaxed">
                   {selectedItem.details && (
                     <>
-                      <h3 className="font-semibold text-[#2a1c14]">
+                      <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">
                         รายละเอียดกาแฟ
                       </h3>
                       <p>{selectedItem.details}</p>
@@ -242,21 +242,21 @@ function CoffeeBeans() {
 
                   {selectedItem.tests && (
                     <>
-                      <h3 className="font-semibold text-[#2a1c14]">รสชาติ</h3>
+                      <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">รสชาติ</h3>
                       <p>{selectedItem.tests}</p>
                     </>
                   )}
 
                   {selectedItem.tips && (
                     <>
-                      <h3 className="font-semibold text-[#2a1c14]">เพิ่มเติม</h3>
+                      <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">เพิ่มเติม</h3>
                       <p>{selectedItem.tips}</p>
                     </>
                   )}
 
                   {selectedItem.price && (
                     <>
-                      <h3 className="font-semibold text-[#2a1c14]">ราคา</h3>
+                      <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight">ราคา</h3>
                       <p>{selectedItem.price}</p>
                     </>
                   )}
@@ -265,7 +265,7 @@ function CoffeeBeans() {
                 {/* ช่องทางสั่งซื้อ */}
                 {selectedItem.order?.length > 0 && (
                   <div className="mt-6">
-                    <h3 className="font-semibold text-[#2a1c14] mb-2">
+                    <h3 className="font-semibold text-[#2a1c14] dark:text-brown-superlight mb-2">
                       ช่องทางการสั่งซื้อ
                     </h3>
                     <div className="flex flex-wrap gap-2">
@@ -291,7 +291,7 @@ function CoffeeBeans() {
           </div>
         ) : (
           // -------------------- หน้าเลือกสินค้า --------------------
-          <section className="bg-white rounded-2xl shadow p-4 md:p-6">
+          <section className="bg-white dark:bg-[#2b2015] rounded-2xl shadow p-4 md:p-6">
             {/* Quick Filters */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6">
               {quicks.map((q) => {
@@ -302,12 +302,12 @@ function CoffeeBeans() {
                     onClick={() => handleQuick(q.key)}
                     className={`group relative overflow-hidden rounded-xl border px-4 py-4 text-left transition-all duration-200 ease-smooth hover:-translate-y-0.5 active:translate-y-0 active:scale-[.98]
                       ${active
-                        ? "border-[#6f4e37]/40 ring-2 ring-[#6f4e37]/40 bg-black/10 shadow-sm"
-                        : "border-black/10 bg-black/5 hover:bg-black/10 hover:shadow-sm"}`}
+                        ? "border-[#6f4e37]/40 dark:border-beige/40 ring-2 ring-[#6f4e37]/40 dark:ring-beige/30 bg-black/10 dark:bg-white/10 shadow-sm"
+                        : "border-black/10 dark:border-brown-superlight/15 bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 hover:shadow-sm"}`}
                   >
-                    <div className="font-semibold text-[#2a1c14]">{q.label}</div>
-                    <div className="text-xs text-black/60">{q.sub}</div>
-                    <div className={`absolute right-3 top-1/2 -translate-y-1/2 transition-all duration-200 ease-smooth
+                    <div className="font-semibold text-[#2a1c14] dark:text-brown-superlight">{q.label}</div>
+                    <div className="text-xs text-black/60 dark:text-brown-superlight/60">{q.sub}</div>
+                    <div className={`absolute right-3 top-1/2 -translate-y-1/2 transition-all duration-200 ease-smooth dark:text-brown-superlight
                       ${active ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0"}`}>
                       →
                     </div>
@@ -320,18 +320,18 @@ function CoffeeBeans() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {/* Search */}
               <div className="md:col-span-1">
-                <label className="block text-xs text-black/60 mb-1">
+                <label className="block text-xs text-black/60 dark:text-brown-superlight/60 mb-1">
                   ค้นหาเมล็ดกาแฟ
                 </label>
                 <div className="relative">
                   <input
                     type="text"
                     placeholder="พิมพ์ชื่อแบรนด์/รุ่น..."
-                    className="w-full pl-10 pr-3 py-2 rounded-md border border-black/10 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full pl-10 pr-3 py-2 rounded-md border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37] dark:focus:ring-beige/50"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-black/40">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-brown-superlight/40">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                       <path d="M21 21l-4.35-4.35M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
@@ -341,14 +341,14 @@ function CoffeeBeans() {
 
               {/* Category */}
               <div className="md:col-span-1">
-                <label className="block text-xs text-black/60 mb-1">
+                <label className="block text-xs text-black/60 dark:text-brown-superlight/60 mb-1">
                   หมวดหมู่
                 </label>
                 <div className="relative">
                   <select
                     value={activeFilter}
                     onChange={(e) => handleFilterChange(e.target.value)}
-                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full appearance-none rounded-md border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37] dark:focus:ring-beige/50"
                   >
                     {categories.map((c) => (
                       <option key={c} value={c}>
@@ -356,7 +356,7 @@ function CoffeeBeans() {
                       </option>
                     ))}
                   </select>
-                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-black/40">
+                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-black/40 dark:text-brown-superlight/40">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                       <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
@@ -366,14 +366,14 @@ function CoffeeBeans() {
 
               {/* Roast */}
               <div className="md:col-span-1">
-                <label className="block text-xs text-black/60 mb-1">
+                <label className="block text-xs text-black/60 dark:text-brown-superlight/60 mb-1">
                   ระดับการคั่ว
                 </label>
                 <div className="relative">
                   <select
                     value={roastFilter}
                     onChange={(e) => setRoastFilter(e.target.value)}
-                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full appearance-none rounded-md border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37] dark:focus:ring-beige/50"
                   >
                     {roastOptions.map((r) => (
                       <option key={r} value={r}>
@@ -381,7 +381,7 @@ function CoffeeBeans() {
                       </option>
                     ))}
                   </select>
-                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-black/40">
+                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-black/40 dark:text-brown-superlight/40">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                       <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
@@ -392,14 +392,14 @@ function CoffeeBeans() {
 
             {/* สรุปจำนวนผลลัพธ์ */}
             {!loading && (
-              <div className="mb-3 text-sm text-black/60">
+              <div className="mb-3 text-sm text-black/60 dark:text-brown-superlight/60">
                 พบผลลัพธ์ {filteredItems.length} รายการ
               </div>
             )}
 
             {/* Empty state */}
             {!loading && filteredItems.length === 0 && (
-              <div className="py-16 text-center text-black/60">
+              <div className="py-16 text-center text-black/60 dark:text-brown-superlight/60">
                 <div className="text-lg font-semibold">ไม่พบเมล็ดกาแฟที่ตรงเงื่อนไข</div>
                 <div className="mt-1 text-sm">ลองเปลี่ยนคำค้นหรือปรับตัวกรองดูนะ</div>
               </div>
@@ -409,7 +409,7 @@ function CoffeeBeans() {
             {loading && (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
                 {[...Array(8)].map((_, i) => (
-                  <div key={i} className="rounded-2xl bg-[#e0d8ce] animate-pulse h-52" />
+                  <div key={i} className="rounded-2xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse h-52" />
                 ))}
               </div>
             )}
@@ -425,10 +425,11 @@ function CoffeeBeans() {
                   type="button"
                   onClick={() => handleItemClick(item)}
                   style={{ animationDelay: `${Math.min(index, 9) * 35}ms` }}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white dark:bg-[#2b2015] shadow hover:shadow-lg hover:-translate-y-1 transition-all duration-300 ease-smooth text-left w-full animate-fade-in-up"
                 >
-                  {/* รูปสินค้า: พื้นขาวกลืนกับพื้นหลังรูปจริง (รูปส่วนใหญ่ถ่ายบนพื้นขาวอยู่แล้ว) + เส้นคั่นบาง ๆ แทนสีที่ตัดกัน */}
-                  <div className="h-40 w-full shrink-0 bg-white border-b border-black/5 flex items-center justify-center">
+                  {/* รูปสินค้า: พื้นขาวกลืนกับพื้นหลังรูปจริง (รูปส่วนใหญ่ถ่ายบนพื้นขาวอยู่แล้ว) + เส้นคั่นบาง ๆ แทนสีที่ตัดกัน
+                      พื้นรูปคงเป็นขาวเสมอแม้ dark mode เพราะไฟล์รูปเองมีพื้นขาวทึบมาด้วย (ดู [[project-ui-state]]) เปลี่ยนพื้นเป็นมืดจะกลับไปเจอปัญหากล่องขาวตัดกับพื้นแบบเดิม */}
+                  <div className="h-40 w-full shrink-0 bg-white border-b border-black/5 dark:border-black/10 flex items-center justify-center">
                     <img
                       src={item.img}
                       alt={item.name}
@@ -438,18 +439,18 @@ function CoffeeBeans() {
 
                   {/* เนื้อหาด้านล่างการ์ด */}
                   <div className="flex flex-1 flex-col p-4">
-                    <h3 className="min-h-[2.6em] text-[15px] font-semibold leading-snug text-[#2a1c14] line-clamp-2">
+                    <h3 className="min-h-[2.6em] text-[15px] font-semibold leading-snug text-[#2a1c14] dark:text-brown-superlight line-clamp-2">
                       {item.name}
                     </h3>
 
                     {item.tests && (
-                      <p className="mt-1 text-sm text-neutral-500 line-clamp-1">{item.tests}</p>
+                      <p className="mt-1 text-sm text-neutral-500 dark:text-brown-superlight/60 line-clamp-1">{item.tests}</p>
                     )}
 
                     <div className="mt-auto flex items-center justify-between gap-2 pt-3">
-                      <span className="text-sm font-medium text-[#6f4e37]">{item.price}</span>
+                      <span className="text-sm font-medium text-[#6f4e37] dark:text-beige">{item.price}</span>
                       {category && (
-                        <span className="rounded-full bg-black/5 px-2.5 py-1 text-[11px] text-black/60">
+                        <span className="rounded-full bg-black/5 dark:bg-white/10 px-2.5 py-1 text-[11px] text-black/60 dark:text-brown-superlight/70">
                           {category}
                         </span>
                       )}

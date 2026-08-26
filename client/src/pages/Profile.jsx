@@ -15,14 +15,14 @@ const resolvePhoto = (url) => {
 
 // ---------- UI helpers ----------
 const StatCard = ({ icon, label, value, sub }) => (
-  <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-4 md:p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 ease-smooth">
+  <div className="rounded-2xl bg-white/90 dark:bg-[#2b2015]/90 backdrop-blur shadow-md p-4 md:p-5 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 ease-smooth">
     <div className="flex items-center gap-3">
       <div className="h-10 w-10 grid place-items-center rounded-xl bg-brown/10 text-brown">{icon}</div>
       <div>
-        <p className="text-sm text-neutral-600">{label}</p>
+        <p className="text-sm text-neutral-600 dark:text-brown-superlight/60">{label}</p>
         <div className="flex items-baseline gap-2">
-          <p className="text-2xl font-extrabold text-[#2a1c14]">{value}</p>
-          {sub ? <span className="text-xs text-neutral-500">{sub}</span> : null}
+          <p className="text-2xl font-extrabold text-[#2a1c14] dark:text-brown-superlight">{value}</p>
+          {sub ? <span className="text-xs text-neutral-500 dark:text-brown-superlight/50">{sub}</span> : null}
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@ const StatCard = ({ icon, label, value, sub }) => (
 );
 
 const ProgressLine = ({ percent }) => (
-  <div className="w-full h-2.5 rounded-full bg-neutral-200 overflow-hidden">
+  <div className="w-full h-2.5 rounded-full bg-neutral-200 dark:bg-white/10 overflow-hidden">
     <div
       className="h-full bg-gradient-to-r from-[#8b5e34] via-[#6f4e37] to-[#3e2a1f] transition-[width] duration-700 ease-smooth"
       style={{ width: `${Math.min(100, Math.max(0, percent))}%` }}
@@ -39,7 +39,7 @@ const ProgressLine = ({ percent }) => (
 );
 
 const Pill = ({ children }) => (
-  <span className="inline-flex items-center gap-2 rounded-full bg-white/80 border border-neutral-200 px-3 py-1 text-xs text-neutral-700">
+  <span className="inline-flex items-center gap-2 rounded-full bg-white/80 dark:bg-white/10 border border-neutral-200 dark:border-brown-superlight/15 px-3 py-1 text-xs text-neutral-700 dark:text-brown-superlight/70">
     {children}
   </span>
 );
@@ -134,16 +134,16 @@ const Profile = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-beige-light">
+      <div className="min-h-screen bg-beige-light dark:bg-dark-brown">
         <Navbar />
         <div className="max-w-6xl mx-auto px-4 py-10">
-          <div className="h-40 rounded-2xl bg-neutral-200 animate-pulse" />
+          <div className="h-40 rounded-2xl bg-neutral-200 dark:bg-white/10 animate-pulse" />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-28 rounded-xl bg-neutral-200 animate-pulse" />
+              <div key={i} className="h-28 rounded-xl bg-neutral-200 dark:bg-white/10 animate-pulse" />
             ))}
           </div>
-          <div className="h-48 rounded-2xl bg-neutral-200 animate-pulse mt-6" />
+          <div className="h-48 rounded-2xl bg-neutral-200 dark:bg-white/10 animate-pulse mt-6" />
         </div>
       </div>
     );
@@ -208,7 +208,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#f3f1ec]">
+    <div className="flex flex-col min-h-screen bg-[#f3f1ec] dark:bg-dark-brown">
       <Navbar />
 
       {/* HERO */}
@@ -227,7 +227,7 @@ const Profile = () => {
       {/* TOP CARD */}
       <main className="flex-1">
         <section className="max-w-6xl mx-auto px-4">
-          <div className="relative -mt-14 md:-mt-16 rounded-2xl bg-white/90 backdrop-blur shadow-xl p-4 md:p-6">
+          <div className="relative -mt-14 md:-mt-16 rounded-2xl bg-white/90 dark:bg-[#2b2015]/90 backdrop-blur shadow-xl p-4 md:p-6">
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-6">
               <div className="relative">
                 <img
@@ -242,13 +242,13 @@ const Profile = () => {
               </div>
 
               <div className="flex-1">
-                <h1 className="text-2xl md:text-3xl font-extrabold text-[#2a1c14]">
+                <h1 className="text-2xl md:text-3xl font-extrabold text-[#2a1c14] dark:text-brown-superlight">
                   {profileData?.name || profileData?.displayName || "ผู้ใช้งาน"}
                 </h1>
-                <p className="text-sm md:text-base text-neutral-600">{profileData?.email}</p>
+                <p className="text-sm md:text-base text-neutral-600 dark:text-brown-superlight/60">{profileData?.email}</p>
 
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <Pill>คะแนนรวม: <span className="font-bold text-[#2a1c14]">{overallScore}</span></Pill>
+                  <Pill>คะแนนรวม: <span className="font-bold text-[#2a1c14] dark:text-brown-superlight">{overallScore}</span></Pill>
                   <Pill>Achievements: <span className="font-bold">{totalAchievementScore}</span></Pill>
                 </div>
               </div>
@@ -289,7 +289,7 @@ const Profile = () => {
 
         {/* Tabs (ตัด Quizzes ออก) */}
         <div className="max-w-6xl mx-auto px-4 mt-8">
-          <div className="rounded-full bg-white/70 backdrop-blur border border-neutral-200 shadow-sm inline-flex">
+          <div className="rounded-full bg-white/70 backdrop-blur border border-neutral-200 dark:border-brown-superlight/15 shadow-sm inline-flex">
             {[
               { key: "overview", label: "ภาพรวม" },
               { key: "achievements", label: "ความสำเร็จ" },
@@ -300,7 +300,7 @@ const Profile = () => {
                 className={`px-5 md:px-6 py-2 text-sm md:text-base rounded-full transition-all duration-200 ease-smooth ${
                   activeTab === t.key
                     ? "bg-[#6f4e37] text-white shadow-sm"
-                    : "text-[#2a1c14] hover:bg-neutral-100"
+                    : "text-[#2a1c14] dark:text-brown-superlight hover:bg-neutral-100 dark:hover:bg-white/10"
                 }`}
               >
                 {t.label}
@@ -312,25 +312,25 @@ const Profile = () => {
         {/* Tab: Overview (เหลือเฉพาะ Progress) */}
         {activeTab === "overview" && (
           <section key="overview" className="max-w-6xl mx-auto px-4 mt-6 animate-fade-in-up">
-            <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-5">
-              <h3 className="text-lg font-bold text-[#2a1c14]">ความคืบหน้า</h3>
+            <div className="rounded-2xl bg-white/90 dark:bg-[#2b2015]/90 backdrop-blur shadow-md p-5">
+              <h3 className="text-lg font-bold text-[#2a1c14] dark:text-brown-superlight">ความคืบหน้า</h3>
               <div className="mt-4 space-y-5">
                 <div>
-                  <div className="flex justify-between text-sm text-neutral-600">
+                  <div className="flex justify-between text-sm text-neutral-600 dark:text-brown-superlight/60">
                     <span>บทความ</span>
                     <span>{contentCompleted}/{contentTotal} • {contentPct.toFixed(1)}%</span>
                   </div>
                   <ProgressLine percent={contentPct} />
                 </div>
                 <div>
-                  <div className="flex justify-between text-sm text-neutral-600">
+                  <div className="flex justify-between text-sm text-neutral-600 dark:text-brown-superlight/60">
                     <span>ซิมมูเลเตอร์</span>
                     <span>{simulatorCompleted}/{simulatorTotal} • {simulatorPct.toFixed(1)}%</span>
                   </div>
                   <ProgressLine percent={simulatorPct} />
                 </div>
                 <div>
-                  <div className="flex justify-between text-sm text-neutral-600">
+                  <div className="flex justify-between text-sm text-neutral-600 dark:text-brown-superlight/60">
                     <span>บทความน่ารู้</span>
                     <span>{knowledgeCompleted}/{knowledgeTotal} • {knowledgePct.toFixed(1)}%</span>
                   </div>
@@ -345,19 +345,19 @@ const Profile = () => {
         {activeTab === "achievements" && (
           <section key="achievements" className="max-w-6xl mx-auto px-4 mt-6 animate-fade-in-up">
             {/* Content achievements */}
-            <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-5">
-              <h2 className="text-xl font-bold text-[#2a1c14]">ความสำเร็จจากบทความ</h2>
+            <div className="rounded-2xl bg-white/90 dark:bg-[#2b2015]/90 backdrop-blur shadow-md p-5">
+              <h2 className="text-xl font-bold text-[#2a1c14] dark:text-brown-superlight">ความสำเร็จจากบทความ</h2>
               {achievements.content && Object.keys(achievements.content).length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-4">
                   {Object.keys(achievements.content).map((key) => {
                     const m = contentMap[key];
                     return (
-                      <div key={key} className="rounded-xl bg-white border border-neutral-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-smooth">
+                      <div key={key} className="rounded-xl bg-white dark:bg-white/5 border border-neutral-200 dark:border-brown-superlight/15 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ease-smooth">
                         <Link to={m?.link || "#"} className="flex items-center gap-3 p-4">
                           <img src={m?.icon || "nav/icons8-coffee-bean-32.png"} className="w-7 h-7" />
                           <div>
-                            <p className="font-semibold text-[#2a1c14]">{m?.label || key}</p>
-                            <span className="text-xs text-neutral-500">คลิกเพื่ออ่านต่อ</span>
+                            <p className="font-semibold text-[#2a1c14] dark:text-brown-superlight">{m?.label || key}</p>
+                            <span className="text-xs text-neutral-500 dark:text-brown-superlight/50">คลิกเพื่ออ่านต่อ</span>
                           </div>
                         </Link>
                       </div>
@@ -365,40 +365,40 @@ const Profile = () => {
                   })}
                 </div>
               ) : (
-                <p className="text-neutral-600 mt-2">ยังไม่มีความสำเร็จหมวดบทความ</p>
+                <p className="text-neutral-600 dark:text-brown-superlight/60 mt-2">ยังไม่มีความสำเร็จหมวดบทความ</p>
               )}
             </div>
 
             {/* Knowledge & Simulator */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-              <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-5">
-                <h3 className="text-lg font-bold text-[#2a1c14]">บทความน่ารู้</h3>
+              <div className="rounded-2xl bg-white/90 dark:bg-[#2b2015]/90 backdrop-blur shadow-md p-5">
+                <h3 className="text-lg font-bold text-[#2a1c14] dark:text-brown-superlight">บทความน่ารู้</h3>
                 {achievements.knowledge && Object.keys(achievements.knowledge).length > 0 ? (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
                     {Object.keys(achievements.knowledge).map((k) => (
-                      <div key={k} className="rounded-lg bg-white border border-neutral-200 p-3 flex items-center gap-2">
+                      <div key={k} className="rounded-lg bg-white dark:bg-white/5 border border-neutral-200 dark:border-brown-superlight/15 p-3 flex items-center gap-2">
                         <img src="nav/icons8-coffee-bean-32.png" className="w-6 h-6" />
-                        <span className="text-sm text-[#2a1c14]">{k}</span>
+                        <span className="text-sm text-[#2a1c14] dark:text-brown-superlight">{k}</span>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-neutral-600 mt-2">ยังไม่มีความสำเร็จหมวดนี้</p>
+                  <p className="text-neutral-600 dark:text-brown-superlight/60 mt-2">ยังไม่มีความสำเร็จหมวดนี้</p>
                 )}
               </div>
 
-              <div className="rounded-2xl bg-white/90 backdrop-blur shadow-md p-5">
-                <h3 className="text-lg font-bold text-[#2a1c14]">ซิมมูเลเตอร์</h3>
+              <div className="rounded-2xl bg-white/90 dark:bg-[#2b2015]/90 backdrop-blur shadow-md p-5">
+                <h3 className="text-lg font-bold text-[#2a1c14] dark:text-brown-superlight">ซิมมูเลเตอร์</h3>
                 {simulatorCompleted ? (
-                  <div className="rounded-lg bg-white border border-neutral-200 p-4 flex items-center gap-3">
+                  <div className="rounded-lg bg-white dark:bg-white/5 border border-neutral-200 dark:border-brown-superlight/15 p-4 flex items-center gap-3">
                     <img src="nav/icons8-vietnamese-coffee-50-b.png" className="w-7 h-7" />
                     <div>
-                      <p className="font-semibold text-[#2a1c14]">ทำแบบจำลองสำเร็จแล้ว</p>
-                      <span className="text-xs text-neutral-600">เยี่ยมมาก! ลองปรับสูตรอื่น ๆ ต่อได้</span>
+                      <p className="font-semibold text-[#2a1c14] dark:text-brown-superlight">ทำแบบจำลองสำเร็จแล้ว</p>
+                      <span className="text-xs text-neutral-600 dark:text-brown-superlight/60">เยี่ยมมาก! ลองปรับสูตรอื่น ๆ ต่อได้</span>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-neutral-600 mt-2">ยังไม่มีความสำเร็จซิมมูเลเตอร์</p>
+                  <p className="text-neutral-600 dark:text-brown-superlight/60 mt-2">ยังไม่มีความสำเร็จซิมมูเลเตอร์</p>
                 )}
               </div>
             </div>
@@ -415,14 +415,14 @@ const Profile = () => {
             role="dialog"
             aria-modal="true"
             aria-labelledby="edit-modal-title"
-            className="w-full max-w-md rounded-2xl bg-white shadow-xl outline-none animate-scale-in"
+            className="w-full max-w-md rounded-2xl bg-white dark:bg-[#2b2015] shadow-xl outline-none animate-scale-in"
           >
-            <div className="p-5 border-b">
-              <h3 id="edit-modal-title" className="text-lg font-bold text-[#2a1c14]">แก้ไขโปรไฟล์</h3>
+            <div className="p-5 border-b dark:border-white/10">
+              <h3 id="edit-modal-title" className="text-lg font-bold text-[#2a1c14] dark:text-brown-superlight">แก้ไขโปรไฟล์</h3>
             </div>
             <div className="p-5 space-y-4">
               <div>
-                <label className="block text-sm text-neutral-700 mb-1">รูปโปรไฟล์</label>
+                <label className="block text-sm text-neutral-700 dark:text-brown-superlight/70 mb-1">รูปโปรไฟล์</label>
                 <div className="flex items-center gap-3">
                   <img
                     src={resolvePhoto(profileData?.photoURL || user?.photoURL)}
@@ -432,7 +432,7 @@ const Profile = () => {
                   />
                   <button
                     onClick={onPickFile}
-                    className="rounded-full bg-neutral-100 border px-3 py-1.5 text-sm transition-colors duration-200 hover:bg-neutral-200 disabled:opacity-60"
+                    className="rounded-full bg-neutral-100 dark:bg-white/10 dark:text-brown-superlight border dark:border-white/10 px-3 py-1.5 text-sm transition-colors duration-200 hover:bg-neutral-200 dark:hover:bg-white/20 disabled:opacity-60"
                     disabled={uploading}
                     type="button"
                   >
@@ -447,37 +447,37 @@ const Profile = () => {
                     onChange={handleFileChange}
                   />
                 </div>
-                <p className="text-xs text-neutral-500 mt-1">แนะนำไฟล์ JPG/PNG ≤ 5MB</p>
+                <p className="text-xs text-neutral-500 dark:text-brown-superlight/50 mt-1">แนะนำไฟล์ JPG/PNG ≤ 5MB</p>
               </div>
               <div>
-                <label className="block text-sm text-neutral-700 mb-1">ชื่อ</label>
+                <label className="block text-sm text-neutral-700 dark:text-brown-superlight/70 mb-1">ชื่อ</label>
                 <input
                   type="text"
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
-                  className="w-full rounded-lg border border-neutral-300 px-3 py-2 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                  className="w-full rounded-lg border border-neutral-300 dark:border-white/20 dark:bg-white/5 dark:text-brown-superlight px-3 py-2 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
                 />
               </div>
               <div>
-                <label className="block text-sm text-neutral-700 mb-1">อีเมล</label>
+                <label className="block text-sm text-neutral-700 dark:text-brown-superlight/70 mb-1">อีเมล</label>
                 <input
                   type="email"
                   value={editedEmail}
                   readOnly
                   disabled
-                  className="w-full rounded-lg border border-neutral-300 bg-neutral-100 text-neutral-500 px-3 py-2 cursor-not-allowed"
+                  className="w-full rounded-lg border border-neutral-300 dark:border-white/20 bg-neutral-100 dark:bg-white/10 text-neutral-500 dark:text-brown-superlight/50 px-3 py-2 cursor-not-allowed"
                 />
-                <p className="mt-1 text-xs text-neutral-500">อีเมลใช้สำหรับเข้าสู่ระบบ จึงแก้ไขไม่ได้</p>
+                <p className="mt-1 text-xs text-neutral-500 dark:text-brown-superlight/50">อีเมลใช้สำหรับเข้าสู่ระบบ จึงแก้ไขไม่ได้</p>
               </div>
             </div>
-            <div className="p-5 border-t">
+            <div className="p-5 border-t dark:border-white/10">
               {saveError && (
                 <p className="text-red-600 text-sm mb-3">{saveError}</p>
               )}
               <div className="flex justify-end gap-2">
                 <button
                   onClick={() => { setIsEditing(false); setSaveError(""); }}
-                  className="rounded-full bg-neutral-200 px-4 py-2 text-sm transition-all duration-200 ease-smooth hover:bg-neutral-300 active:scale-95"
+                  className="rounded-full bg-neutral-200 dark:bg-white/10 dark:text-brown-superlight px-4 py-2 text-sm transition-all duration-200 ease-smooth hover:bg-neutral-300 dark:hover:bg-white/20 active:scale-95"
                 >
                   ยกเลิก
                 </button>

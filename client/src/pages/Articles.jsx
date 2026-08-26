@@ -84,7 +84,7 @@ function ArticlesPage() {
     a.content?.find?.((c) => c.type === "paragraph")?.text || "";
 
   if (error) return (
-    <div className="min-h-screen bg-[#f3f1ec] flex flex-col">
+    <div className="min-h-screen bg-[#f3f1ec] dark:bg-dark-brown flex flex-col">
       <Navbar />
       <div className="flex-grow flex items-center justify-center">
         <FetchError onRetry={() => setFetchSignal((s) => s + 1)} />
@@ -93,7 +93,7 @@ function ArticlesPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#f3f1ec]">
+    <div className="min-h-screen bg-[#f3f1ec] dark:bg-dark-brown">
       <Navbar />
       <BackToTop />
 
@@ -122,7 +122,7 @@ function ArticlesPage() {
         {selectedArticle ? (
           <>
             {/* Reading progress bar */}
-            <div className="fixed top-0 left-0 right-0 z-40 h-1 bg-black/5">
+            <div className="fixed top-0 left-0 right-0 z-40 h-1 bg-black/5 dark:bg-white/10">
               <div
                 className="h-full bg-[#6f4e37]"
                 style={{ width: `${readProgress}%` }}
@@ -130,21 +130,21 @@ function ArticlesPage() {
             </div>
 
             {/* บทความ */}
-            <article className="bg-white rounded-2xl shadow p-4 md:p-8 animate-fade-in-up">
+            <article className="bg-white dark:bg-[#2b2015] rounded-2xl shadow p-4 md:p-8 animate-fade-in-up">
               <div className="flex items-center justify-between gap-3">
                 <button
                   onClick={handleBack}
-                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm hover:bg-black/5 hover:-translate-x-0.5 active:scale-95 transition-all duration-200 ease-smooth"
+                  className="rounded-full border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight px-4 py-2 text-sm hover:bg-black/5 dark:hover:bg-white/10 hover:-translate-x-0.5 active:scale-95 transition-all duration-200 ease-smooth"
                 >
                   ← กลับ
                 </button>
-                <div className="text-xs md:text-sm text-black/60">
+                <div className="text-xs md:text-sm text-black/60 dark:text-brown-superlight/60">
                   {selectedArticle.post_date && <>• {selectedArticle.post_date} </>}
                   {selectedArticle.author && <>• {selectedArticle.author}</>}
                 </div>
               </div>
 
-              <h2 className="text-center text-2xl md:text-3xl font-bold mt-4 mb-2 text-[#2a1c14]">
+              <h2 className="text-center text-2xl md:text-3xl font-bold mt-4 mb-2 text-[#2a1c14] dark:text-brown-superlight">
                 {selectedArticle.title}
               </h2>
 
@@ -158,7 +158,7 @@ function ArticlesPage() {
                   .map((tag) => (
                     <span
                       key={tag}
-                      className="rounded-full border border-black/10 bg-black/5 px-3 py-1 text-xs text-[#2a1c14]"
+                      className="rounded-full border border-black/10 dark:border-brown-superlight/20 bg-black/5 dark:bg-white/10 px-3 py-1 text-xs text-[#2a1c14] dark:text-brown-superlight"
                     >
                       {tag}
                     </span>
@@ -166,13 +166,13 @@ function ArticlesPage() {
               </div>
 
               {/* เนื้อหาเดิมครบถ้วน */}
-              <div className="prose max-w-none prose-p:leading-7 prose-img:rounded-lg prose-headings:text-[#2a1c14]">
+              <div className="max-w-none">
                 {selectedArticle.content?.map((content, index) => {
                   if (content.type === "paragraph") {
                     return (
                       <p
                         key={index}
-                        className="text-gray-700 text-base leading-7 mb-4 px-1 md:!px-10 lg:!px-24 whitespace-pre-line"
+                        className="text-gray-700 dark:text-brown-superlight/80 text-base leading-7 mb-4 px-1 md:!px-10 lg:!px-24 whitespace-pre-line"
                       >
                         {content.text}
                       </p>
@@ -192,7 +192,7 @@ function ArticlesPage() {
                     return (
                       <h3
                         key={index}
-                        className="text-lg font-semibold mb-3 px-1 md:!px-10 lg:!px-24"
+                        className="text-lg font-semibold mb-3 px-1 md:!px-10 lg:!px-24 text-[#2a1c14] dark:text-brown-superlight"
                       >
                         {content.text}
                       </h3>
@@ -203,7 +203,7 @@ function ArticlesPage() {
               </div>
 
               {selectedArticle.related_articles && (
-                <div className="px-1 md:!px-10 lg:!px-24 mt-10 text-sm text-[#2a1c14]/80">
+                <div className="px-1 md:!px-10 lg:!px-24 mt-10 text-sm text-[#2a1c14]/80 dark:text-brown-superlight/60">
                   ที่มา :{" "}
                   <a
                     href={selectedArticle.related_articles}
@@ -218,24 +218,24 @@ function ArticlesPage() {
             </article>
           </>
         ) : (
-          <section className="bg-white rounded-2xl shadow p-4 md:p-6">
+          <section className="bg-white dark:bg-[#2b2015] rounded-2xl shadow p-4 md:p-6">
             {/* Controls: Search + Dropdown */}
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
               {/* Search */}
               <div className="w-full md:w-2/3">
-                <label className="block text-xs text-black/60 mb-1">
+                <label className="block text-xs text-black/60 dark:text-brown-superlight/60 mb-1">
                   ค้นหาบทความ
                 </label>
                 <div className="relative">
                   <input
                     type="text"
                     placeholder="พิมพ์คำค้น (เช่น espresso, latte)..."
-                    className="w-full pl-10 pr-3 py-2 rounded-md border border-black/10 transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full pl-10 pr-3 py-2 rounded-md border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37] dark:focus:ring-beige/50"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
                   {/* ไอคอนค้นหา (SVG) */}
-                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-black/40">
+                  <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-black/40 dark:text-brown-superlight/40">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                       <path d="M21 21l-4.35-4.35M11 19a8 8 0 1 1 0-16 8 8 0 0 1 0 16Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
@@ -245,7 +245,7 @@ function ArticlesPage() {
 
               {/* Dropdown หมวดหมู่ */}
               <div className="w-full md:w-1/3">
-                <label htmlFor="category" className="block text-xs text-black/60 mb-1">
+                <label htmlFor="category" className="block text-xs text-black/60 dark:text-brown-superlight/60 mb-1">
                   หมวดบทความ
                 </label>
                 <div className="relative">
@@ -253,7 +253,7 @@ function ArticlesPage() {
                     id="category"
                     value={activeFilter}
                     onChange={(e) => setActiveFilter(e.target.value)}
-                    className="w-full appearance-none rounded-md border border-black/10 bg-white py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37]"
+                    className="w-full appearance-none rounded-md border border-black/10 dark:border-brown-superlight/20 bg-white dark:bg-white/5 text-[#2a1c14] dark:text-brown-superlight py-2 pl-3 pr-8 text-sm transition-shadow duration-200 focus:outline-none focus:ring-2 focus:ring-[#6f4e37] dark:focus:ring-beige/50"
                   >
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>
@@ -262,7 +262,7 @@ function ArticlesPage() {
                     ))}
                   </select>
                   {/* ไอคอนลูกศร (SVG) */}
-                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-black/40">
+                  <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-black/40 dark:text-brown-superlight/40">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                       <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                     </svg>
@@ -275,14 +275,14 @@ function ArticlesPage() {
             {loading && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="rounded-2xl bg-[#e0d8ce] animate-pulse h-64" />
+                  <div key={i} className="rounded-2xl bg-[#e0d8ce] dark:bg-white/10 animate-pulse h-64" />
                 ))}
               </div>
             )}
 
             {/* Empty state */}
             {!loading && filteredArticles.length === 0 && (
-              <div className="py-16 text-center text-black/60">
+              <div className="py-16 text-center text-black/60 dark:text-brown-superlight/60">
                 <div className="text-lg font-semibold">ไม่พบบทความ</div>
                 <div className="mt-1 text-sm">
                   ลองเปลี่ยนคำค้นหรือเลือกหมวดหมู่อื่นดูนะ
@@ -304,7 +304,7 @@ function ArticlesPage() {
                     onClick={() => handleArticleClick(article)}
                     onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), handleArticleClick(article))}
                     style={{ animationDelay: `${Math.min(idx, 8) * 45}ms` }}
-                    className="group relative rounded-2xl overflow-hidden shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-smooth cursor-pointer bg-white animate-fade-in-up focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4b29]/50"
+                    className="group relative rounded-2xl overflow-hidden shadow hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-smooth cursor-pointer bg-white dark:bg-[#2b2015] animate-fade-in-up focus:outline-none focus-visible:ring-2 focus-visible:ring-[#7b4b29]/50"
                   >
                     {/* ภาพ */}
                     <div className="relative h-52">
@@ -339,10 +339,10 @@ function ArticlesPage() {
 
                     {/* เนื้อโดยย่อ */}
                     <div className="p-4">
-                      <p className="text-sm text-black/70 line-clamp-2 min-h-[2.5em]">
+                      <p className="text-sm text-black/70 dark:text-brown-superlight/70 line-clamp-2 min-h-[2.5em]">
                         {excerpt}
                       </p>
-                      <div className="mt-3 flex items-center justify-between text-[12px] text-black/50">
+                      <div className="mt-3 flex items-center justify-between text-[12px] text-black/50 dark:text-brown-superlight/50">
                         <span>{article.author}</span>
                         <span>{article.post_date}</span>
                       </div>

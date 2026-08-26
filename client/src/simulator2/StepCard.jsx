@@ -69,12 +69,6 @@ function StepIllustration({ step, equipment, dropRef, isDropActive, isOver, fill
         )}
 
         {!showImg && <Coffee className="size-14 text-[#7b4b29]/40" strokeWidth={1.5} />}
-
-        <div className="text-center px-6">
-          <p className="text-sm font-semibold text-[#7b4b29]/80 bg-white/55 backdrop-blur rounded-full px-3 py-1">
-            {step.title}
-          </p>
-        </div>
       </div>
 
       {/* ป้ายบอกจุดวางขณะลาก */}
@@ -129,16 +123,16 @@ function SliderInteraction({ step, value, onChange }) {
     <div className="space-y-4">
       {/* Value display */}
       <div className="flex items-end justify-center gap-1">
-        <span className="text-4xl font-extrabold text-[#3d2010] tabular-nums leading-none">
+        <span className="text-4xl font-extrabold text-[#3d2010] dark:text-brown-superlight tabular-nums leading-none">
           {Number.isInteger(step.step ?? 1) ? value : value.toFixed(1)}
         </span>
-        <span className="text-sm text-[#5c4033]/60 mb-1">{step.unit?.split("(")[0].trim()}</span>
+        <span className="text-sm text-[#5c4033]/60 dark:text-brown-superlight/60 mb-1">{step.unit?.split("(")[0].trim()}</span>
       </div>
 
       {/* Feedback badge */}
       {feedback && (
         <div className="flex justify-center">
-          <span className="bg-[#f0e4d0] text-[#5c3a1e] text-xs font-semibold px-3 py-1 rounded-full transition-all duration-300">
+          <span className="bg-[#f0e4d0] dark:bg-white/10 text-[#5c3a1e] dark:text-beige text-xs font-semibold px-3 py-1 rounded-full transition-all duration-300">
             {feedback.text}
           </span>
         </div>
@@ -158,7 +152,7 @@ function SliderInteraction({ step, value, onChange }) {
             background: `linear-gradient(to right, #7b4b29 0%, #c47a3a ${pct * 100}%, #e0d8ce ${pct * 100}%, #e0d8ce 100%)`,
           }}
         />
-        <div className="flex justify-between mt-1.5 text-[10px] text-[#5c4033]/40">
+        <div className="flex justify-between mt-1.5 text-[10px] text-[#5c4033]/40 dark:text-brown-superlight/40">
           <span>{step.min}</span>
           <span>{step.max}</span>
         </div>
@@ -238,14 +232,14 @@ function TimerInteraction({ step, done, onDone }) {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-2xl font-extrabold text-[#3d2010] tabular-nums">
+          <span className="text-2xl font-extrabold text-[#3d2010] dark:text-brown-superlight tabular-nums">
             {done ? "✓" : timeStr}
           </span>
-          <span className="text-[10px] text-[#5c4033]/50">{done ? "เสร็จ" : step.unit}</span>
+          <span className="text-[10px] text-[#5c4033]/50 dark:text-brown-superlight/50">{done ? "เสร็จ" : step.unit}</span>
         </div>
       </div>
 
-      <p className="text-sm text-[#5c4033]/70 text-center">
+      <p className="text-sm text-[#5c4033]/70 dark:text-brown-superlight/70 text-center">
         {done ? "เสร็จแล้ว!" : started ? `กำลังนับถอยหลัง…` : `รวมเวลา ${step.duration} ${step.unit}`}
       </p>
 
@@ -261,7 +255,7 @@ function TimerInteraction({ step, done, onDone }) {
         {!done && (
           <button
             onClick={() => { clearInterval(intervalRef.current); onDone(); }}
-            className="px-6 py-3 border-2 border-[#7b4b29]/20 text-[#7b4b29] rounded-full text-sm hover:bg-[#f7efe6] transition"
+            className="px-6 py-3 border-2 border-[#7b4b29]/20 dark:border-beige/30 text-[#7b4b29] dark:text-beige rounded-full text-sm hover:bg-[#f7efe6] dark:hover:bg-white/10 transition"
           >
             ข้าม
           </button>
@@ -286,7 +280,7 @@ function ChoiceInteraction({ step, value, onChange }) {
               "relative p-4 rounded-2xl border-2 text-sm font-semibold text-left transition-all duration-200 active:scale-[.97]",
               active
                 ? "bg-[#7b4b29] text-white border-[#7b4b29] shadow-lg scale-[1.02]"
-                : "bg-white text-[#3d2010] border-[#e0d8ce] hover:border-[#7b4b29]/40 hover:bg-[#f7efe6] hover:scale-[1.01]",
+                : "bg-white dark:bg-white/5 text-[#3d2010] dark:text-brown-superlight border-[#e0d8ce] dark:border-white/10 hover:border-[#7b4b29]/40 dark:hover:border-beige/40 hover:bg-[#f7efe6] dark:hover:bg-white/10 hover:scale-[1.01]",
             ].join(" ")}
           >
             {active && (
@@ -340,7 +334,7 @@ export default function StepCard({ step, stepNumber, totalSteps, variables, onVa
 
       {/* Interaction card */}
       <div
-        className="bg-white rounded-3xl shadow-lg ring-1 ring-black/5 overflow-hidden flex flex-col"
+        className="bg-white dark:bg-[#2b2015] rounded-3xl shadow-lg ring-1 ring-black/5 dark:ring-brown-superlight/10 overflow-hidden flex flex-col"
         style={{ animation: "brewFadeUp 0.4s ease-out 0.12s both" }}
       >
         {/* Header stripe */}
@@ -358,12 +352,12 @@ export default function StepCard({ step, stepNumber, totalSteps, variables, onVa
 
         <div className="p-5 flex flex-col gap-4 flex-grow">
           {/* Description */}
-          <div className="bg-[#f7efe6] rounded-2xl px-4 py-3 text-sm text-[#3d2010] leading-relaxed">
+          <div className="bg-[#f7efe6] dark:bg-white/5 rounded-2xl px-4 py-3 text-sm text-[#3d2010] dark:text-brown-superlight leading-relaxed">
             {step.description}
           </div>
 
           {/* Hint */}
-          <div className="flex items-start gap-2 text-xs text-[#7b4b29]/65 bg-[#fffaf3] rounded-xl px-3 py-2 border border-[#e8c88a]/40">
+          <div className="flex items-start gap-2 text-xs text-[#7b4b29]/65 dark:text-beige/70 bg-[#fffaf3] dark:bg-white/5 rounded-xl px-3 py-2 border border-[#e8c88a]/40 dark:border-beige/25">
             <Lightbulb className="mt-0.5 flex-none size-3.5" strokeWidth={2} />
             <span>{step.hint}</span>
           </div>

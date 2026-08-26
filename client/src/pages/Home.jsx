@@ -73,13 +73,13 @@ const Home = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-beige-light flex flex-col items-center justify-center gap-5">
+      <div className="min-h-screen bg-beige-light dark:bg-dark-brown flex flex-col items-center justify-center gap-5">
         <div className="relative size-12">
-          <div className="absolute inset-0 rounded-full border-2 border-brown/10" />
-          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-brown animate-spin [animation-duration:0.9s]" />
+          <div className="absolute inset-0 rounded-full border-2 border-brown/10 dark:border-brown-superlight/15" />
+          <div className="absolute inset-0 rounded-full border-2 border-transparent border-t-brown dark:border-t-brown-superlight animate-spin [animation-duration:0.9s]" />
           <div className="absolute inset-2 rounded-full border-2 border-transparent border-b-light-brown animate-spin [animation-duration:1.4s] [animation-direction:reverse]" />
         </div>
-        <p className="text-brown/60 text-sm font-medium tracking-[0.15em] animate-pulse">กำลังชงกาแฟให้คุณ</p>
+        <p className="text-brown/60 dark:text-brown-superlight/70 text-sm font-medium tracking-[0.15em] animate-pulse">กำลังชงกาแฟให้คุณ</p>
       </div>
     );
   }
@@ -111,48 +111,48 @@ const Home = () => {
   ];
 
   return (
-    <div className="bg-beige-light">
+    <div className="bg-beige-light dark:bg-dark-brown">
       <Navbar />
 
       {/* ─── Hero ─────────────────────────────────────────────────── */}
       <section
-        className="relative isolate overflow-hidden bg-gradient-to-b from-beige-light via-beige-light to-white py-14 md:py-24 select-none"
+        className="relative isolate overflow-hidden bg-gradient-to-b from-beige-light via-beige-light to-white dark:from-dark-brown dark:via-dark-brown dark:to-[#2b2015] py-14 md:py-24 select-none"
         data-aos="fade-up"
       >
         <div className="pointer-events-none absolute -top-24 -right-20 h-72 w-72 rounded-full bg-light-brown/10 blur-2xl" />
-        <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-dark-brown/10 blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-24 -left-16 h-72 w-72 rounded-full bg-dark-brown/10 dark:bg-brown-superlight/10 blur-2xl" />
         {/* subtle bean grid texture */}
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          className="pointer-events-none absolute inset-0 opacity-[0.04] dark:opacity-[0.06]"
           style={{ backgroundImage: "radial-gradient(#20170E 1.2px, transparent 1.2px)", backgroundSize: "26px 26px" }}
         />
 
         <div className="relative mx-auto max-w-7xl px-4 md:px-8 flex flex-col items-center text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-brown/15 bg-white/70 backdrop-blur px-4 py-1.5 text-xs font-medium text-brown/80 shadow-sm">
+          <span className="inline-flex items-center gap-2 rounded-full border border-brown/15 dark:border-brown-superlight/20 bg-white/70 dark:bg-white/5 backdrop-blur px-4 py-1.5 text-xs font-medium text-brown/80 dark:text-brown-superlight/80 shadow-sm">
             <span className="size-1.5 rounded-full bg-light-brown animate-pulse" />
             Coffee Bean Fusion
           </span>
-          <h1 className="mt-5 font-extrabold text-4xl md:text-6xl text-dark-brown leading-[1.05] tracking-tight">
+          <h1 className="mt-5 font-extrabold text-4xl md:text-6xl text-dark-brown dark:text-brown-superlight leading-[1.05] tracking-tight">
             ยินดีต้อนรับสู่<br className="hidden md:block" />
-            <span className="bg-gradient-to-r from-brown via-light-brown to-brown bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-brown via-light-brown to-brown dark:from-brown-superlight dark:via-beige dark:to-brown-superlight bg-clip-text text-transparent">
               เว็บของคนรักกาแฟ
             </span>
           </h1>
-          <p className="mt-4 max-w-2xl text-base md:text-lg font-medium text-brown/70">
+          <p className="mt-4 max-w-2xl text-base md:text-lg font-medium text-brown/70 dark:text-brown-superlight/70">
             คลังความรู้ เมนู และซิมูเลเตอร์ฝึกชง ครบในที่เดียว
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <button
               onClick={coffeeClick}
-              className="group rounded-full bg-brown text-beige px-7 py-3.5 text-sm font-semibold shadow-lg shadow-brown/20 hover:bg-dark-brown hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brown/25 active:translate-y-0 transition-all duration-300 ease-out"
+              className="group rounded-full bg-brown text-beige dark:bg-brown-superlight dark:text-dark-brown px-7 py-3.5 text-sm font-semibold shadow-lg shadow-brown/20 hover:bg-dark-brown dark:hover:bg-beige hover:-translate-y-0.5 hover:shadow-xl hover:shadow-brown/25 active:translate-y-0 transition-all duration-300 ease-out"
             >
               สำรวจเมล็ดกาแฟ
               <span className="inline-block ml-1.5 transition-transform duration-300 group-hover:translate-x-1">→</span>
             </button>
             <button
               onClick={handleClick}
-              className="rounded-full border-2 border-brown/80 text-brown px-7 py-3.5 text-sm font-semibold hover:bg-brown hover:text-beige hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 ease-out"
+              className="rounded-full border-2 border-brown/80 dark:border-brown-superlight/60 text-brown dark:text-brown-superlight px-7 py-3.5 text-sm font-semibold hover:bg-brown dark:hover:bg-brown-superlight hover:text-beige dark:hover:text-dark-brown hover:-translate-y-0.5 active:translate-y-0 transition-all duration-300 ease-out"
             >
               ดูเมนูกาแฟ
             </button>
@@ -160,17 +160,17 @@ const Home = () => {
 
           {/* Stat strip */}
           <div
-            className="mt-11 inline-flex items-stretch divide-x divide-brown/10 rounded-2xl bg-white/50 backdrop-blur border border-brown/10 shadow-sm overflow-hidden"
+            className="mt-11 inline-flex items-stretch divide-x divide-brown/10 dark:divide-brown-superlight/10 rounded-2xl bg-white/50 dark:bg-white/5 backdrop-blur border border-brown/10 dark:border-brown-superlight/10 shadow-sm overflow-hidden"
             data-aos="fade-up"
             data-aos-delay="120"
           >
             {heroStats.map(({ value, label }) => (
               <div
                 key={label}
-                className="px-6 md:px-9 py-4 text-center transition-colors duration-300 hover:bg-white/60"
+                className="px-6 md:px-9 py-4 text-center transition-colors duration-300 hover:bg-white/60 dark:hover:bg-white/10"
               >
-                <div className="text-2xl md:text-3xl font-extrabold text-dark-brown tabular-nums">{value}</div>
-                <div className="text-[11px] text-brown/55 mt-1 tracking-wide">{label}</div>
+                <div className="text-2xl md:text-3xl font-extrabold text-dark-brown dark:text-brown-superlight tabular-nums">{value}</div>
+                <div className="text-[11px] text-brown/55 dark:text-brown-superlight/55 mt-1 tracking-wide">{label}</div>
               </div>
             ))}
           </div>
@@ -182,11 +182,11 @@ const Home = () => {
             aria-label="เลื่อนลงไปยังส่วนถัดไป"
             className="group mt-12 flex flex-col items-center gap-2.5 rounded-full px-4 py-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-brown/30"
           >
-            <span className="text-[10px] uppercase tracking-[0.25em] text-brown/35 transition-colors duration-300 group-hover:text-brown/70">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-brown/35 dark:text-brown-superlight/40 transition-colors duration-300 group-hover:text-brown/70 dark:group-hover:text-brown-superlight/80">
               เลื่อนลง
             </span>
-            <span className="relative flex h-9 w-5 justify-center rounded-full border border-brown/20 pt-2 transition-colors duration-300 group-hover:border-brown/50">
-              <span className="h-1.5 w-1 rounded-full bg-brown/40 animate-bounce transition-colors duration-300 group-hover:bg-brown/70" />
+            <span className="relative flex h-9 w-5 justify-center rounded-full border border-brown/20 dark:border-brown-superlight/25 pt-2 transition-colors duration-300 group-hover:border-brown/50 dark:group-hover:border-brown-superlight/60">
+              <span className="h-1.5 w-1 rounded-full bg-brown/40 dark:bg-brown-superlight/50 animate-bounce transition-colors duration-300 group-hover:bg-brown/70 dark:group-hover:bg-brown-superlight/80" />
             </span>
           </button>
         </div>
@@ -279,7 +279,7 @@ const Home = () => {
       </section>
 
       {/* ─── Coffee Types ─────────────────────────────────────────── */}
-      <section className="relative py-16 md:py-20 px-4 md:px-8 lg:px-10 bg-gradient-to-b from-white to-beige-light select-none">
+      <section className="relative py-16 md:py-20 px-4 md:px-8 lg:px-10 bg-gradient-to-b from-white to-beige-light dark:from-[#2b2015] dark:to-dark-brown select-none">
         <div className="pointer-events-none absolute -top-12 right-6 h-24 w-24 rounded-full bg-beige/40 blur-2xl" />
         <div className="pointer-events-none absolute -bottom-12 left-6 h-28 w-28 rounded-full bg-light-brown/10 blur-2xl" />
 
@@ -287,14 +287,14 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-10">
             {/* Image card */}
             <div className="flex justify-center" data-aos="zoom-in">
-              <div className="w-full max-w-sm rounded-2xl bg-white/80 backdrop-blur shadow-[0_12px_40px_rgba(0,0,0,0.12)] p-8">
+              <div className="w-full max-w-sm rounded-2xl bg-white/80 dark:bg-white/5 backdrop-blur shadow-[0_12px_40px_rgba(0,0,0,0.12)] p-8">
                 <img
                   src="/coffee.png"
                   alt="Coffee"
                   className="mx-auto w-36 h-36 object-contain drop-shadow-sm"
                 />
                 <div className="mt-5 text-center">
-                  <p className="text-sm text-brown/70 leading-relaxed">
+                  <p className="text-sm text-brown/70 dark:text-brown-superlight/70 leading-relaxed">
                     &quot;เริ่มต้นจากแก้วนี้&quot; คือพื้นฐานที่เข้าใจง่ายสำหรับทุกคน
                   </p>
                 </div>
@@ -303,13 +303,13 @@ const Home = () => {
 
             {/* Content */}
             <div className="text-center lg:text-left" data-aos="fade-left">
-              <p className="uppercase tracking-widest text-xs text-light-brown/70">พื้นฐานกาแฟ</p>
-              <h2 className="mt-2 text-2xl md:text-3xl font-bold text-dark-brown">กาแฟในชีวิตประจำวัน</h2>
-              <p className="mt-3 text-brown/80 leading-relaxed">
+              <p className="uppercase tracking-widest text-xs text-light-brown/70 dark:text-brown-superlight/60">พื้นฐานกาแฟ</p>
+              <h2 className="mt-2 text-2xl md:text-3xl font-bold text-dark-brown dark:text-brown-superlight">กาแฟในชีวิตประจำวัน</h2>
+              <p className="mt-3 text-brown/80 dark:text-brown-superlight/80 leading-relaxed">
                 กาแฟมีหลายรูปแบบให้เลือกตามไลฟ์สไตล์:
-                กาแฟซอง/สำเร็จรูป <span className="text-light-brown font-medium">สะดวก รวดเร็ว</span>,
+                กาแฟซอง/สำเร็จรูป <span className="text-light-brown dark:text-beige font-medium">สะดวก รวดเร็ว</span>,
                 กาแฟแคปซูลให้รสชาติใกล้เคียงกาแฟสด,
-                และกาแฟสดที่เด่นเรื่อง <span className="text-light-brown font-medium">กลิ่น–รสจากการบดใหม่</span>
+                และกาแฟสดที่เด่นเรื่อง <span className="text-light-brown dark:text-beige font-medium">กลิ่น–รสจากการบดใหม่</span>
               </p>
 
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -320,22 +320,22 @@ const Home = () => {
                     tabIndex={0}
                     onClick={() => goBeans(type)}
                     onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && goBeans(type)}
-                    className="group relative cursor-pointer overflow-hidden rounded-xl border border-dark-brown/10 bg-white/80 p-4 text-left transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:border-light-brown/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-light-brown/50"
+                    className="group relative cursor-pointer overflow-hidden rounded-xl border border-dark-brown/10 dark:border-brown-superlight/15 bg-white/80 dark:bg-white/5 p-4 text-left transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:border-light-brown/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-light-brown/50"
                     aria-label={`ดู${label}`}
                   >
                     <span className="absolute left-0 top-0 h-full w-1 origin-top scale-y-0 bg-light-brown transition-transform duration-300 ease-out group-hover:scale-y-100" />
-                    <div className="font-semibold text-dark-brown text-sm">{label}</div>
-                    <p className="mt-2 text-sm text-brown/70">{desc}</p>
-                    <span className="mt-3 inline-block text-xs font-medium text-light-brown opacity-0 -translate-x-1 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0">
+                    <div className="font-semibold text-dark-brown dark:text-brown-superlight text-sm">{label}</div>
+                    <p className="mt-2 text-sm text-brown/70 dark:text-brown-superlight/70">{desc}</p>
+                    <span className="mt-3 inline-block text-xs font-medium text-light-brown dark:text-beige opacity-0 -translate-x-1 transition-all duration-300 ease-out group-hover:opacity-100 group-hover:translate-x-0">
                       ดูเพิ่มเติม →
                     </span>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-4 rounded-xl border border-light-brown/20 bg-beige-light p-4">
-                <p className="text-sm text-brown/80 leading-relaxed">
-                  <span className="font-semibold text-light-brown">TIP:</span>{" "}
+              <div className="mt-4 rounded-xl border border-light-brown/20 dark:border-brown-superlight/20 bg-beige-light dark:bg-white/5 p-4">
+                <p className="text-sm text-brown/80 dark:text-brown-superlight/80 leading-relaxed">
+                  <span className="font-semibold text-light-brown dark:text-beige">TIP:</span>{" "}
                   ถ้าเริ่มต้นใหม่ ลองกาแฟสดแบบ &quot;ดริป/เฟรนช์เพรส&quot; ก่อน ใช้อุปกรณ์น้อยและราคาย่อมเยา
                 </p>
               </div>
@@ -395,24 +395,24 @@ const Home = () => {
       </section>
 
       {/* ─── Menu Section ─────────────────────────────────────────── */}
-      <section className="relative py-14 px-4 md:px-16 lg:px-32 bg-white select-none" data-aos="fade-up">
+      <section className="relative py-14 px-4 md:px-16 lg:px-32 bg-white dark:bg-[#2b2015] select-none" data-aos="fade-up">
         <div className="mx-auto max-w-6xl">
           <div className="text-center">
-            <p className="uppercase tracking-[0.18em] text-[11px] text-neutral-500">Menu</p>
-            <h2 className="mt-1 text-3xl md:text-4xl font-bold text-dark-brown">เมนูกาแฟ</h2>
-            <div className="mx-auto mt-3 h-px w-16 bg-neutral-300" />
-            <p className="mt-4 text-brown/70 md:px-24">
+            <p className="uppercase tracking-[0.18em] text-[11px] text-neutral-500 dark:text-brown-superlight/50">Menu</p>
+            <h2 className="mt-1 text-3xl md:text-4xl font-bold text-dark-brown dark:text-brown-superlight">เมนูกาแฟ</h2>
+            <div className="mx-auto mt-3 h-px w-16 bg-neutral-300 dark:bg-brown-superlight/20" />
+            <p className="mt-4 text-brown/70 dark:text-brown-superlight/70 md:px-24">
               จัดหมวดหมู่ชัดเจน ค้นหาเมนูที่ต้องการได้ง่าย
             </p>
           </div>
 
           <div className="mt-8">
-            <h3 className="text-center text-sm uppercase tracking-[0.14em] text-neutral-500">เมนูยอดนิยม</h3>
+            <h3 className="text-center text-sm uppercase tracking-[0.14em] text-neutral-500 dark:text-brown-superlight/50">เมนูยอดนิยม</h3>
             <div className="mt-5 grid grid-cols-1 md:grid-cols-3 gap-4">
               {popularMenus.map(({ name, menuName, desc }, i) => (
                 <article
                   key={name}
-                  className="group rounded-xl border border-neutral-200 bg-white p-5 shadow-sm hover:shadow-lg hover:border-light-brown/25 hover:-translate-y-1 transition-all duration-300 ease-out"
+                  className="group rounded-xl border border-neutral-200 dark:border-brown-superlight/10 bg-white dark:bg-white/5 p-5 shadow-sm hover:shadow-lg hover:border-light-brown/25 hover:-translate-y-1 transition-all duration-300 ease-out"
                   data-aos="fade-up"
                   data-aos-delay={i * 60}
                 >
@@ -421,13 +421,13 @@ const Home = () => {
                       {name.charAt(0)}
                     </div>
                     <div>
-                      <h4 className="font-semibold text-dark-brown">{name}</h4>
-                      <p className="text-sm text-brown/70">{desc}</p>
+                      <h4 className="font-semibold text-dark-brown dark:text-brown-superlight">{name}</h4>
+                      <p className="text-sm text-brown/70 dark:text-brown-superlight/70">{desc}</p>
                     </div>
                   </div>
                   <button
                     onClick={() => goMenuItem(menuName)}
-                    className="mt-4 w-full rounded-full border border-dark-brown/20 bg-white px-3 py-2 text-sm font-medium text-dark-brown hover:bg-brown hover:text-beige hover:border-brown transition-all duration-300 ease-out"
+                    className="mt-4 w-full rounded-full border border-dark-brown/20 dark:border-brown-superlight/20 bg-white dark:bg-transparent px-3 py-2 text-sm font-medium text-dark-brown dark:text-brown-superlight hover:bg-brown dark:hover:bg-brown-superlight hover:text-beige dark:hover:text-dark-brown hover:border-brown transition-all duration-300 ease-out"
                   >
                     ดูเมนูนี้
                   </button>
@@ -438,12 +438,12 @@ const Home = () => {
 
           <div className="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             <div className="text-center lg:text-left">
-              <p className="text-brown/70 leading-relaxed">
+              <p className="text-brown/70 dark:text-brown-superlight/70 leading-relaxed">
                 ต้องการดูเมนูทั้งหมดหรือปรับแต่งตามความชอบ? ไปที่หน้ารวมเมนูเพื่อเลือกตามหมวดหมู่
               </p>
               <div className="mt-4 flex flex-wrap justify-center lg:justify-start">
                 <button
-                  className="rounded-full bg-dark-brown text-beige px-5 py-3 text-sm font-semibold shadow transition-all duration-200 ease-smooth hover:bg-brown hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
+                  className="rounded-full bg-dark-brown text-beige dark:bg-brown-superlight dark:text-dark-brown px-5 py-3 text-sm font-semibold shadow transition-all duration-200 ease-smooth hover:bg-brown dark:hover:bg-beige hover:-translate-y-0.5 active:translate-y-0 active:scale-95"
                   onClick={handleClick}
                 >
                   ค้นหาเมนูทั้งหมด
@@ -459,7 +459,7 @@ const Home = () => {
                 <div className="aspect-[5/4]">
                   <img src="/menucoffee.png" alt="ภาพประกอบเมนู" className="h-full w-full object-cover" />
                 </div>
-                <figcaption className="absolute bottom-3 right-3 rounded-full bg-white/85 px-3 py-1 text-[11px] text-neutral-700 backdrop-blur">
+                <figcaption className="absolute bottom-3 right-3 rounded-full bg-white/85 dark:bg-black/50 px-3 py-1 text-[11px] text-neutral-700 dark:text-brown-superlight backdrop-blur">
                   ภาพประกอบเมนู
                 </figcaption>
               </figure>
