@@ -1,37 +1,27 @@
-import { lazy, Suspense } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { HelmetProvider, Helmet } from "react-helmet-async";
-import RequireAuth from "./components/RequireAuth";
-
-const NotFound = lazy(() => import("./pages/NotFound"));
-const CoffeeBean = lazy(() => import("./pages/CoffeeBean"));
-const CoffeeMenu = lazy(() => import("./pages/CoffeeMenu"));
-const WorldCoffee = lazy(() => import("./pages/WorldCoffee"));
-const History = lazy(() => import("./pages/History"));
-const GeneCoffee = lazy(() => import("./pages/GeneCoffee"));
-const Roasting = lazy(() => import("./pages/Roasting"));
-const Articles = lazy(() => import("./pages/Articles"));
-const Profile = lazy(() => import("./pages/Profile"));
-const Process = lazy(() => import("./pages/Process"));
-const SignUp = lazy(() => import("./pages/SignUp"));
-const Login = lazy(() => import("./pages/Login"));
-const Home = lazy(() => import("./pages/Home"));
-const Extraction = lazy(() => import("./pages/Extraction"));
-const Suggestion = lazy(() => import("./pages/Suggestion"));
-const Quiz = lazy(() => import("./pages/Quiz"));
-const QuizDetail = lazy(() => import("./pages/QuizDetail"));
+import NotFound from "./pages/NotFound";
+import CoffeeBean from "./pages/CoffeeBean";
+import CoffeeMenu from "./pages/CoffeeMenu";
+import WorldCoffee from "./pages/WorldCoffee";
+import History from "./pages/History";
+import GeneCoffee from "./pages/GeneCoffee";
+import Roasting from "./pages/Roasting";
+import Articles from "./pages/Articles";
+import Profile from "./pages/Profile";
+import Process from "./pages/Process";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import Extraction from "./pages/Extraction";
+import Suggestion from "./pages/Suggestion";
+import Quiz from "./pages/Quiz";
+import QuizDetail from "./pages/QuizDetail";
 // simulator เดิม — ปิดชั่วคราว
 // import Select from "./simulator/Select";
 // import Customcoffee from "./simulator/Espresso";
-const BrewSimulator = lazy(() => import("./simulator2/BrewSimulator"));
-
-function PageLoading() {
-  return (
-    <div className="min-h-screen bg-beige-light dark:bg-dark-brown flex items-center justify-center">
-      <div className="w-8 h-8 rounded-full border-2 border-dark-brown dark:border-brown-superlight border-t-transparent animate-spin" />
-    </div>
-  );
-}
+import BrewSimulator from "./simulator2/BrewSimulator";
+import { HelmetProvider, Helmet } from "react-helmet-async";
+import RequireAuth from "./components/RequireAuth";
 
 function App() {
   return (
@@ -46,7 +36,6 @@ function App() {
           referrerPolicy="no-referrer"
         />
       </Helmet>
-      <Suspense fallback={<PageLoading />}>
       <Routes>
         <Route path="/register" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
@@ -92,7 +81,6 @@ function App() {
         />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      </Suspense>
     </BrowserRouter>
     </HelmetProvider>
   );
