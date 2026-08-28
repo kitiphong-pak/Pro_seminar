@@ -16,9 +16,6 @@ import Extraction from "./pages/Extraction";
 import Suggestion from "./pages/Suggestion";
 import Quiz from "./pages/Quiz";
 import QuizDetail from "./pages/QuizDetail";
-// simulator เดิม — ปิดชั่วคราว
-// import Select from "./simulator/Select";
-// import Customcoffee from "./simulator/Espresso";
 import BrewSimulator from "./simulator2/BrewSimulator";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import RequireAuth from "./components/RequireAuth";
@@ -62,10 +59,6 @@ function App() {
 
         <Route path="/coffee_menu" element={<CoffeeMenu />} />
 
-        {/* simulator เดิม — ปิดชั่วคราว
-        <Route path="/select" element={<Select/>}/>
-        <Route path="/customcoffee" element={<Customcoffee/>} />
-        */}
         <Route path="/brew" element={<BrewSimulator />} />
 
         <Route path="/suggestion" element={<Suggestion />} />
