@@ -6,7 +6,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import path from "path";
-import fs from "fs";
 import { fileURLToPath } from "url";
 import { OAuth2Client } from "google-auth-library";
 
@@ -26,19 +25,9 @@ const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-// ─── Static uploads ───────────────────────────────────────────────────────────
-const uploadsDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
-app.use("/uploads", express.static(uploadsDir));
-
-const diskStorage = multer.diskStorage({
-  destination: uploadsDir,
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    cb(null, `${req.params.uid}_${Date.now()}${ext}`);
-  },
-});
-const upload = multer({ storage: diskStorage, limits: { fileSize: 5 * 1024 * 1024 } });
+// ─── Avatar uploads — stored as a base64 data URI directly on the user document ──
+// (Render's local disk is ephemeral; this avoids needing a separate file-storage service)
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 2 * 1024 * 1024 } });
 
 // ─── MongoDB ──────────────────────────────────────────────────────────────────
 mongoose
@@ -257,7 +246,7 @@ app.post("/api/users/:uid/quiz", requireAuth, requireSelf, async (req, res) => {
 app.post("/api/users/:uid/avatar", requireAuth, requireSelf, upload.single("avatar"), async (req, res) => {
   try {
     if (!req.file) return res.status(400).json({ error: "No file uploaded" });
-    const photoURL = `/uploads/${req.file.filename}`;
+    const photoURL = `data:${req.file.mimetype};base64,${req.file.buffer.toString("base64")}`;
     await User.findOneAndUpdate({ uid: req.params.uid }, { $set: { photoURL } });
     res.json({ photoURL });
   } catch (e) {

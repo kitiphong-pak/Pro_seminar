@@ -53,7 +53,7 @@ export const saveQuizScore = (uid, quizId, score, max, title) =>
     body: JSON.stringify({ quizId, score, max, title }),
   }).then(json);
 
-/** อัปโหลดรูปโปรไฟล์ — คืน photoURL แบบเต็ม */
+/** อัปโหลดรูปโปรไฟล์ — คืน photoURL แบบเต็ม (Cloudinary คืน URL เต็มมาให้อยู่แล้ว) */
 export const uploadAvatar = async (uid, file) => {
   const formData = new FormData();
   formData.append("avatar", file);
@@ -63,5 +63,5 @@ export const uploadAvatar = async (uid, file) => {
     body: formData,
   });
   const { photoURL } = await json(r);
-  return `${BASE}${photoURL}`;
+  return photoURL;
 };

@@ -9,7 +9,7 @@ const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 const resolvePhoto = (url) => {
   if (!url) return "/coffeebean.png";
-  if (url.startsWith("http")) return url;
+  if (url.startsWith("http") || url.startsWith("data:")) return url;
   return `${API_BASE}${url}`;
 };
 
