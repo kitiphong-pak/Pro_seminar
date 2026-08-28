@@ -278,7 +278,7 @@ export default function Navbar() {
                   type="button"
                   aria-label={theme === "dark" ? "สลับเป็นโหมดสว่าง" : "สลับเป็นโหมดมืด"}
                   onClick={toggleTheme}
-                  className="grid place-items-center w-9 h-9 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition duration-200 active:scale-90"
+                  className="grid place-items-center w-9 h-9 rounded-full border border-brown/25 dark:border-brown-superlight/25 hover:bg-black/5 dark:hover:bg-white/10 transition duration-200 active:scale-90"
                 >
                   {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
                 </button>
@@ -335,7 +335,7 @@ export default function Navbar() {
               type="button"
               aria-label={theme === "dark" ? "สลับเป็นโหมดสว่าง" : "สลับเป็นโหมดมืด"}
               onClick={toggleTheme}
-              className="grid place-items-center w-9 h-9 rounded-full text-brown dark:text-[#efdfc3] hover:bg-black/5 dark:hover:bg-white/10 transition duration-200 active:scale-90"
+              className="grid place-items-center w-9 h-9 rounded-full border border-brown/25 dark:border-brown-superlight/25 text-brown dark:text-[#efdfc3] hover:bg-black/5 dark:hover:bg-white/10 transition duration-200 active:scale-90"
             >
               {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
             </button>

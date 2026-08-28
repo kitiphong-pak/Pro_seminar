@@ -318,11 +318,13 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
 
   const [pouring, setPouring] = useState(false);
   const [level, setLevel] = useState(hasVar ? value : 0);
+  const [draft, setDraft] = useState(() => String(fmt(hasVar ? value : 0, stepSize)));
   const rafRef = useRef(null);
   const fullTimerRef = useRef(null);
   const startRef = useRef({ t: 0, level: 0 }); // เวลาและระดับตอนเริ่มกด
   const levelRef = useRef(hasVar ? value : 0);
   const pouringRef = useRef(false);
+  const editingRef = useRef(false); // กำลังพิมพ์อยู่ — กันไม่ให้ level ที่เปลี่ยนจากที่อื่นมาทับสิ่งที่พิมพ์ค้างอยู่
 
   // ระดับ ณ เวลาปัจจุบัน คิดจากเวลาที่กดค้าง ไม่ใช่จากจำนวนเฟรม
   const levelNow = () =>
@@ -331,6 +333,11 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
   useEffect(() => {
     if (hasVar) { levelRef.current = value; setLevel(value); }
   }, [value, hasVar]);
+
+  // ให้ช่องพิมพ์ตามค่า level ที่เปลี่ยนจากที่อื่น (ลากเท/ปุ่มเทออก) แต่ไม่ไปรบกวนตอนกำลังพิมพ์อยู่
+  useEffect(() => {
+    if (!editingRef.current) setDraft(String(fmt(level, stepSize)));
+  }, [level, stepSize]);
 
   useEffect(() => () => {
     if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
@@ -378,12 +385,48 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
   const pct = clamp((level - min) / (max - min), 0, 1);
   const unit = step.unit?.split("(")[0].trim() ?? "";
 
+  // พิมพ์ปริมาณตรงๆ ได้เลย — ไม่ต้องจับเวลาปล่อยให้พอดี ถ้าเลยเป้าไม่ต้องเทออกแล้วเริ่มใหม่
+  // สำคัญ: ห้าม clamp ทุกครั้งที่พิมพ์ (ทำให้ค่าที่โชว์กระโดดกลับมา clamp แล้วตัวเลขที่พิมพ์ต่อไปทบเข้ากับค่าที่ clamp แล้วจนพุ่งไป max) — clamp ตอน blur/Enter เท่านั้น
+  const commitDraft = (raw) => {
+    editingRef.current = false;
+    if (raw === "") { setDraft(String(fmt(level, stepSize))); return; }
+    const v = clamp(Number(raw), min, max);
+    levelRef.current = v;
+    setLevel(v);
+    startRef.current = { t: performance.now(), level: v };
+    onChange(fmt(v, stepSize));
+    setDraft(String(fmt(v, stepSize)));
+  };
+
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="flex items-end justify-center gap-1">
-        <span className="text-4xl font-extrabold text-[#3d2010] dark:text-brown-superlight tabular-nums leading-none">
-          {hasVar ? fmt(level, stepSize) : `${Math.round(pct * 100)}`}
-        </span>
+        {hasVar && !done ? (
+          <input
+            type="number"
+            min={min}
+            max={max}
+            step={stepSize}
+            value={draft}
+            onFocus={() => { editingRef.current = true; }}
+            onChange={(e) => setDraft(e.target.value)}
+            onBlur={(e) => commitDraft(e.target.value)}
+            onKeyDown={(e) => { if (e.key === "Enter") e.currentTarget.blur(); }}
+            aria-label="พิมพ์ปริมาณที่ต้องการ"
+            className={[
+              "w-24 text-center bg-transparent border-none outline-none cursor-text",
+              "text-4xl font-extrabold text-[#3d2010] dark:text-brown-superlight tabular-nums leading-none",
+              "rounded-lg py-0.5 transition-colors",
+              "hover:bg-[#7b4b29]/5 dark:hover:bg-white/10",
+              "focus:bg-[#7b4b29]/5 dark:focus:bg-white/10 focus:ring-2 focus:ring-[#7b4b29]/30 dark:focus:ring-beige/30",
+              "[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+            ].join(" ")}
+          />
+        ) : (
+          <span className="text-4xl font-extrabold text-[#3d2010] dark:text-brown-superlight tabular-nums leading-none">
+            {hasVar ? fmt(level, stepSize) : `${Math.round(pct * 100)}`}
+          </span>
+        )}
         <span className="text-sm text-[#5c4033]/60 dark:text-brown-superlight/60 mb-1">{hasVar ? unit : "%"}</span>
       </div>
 
@@ -395,9 +438,6 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
         >
           <div className="absolute inset-x-0 top-0 h-1.5 bg-white/25" />
         </div>
-        {pouring && (
-          <div className="absolute left-1/2 top-0 w-1.5 h-full -translate-x-1/2 bg-[#a9713f]/60" />
-        )}
       </div>
 
       <p className="text-xs text-center text-[#7b4b29]/70 dark:text-beige/70 h-8">
@@ -440,6 +480,7 @@ export function PourInteraction({ step, value, onChange, done, onDone }) {
           </button>
         )}
       </div>
+
     </div>
   );
 }
