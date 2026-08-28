@@ -14,8 +14,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT            = process.env.PORT            || 3001;
 const MONGO_URI       = process.env.MONGO_URI       || "mongodb://localhost:27017/coffebeandb";
-const JWT_SECRET      = process.env.JWT_SECRET      || "coffeebean_dev_secret";
+const JWT_SECRET      = process.env.JWT_SECRET;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || "";
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET is not set. Add it to server/.env before starting the server.");
+}
 
 const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
 
